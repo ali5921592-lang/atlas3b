@@ -34,3 +34,7 @@ All five model files were decoded with the Draco decoder and parsed using Three.
 2. Model-by-model commercial license clearance and anatomical fidelity review.
 3. Native mobile packaging, device performance profiling, LOD assets and offline downloads.
 4. Automated interaction coverage and accessibility testing on real devices.
+
+## Rendering update
+Tissue-specific physical materials, natural/atlas palettes, representative procedural surface detail, softer lighting and reduced selection tint. 27 topic cards now include Latin labels, anatomical relations, clinical context and study notes. Geometry is unchanged. Node checks cover material mapping, shader hooks, palette restoration, content matching and static resources; GPU shader compilation and browser interaction were not tested.
+
