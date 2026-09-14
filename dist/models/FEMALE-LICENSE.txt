@@ -8,3 +8,6 @@ License: Creative Commons Attribution 4.0 International https://creativecommons.
 
 Adaptations for Anatomi Atlas: source materials and UV attributes removed; Draco geometry compression with 14-bit position and 10-bit normal quantization; original node transforms retained; 8 pregnancy-reference meshes omitted. No smoothing, remodelling or male geometry added. Display translated to place feet on the stage. Original identifiers retained in catalog-female.json. 948 meshes.
 The female reference has a body surface and selected anatomy; it is not a complete female skeleton or muscular atlas. It is a reference assembly, not a patient-specific model. Male and female sources have different coverage and cannot be used for quantitative sex comparisons.
+
+Version 4 supplement: eight pubis/ischium compact and spongy bone meshes from the official HRA female v1.5 GLB, same creators and CC BY 4.0 license. URL: https://cdn.humanatlas.io/digital-objects/ref-organ/united-female/v1.5/assets/3d-vh-f-united.glb
+Four shared ilium node world transforms match exactly; original transforms of the additional pelvis pieces preserved. Recompressed and merged into the default scene. Current catalog: 956 selectable structures. Display labels expanded for bone substructures.

@@ -26,6 +26,8 @@ const palettes={
   fat:{color:'#d0bd85',roughness:.66,coat:.03,grain:0},
 };
 export function tissueFor(name,layer){const n=name.toLowerCase();
+  if(/bronchopulmonary segment/.test(n))return'lung';
+  if(/mammary|breast/.test(n))return'fat';
   if(layer==='surface')return /adipose|fat/.test(n)?'fat':'skin';
   if(/cartilage|meniscus|intervertebral disc/.test(n))return'cartilage';
   if(/fascia|aponeurosis|retinaculum|sheath|bursa|peritoneum|pleura|leaflet|valve|chordae/.test(n))return'fascia';
@@ -39,7 +41,7 @@ export function tissueFor(name,layer){const n=name.toLowerCase();
   if(/stomach|colon|intestin|jejun|ileum|duoden|rectum|cecum|oesophagus|esophagus/.test(n))return'bowel';
   return'organ';
 }
-export const materialState={detail:{value:.65}};
+export const materialState={detail:{value:.85}};
 export function createTissueMaterial(record,geometry){const kind=tissueFor(record.name,record.layer),p=palettes[kind];
   geometry.computeBoundingBox();const size=geometry.boundingBox.getSize(new THREE.Vector3());
   const axis=size.x>size.y&&size.x>size.z?new THREE.Vector3(1,0,0):size.z>size.y?new THREE.Vector3(0,0,1):new THREE.Vector3(0,1,0);
@@ -57,12 +59,22 @@ export function createTissueMaterial(record,geometry){const kind=tissueFor(recor
       float mottling=tissueNoise(tissueP)*.65+tissueNoise(tissueP*2.7)*.35;
       vec3 crossP=tissueP-uFiberAxis*dot(tissueP,uFiberAxis)*.965;
       float fiber=tissueNoise(crossP*8.);
-      float appearance=mix(mottling,fiber,uFiberWeight*.65);
-      diffuseColor.rgb*=1.+(appearance-.5)*.29*uTissueDetail;
+      float appearance=mix(mottling,fiber,uFiberWeight*.85);
+      float bundles=.5+.5*sin(dot(crossP,vec3(6.1,7.3,5.2))+tissueNoise(tissueP*3.)*2.);
+      appearance=mix(appearance,bundles,uFiberWeight*.25);
+      diffuseColor.rgb*=1.+(appearance-.5)*.44*uTissueDetail;
     `);
     shader.fragmentShader=shader.fragmentShader.replace('#include <roughnessmap_fragment>','#include <roughnessmap_fragment>\nroughnessFactor = clamp(roughnessFactor + (appearance-.5)*.15*uTissueDetail,.22,.85);');
   };
-  m.customProgramCacheKey=()=>`anatomy-tissue-v2`;
+  m.onBeforeCompileOriginal=m.onBeforeCompile;
+  m.onBeforeCompile=shader=>{m.onBeforeCompileOriginal(shader);shader.fragmentShader=shader.fragmentShader.replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
+    vec3 tissueDx=normalize(dFdx(-vViewPosition)),tissueDy=normalize(dFdy(-vViewPosition));
+    vec3 tissueR1=cross(tissueDy,normal),tissueR2=cross(normal,tissueDx);
+    float tissueDet=dot(tissueDx,tissueR1)*faceDirection;
+    vec2 tissueSlope=vec2(dFdx(appearance),dFdy(appearance))*.18*uTissueDetail;
+    if(abs(tissueDet)>.00001)normal=normalize(abs(tissueDet)*normal-sign(tissueDet)*(tissueSlope.x*tissueR1+tissueSlope.y*tissueR2));
+  `);};
+  m.customProgramCacheKey=()=>`anatomy-tissue-v4`;
   return m;
 }
 export function applyPalette(material,mode){const kind=material.userData.tissue;material.color.copy(material.userData.naturalColor);if(mode==='atlas'){if(kind==='vein')material.color.set('#426f98');else if(kind==='artery')material.color.set('#b93840');else if(kind==='nerve')material.color.set('#d6b65f');}}

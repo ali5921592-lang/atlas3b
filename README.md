@@ -1,4 +1,4 @@
-# Anatomi Atlas · v3
+# Anatomi Atlas · v4
 
 Türkçe, mobil uyumlu eğitim prototipi. Statik ES modülleri, yerel Three.js 0.180.0 ve Draco modelleri. API anahtarı veya yapay zekâ hesabı gerektirmez.
 
@@ -8,9 +8,11 @@ Türkçe, mobil uyumlu eğitim prototipi. Statik ES modülleri, yerel Three.js 0
 
 ## Özellikler
 
-- Erkek / kadın seçimi: Z-Anatomy erkek referansında 2.338; HRA kadın referansında 948 seçilebilir parça.
+- Erkek / kadın seçimi: Z-Anatomy erkek referansında 2.338; HRA kadın referansında 956 seçilebilir parça.
 - Bağımsız katman saydamlığı, gizleme/geri alma, bölge filtreleri, izole inceleme ve yapboz ayrıştırma.
-- Üç düzlemde geometrik kırpma. Kesilen yüzeyler kapatılmaz; BT/MR veya histolojik kesit değildir.
+- Aksiyel, koronal, sagittal ve iki açıyla ayarlanan oblik kesit; ters yön, 5–200 mm çift düzlemli dilim, 5 hazır bölge ve düzlem kılavuzu. Kapalı kesişim konturları doku desenli kesim yüzeyine çevrilir; modeldeki delikler korunur. Açık konturlar kapatılmaz. Gözenek/lif dokusu temsili olup BT/MR veya histoloji değildir.
+- Kalp ve akciğerlerde açılıp kapatılabilir temsili hareket; kalp ve solunum hızları ayarlanır. Kesitte, ayrıştırılmış görünümde ve sekme arka plandayken duraklar.
+- Biseps, triseps, deltoid, pektoralis major, supraspinatus ve infraspinatus için 26 sağ/sol kas parçasında sinir–arter–başlangıç kemiği–tutunma kemiği birlikte vurgulanır. Kemik bütün olarak renklendirilir; tutunma yeri metinde tarif edilir, hassas yüzey noktası değildir. Eksik eşleştirmeler açıkça belirtilir.
 - Doku materyalleri, doğal/atlas paletleri ve temsili yüzey ayrıntısı.
 - 34 temel konu; 27 genişletilmiş kart, 6 üreme anatomisi kartı ve 3 kas için başlangıç–tutunma–sinir–hareket bilgisi. Kaynağı/özel açıklaması olmayan alt parçalar açıkça belirtilir.
 - 12 soruluk havuz: erkekte 10, kadında 8 soru. Cevap açıklaması, modelde inceleme, yanlışları bu cihazda saklama ve tekrar turu.
@@ -20,13 +22,15 @@ Türkçe, mobil uyumlu eğitim prototipi. Statik ES modülleri, yerel Three.js 0
 
 ## Sınırlar
 
-Kadın modeli ayrı HRA kaynağıdır; gövde yüzeyi ve seçili organları içerir. Bazı kas/iskelet bölgeleri, özellikle üst ekstremite, eksiktir. Erkek parçalarıyla doldurulmadı. İki kaynak doğrudan nicel karşılaştırmaya uygun değildir. Kadın kaynağından 8 gebelik referansı çıkarıldı; dönüşümler korunarak Draco sıkıştırması yapıldı ve model sahneye ötelendi. Kadın dosyası yaklaşık 24 MB'dır.
+Kadın modeline HRA v1.5 kaynağından 8 pubis/ischium kompakt ve süngerimsi kemik parçası eklendi; ortak ilium parçalarının dönüşümleri eşleşti ve orijinal koordinatlar korundu. Kadın modeli ayrı HRA kaynağıdır; gövde yüzeyi ve seçili organları içerir. Bazı kas/iskelet bölgeleri, özellikle üst ekstremite, eksiktir. Erkek parçalarıyla doldurulmadı. İki kaynak doğrudan nicel karşılaştırmaya uygun değildir. Kadın kaynağından 8 gebelik referansı çıkarıldı; dönüşümler korunarak Draco sıkıştırması yapıldı ve model sahneye ötelendi. Kadın dosyası yaklaşık 24 MB'dır.
 
 Henüz APK, imzalı iOS paketi veya mağaza dağıtımı yoktur. PWA ve çevrimdışı özellikler HTTPS/localhost ve destekleyen tarayıcı gerektirir. Telefon için çevrimiçi bir HTTPS adresi gerekir. Fiziksel cihaz performansı, GPU görüntü kalitesi ve tıbbi içerik uzman incelemesi bekliyor.
 
 ## Doğrulama
 
-Her iki modelin tüm geometri kayıtları Draco ile çözülüp GLTFLoader ile eşleştirildi. Node/JSDOM kontrolleri model bazlı arama/görünürlük, kesit, diseksiyon geri alma, sınav puanlama/tekrar ve ad gizlemeyi geçti. Servis çalışanı test düzeneğinde önbellek, başarısız indirmeyi yeniden deneme ve çevrimdışı açılış kontrol edildi. Gerçek tarayıcı, fiziksel telefon, hareket doğruluğu veya canlı WebMCP doğrulaması yapılmadı.
+v4: 956 kadın parçası çözülüp eşleştirildi. Gerçek kadın modelinden 12 kesit örneğinin 7’sinde kapalı kesim yüzeyi üretildi; kalan açık konturlar doldurulmadı. Analitik kutu ve boşluk içeren geometride kesit alanı/boşluk korunması, 26 kas bağlantısında taraf doğruluğu, animasyon dönüşümlerinin başlangıca dönmesi, shader kancaları, arayüz kontrolleri ve çevrimdışı senaryolar doğrulandı.
+
+Önceki doğrulama: Her iki modelin tüm geometri kayıtları Draco ile çözülüp GLTFLoader ile eşleştirildi. Node/JSDOM kontrolleri model bazlı arama/görünürlük, kesit, diseksiyon geri alma, sınav puanlama/tekrar ve ad gizlemeyi geçti. Servis çalışanı test düzeneğinde önbellek, başarısız indirmeyi yeniden deneme ve çevrimdışı açılış kontrol edildi. Gerçek tarayıcı, fiziksel telefon, hareket doğruluğu veya canlı WebMCP doğrulaması yapılmadı.
 
 ## Kaynaklar ve lisanslar
 

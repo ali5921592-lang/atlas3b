@@ -1,4 +1,4 @@
-const VERSION='anatomy-v3';
+const VERSION='anatomy-v4';
 self.addEventListener('install',e=>{e.waitUntil((async()=>{const manifest=await fetch('./offline-assets.json').then(r=>r.json());const cache=await caches.open(VERSION+'-core');await cache.addAll(manifest.core);await self.skipWaiting();})());});
 self.addEventListener('activate',e=>e.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith('anatomy-')&&!key.startsWith(VERSION))await caches.delete(key);await self.clients.claim();})()));
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==self.location.origin)return;e.respondWith((async()=>{const hit=await caches.match(e.request,{ignoreSearch:true});if(hit)return hit;try{return await fetch(e.request);}catch(err){if(e.request.mode==='navigate'){const cache=await caches.open(VERSION+'-core');const page=await cache.match('./index.html');if(page)return page;}throw err;}})());});
