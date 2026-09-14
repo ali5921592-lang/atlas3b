@@ -1,10 +1,19 @@
-# Anatomi Atlas · v4
+# Anatomi Atlas · v5
 
 Türkçe, mobil uyumlu eğitim prototipi. Statik ES modülleri, yerel Three.js 0.180.0 ve Draco modelleri. API anahtarı veya yapay zekâ hesabı gerektirmez.
 
 ## Çalıştırma
 
 `dist/` klasörünü HTTP üzerinden sunun. İndirilebilir pakette `node server.mjs` veya Windows'ta `BASLAT.cmd` çalıştırın. Adres: `http://127.0.0.1:5173`. file:// üzerinden çalışmaz. Bu adres yalnızca sunucunun çalıştığı bilgisayarda açılır.
+
+## Bu güncelleme
+
+- Erkek/kadın kaynaklarında favoriler; yapıya özel 4.000 karakterlik kişisel notlar. Veriler bu tarayıcıda tutulur, hesaplar veya cihazlar arasında eşitlenmez. Notlar Kaydet düğmesiyle saklanır; tarayıcı verileri silinirse kaybolur.
+- Görünümü kaydet / Kayda dön: kamera, hedef, referans, açık katmanlar, gizli parçalar, saydamlıklar, seçili yapı, kesit ve ayrıştırma ayarları. Tek kayıt tutulur.
+- Tasarruflu görüntü seçeneği piksel yoğunluğunu düşürür.
+- Önbellekteki referansa geri dönüldüğünde animasyon grupları yenilenir. Kesit ve ayrıştırma birlikte etkin kalmaz. Palet değişiminde bağlantı renkleri korunur.
+- Değişmeyen v4 model indirmeleri v5 önbelleğine taşınır; çevrimdışı indirmenin hazır olduğu ağ olmadan da doğrulanır.
+- Doğrulama: JSDOM akışları, notların güvenli metin olarak gösterilmesi, favori/nota kalıcı erişim, depolama hatasında geri alma, görünüm geri yükleme, çevrimdışı önbellek geçişi geçti. Gerçek telefon/GPU görsel testi yapılmadı.
 
 ## Özellikler
 
