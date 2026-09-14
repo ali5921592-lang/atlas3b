@@ -1,0 +1,10 @@
+Female reference anatomy: Human Reference Atlas / HuBMAP
+Kristen Browne and Heidi Schlehlein, 3D Reference Organ Set for Female v1.10 (2026).
+Source: https://cdn.humanatlas.io/digital-objects/ref-organ/united-female/v1.10/assets/3d-vh-f-united.glb
+Metadata: https://cdn.humanatlas.io/digital-objects/ref-organ/united-female/v1.10/metadata.json
+Reference library: https://humanatlas.io/3d-reference-library
+Underlying imagery: Visible Human Dataset, U.S. National Library of Medicine.
+License: Creative Commons Attribution 4.0 International https://creativecommons.org/licenses/by/4.0/
+
+Adaptations for Anatomi Atlas: source materials and UV attributes removed; Draco geometry compression with 14-bit position and 10-bit normal quantization; original node transforms retained; 8 pregnancy-reference meshes omitted. No smoothing, remodelling or male geometry added. Display translated to place feet on the stage. Original identifiers retained in catalog-female.json. 948 meshes.
+The female reference has a body surface and selected anatomy; it is not a complete female skeleton or muscular atlas. It is a reference assembly, not a patient-specific model. Male and female sources have different coverage and cannot be used for quantitative sex comparisons.

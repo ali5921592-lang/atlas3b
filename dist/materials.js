@@ -22,8 +22,11 @@ const palettes={
   sclera:{color:'#e1ddd0',roughness:.3,coat:.3,grain:0},
   iris:{color:'#756449',roughness:.36,coat:.25,grain:0},
   organ:{color:'#bd9684',roughness:.46,coat:.16,grain:0},
+  skin:{color:'#c5a08b',roughness:.61,coat:.04,grain:0},
+  fat:{color:'#d0bd85',roughness:.66,coat:.03,grain:0},
 };
 export function tissueFor(name,layer){const n=name.toLowerCase();
+  if(layer==='surface')return /adipose|fat/.test(n)?'fat':'skin';
   if(/cartilage|meniscus|intervertebral disc/.test(n))return'cartilage';
   if(/fascia|aponeurosis|retinaculum|sheath|bursa|peritoneum|pleura|leaflet|valve|chordae/.test(n))return'fascia';
   if(/tendon|tendinous|ligament/.test(n))return'tendon';
