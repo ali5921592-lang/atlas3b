@@ -1,0 +1,11 @@
+Female lower-limb muscles: Andreassen TE, Hume DR, Hamilton LD, Walker KE, Higinbotham SE, Shelburne KB (2023). Scientific Data 10:34. https://doi.org/10.1038/s41597-022-01905-2
+Original data: https://digitalcommons.du.edu/visiblehuman/1/
+CC BY 4.0 https://creativecommons.org/licenses/by/4.0/
+Geometry obtained from the public CC BY derivative: https://github.com/slorksmo/Human-Atlas (public/models/atlas-female.json and female-13.bin, female-14.bin). Only 76 donor-muscle records imported; no borrowed male bones.
+Upstream adaptations: mesh simplification, per-region uniform scaling and placement onto HRA bones. Scales 0.9793–1.0084; bone agreement 17.4–36.1 mm. These are approximate educational placements, NOT registered image-space anatomy.
+Our adaptations: translation 0.0000045009723258493395, 2.1298095131960793e-7, 0.06230792303121586 m to existing HRA scene, normals recomputed, Draco compression. Left/right femur frame discrepancy 0.00001249500351492198 mm. No additional shape fitting.
+Do not use these supplementary meshes for quantitative distances or registered cryosection overlays.
+SHA-256 lower-atlas.json: 349ad9085901db2cced179d467542271289ee0b259414a78814402d5ac374d2f
+SHA-256 female-13.bin: 668fefeb88b46dc6b652fc176968a165af6c2458af8465ed4e9e3e41c35ff508
+SHA-256 female-14.bin: 857f6e3844fb515c9328be5bba10b437167269b174fc8abc7e8b467e3bcc8b8d
+SHA-256 female-muscles.glb: 9fd93cb851853ac78caa8fb2dfbde28520ac36b34a203dae22b65e78eddbcfbe

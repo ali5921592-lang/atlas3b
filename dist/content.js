@@ -1,3 +1,7 @@
+import {localName,allLocalNames,allTranslatedText,localSide} from './i18n.js';
+import {terminologyFor} from './terminology.js';
+import {structureCard} from './structure-cards.js';
+import {cardioTopic} from './cardio-content.js';
 import {expanded} from './clinical.js';
 import {reproductiveTopics} from './reproductive.js';
 const book='https://openstax.org/books/anatomy-and-physiology-2e/pages/';
@@ -34,12 +38,13 @@ topics.push(...reproductiveTopics);
 for(const t of topics)Object.assign(t,expanded[t.match]||{});
 for(const t of topics){if(t.match==='deltoid muscle')t.refs=[{label:'NCBI · Deltoid anatomisi',url:'https://www.ncbi.nlm.nih.gov/books/NBK537056/'}];if(t.match==='pectoralis major')t.refs=[{label:'NCBI · Pektoralis major anatomisi',url:'https://www.ncbi.nlm.nih.gov/books/NBK525991/'}];}
 for(const t of topics){if(['femur','tibia'].includes(t.match))t.source='8-4-bones-of-the-lower-limb';if(t.match==='humerus')t.source='8-2-bones-of-the-upper-limb';if(t.match==='vertebra')t.source='7-3-the-vertebral-column';if(t.match==='rib')t.source='7-4-the-thoracic-cage';}
-export const sourceURL=t=>t.source==='27-2-anatomy-and-physiology-of-the-female-reproductive-system'?'https://openstax.org/books/anatomy-and-physiology/pages/'+t.source:book+t.source;
+export const sourceURL=t=>t.url||(t.source==='27-2-anatomy-and-physiology-of-the-female-reproductive-system'?'https://openstax.org/books/anatomy-and-physiology/pages/'+t.source:book+t.source);
 export function isExactTopic(raw,t){return !!t&&cleanName(raw).toLowerCase().replace(/ muscle$/,'')===t.match.replace(/ muscle$/,'');}
 export function topicFor(name){const n=name.toLowerCase();return topics.find(t=>new RegExp('\\b'+t.match+'\\b').test(n));}
 export function cleanName(raw){return raw.replace(/\.[lr]\.\d+$/,'').replace(/\.\d+$/,'');}
 export function sideOf(raw){return /\.l\.\d+$/.test(raw)?'Sol':/\.r\.\d+$/.test(raw)?'Sağ':'';}
 const exact={'Frontal bone':'Alın kemiği','Parietal bone':'Duvar kemiği','Occipital bone':'Art kafa kemiği','Temporal bone':'Şakak kemiği','Mandible':'Alt çene','Clavicle':'Köprücük kemiği','Scapula':'Kürek kemiği','Sternum':'Göğüs kemiği','Patella':'Diz kapağı','Fibula':'Baldır kemiği','Radius':'Radius','Ulna':'Ulna','Sacrum':'Sakrum','Stomach':'Mide','Spleen':'Dalak','Urinary bladder':'Mesane','Trachea':'Soluk borusu','Esophagus':'Yemek borusu','Duodenum':'Onikiparmak bağırsağı','Jejunum':'Jejunum','Ileum':'İleum','Cecum':'Çekum','Rectum':'Rektum','Thyroid gland':'Tiroid bezi','Diaphragm':'Diyafram','Spinal cord':'Omurilik','Cerebellum':'Beyincik','Brain':'Beyin'};
-export function displayName(raw){const n=cleanName(raw),t=topicFor(n),side=sideOf(raw);const base=exact[n]||((t&&n.toLowerCase().replace(/ muscle$/,'')===t.match.replace(/ muscle$/,''))?t.tr:n);return `${base}${side?' · '+side:''}`;}
-export function searchText(raw,layer){const t=topicFor(raw);return normalize([raw,displayName(raw),t?.tr,t?.group,layer,layer==='nervous'?'sinir':'',/cerebr|gyrus|sulcus|thalamus|hippocampus|amygdala|brain/i.test(raw)&&layer==='nervous'?'beyin':'',/tendon|tendinous/i.test(raw)?'tendon':'',/muscle/i.test(raw)?'kas':'',/artery|aorta/i.test(raw)?'atardamar damar':'',/vein/i.test(raw)?'toplardamar damar':''].join(' '));}
-export function normalize(s){return s.toLocaleLowerCase('tr').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i');}
+Object.assign(exact,{'Body of uterus':'Rahim gövdesi','Fundus of uterus':'Rahim fundusu','Cervix of uterus':'Rahim ağzı','Anterior wall of uterus':'Rahmin ön duvarı','Posterior wall of uterus':'Rahmin arka duvarı','Broad ligament of uterus':'Rahmin geniş bağı','Round ligament of uterus':'Rahmin yuvarlak bağı','Mammary lobe':'Meme lobu','Retina':'Retina','Macula lutea':'Makula','Clavicle':'Köprücük kemiği','Scapula':'Kürek kemiği'});
+export function displayName(raw){const n=cleanName(raw),t=topicFor(n),side=sideOf(raw);const base=structureCard({name:raw,layer:'muscular'})?.tr||exact[n]||((t&&n.toLowerCase().replace(/ muscle$/,'')===t.match.replace(/ muscle$/,''))?t.tr:n);return `${localName(n,base)}${side?' · '+localSide(raw):''}`;}
+export function searchText(raw,layer){const t=structureCard({name:raw,layer})||cardioTopic({name:raw,layer})||topicFor(raw);return normalize([raw,allLocalNames(cleanName(raw),displayName(raw)),terminologyFor(raw)?.latin,displayName(raw),allTranslatedText(t?.tr),allTranslatedText(t?.group),layer,layer==='nervous'?allTranslatedText('sinir'):'',/cerebr|gyrus|sulcus|thalamus|hippocampus|amygdala|brain/i.test(raw)&&layer==='nervous'?allLocalNames('brain','Beyin'):'',layer==='cardiovascular'&&/ventricle|atrium|coronary|valve|heart/i.test(raw)?allLocalNames('heart','Kalp'):'',/tendon|tendinous/i.test(raw)?allTranslatedText('tendon'):'',/muscle/i.test(raw)?allTranslatedText('kas'):'',/artery|aorta/i.test(raw)?allTranslatedText('atardamar damar'):'',/vein/i.test(raw)?allTranslatedText('toplardamar damar'):''].join(' '));}
+export function normalize(s){return s.toLocaleLowerCase('tr').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i').replace(/[\u064B-\u065F\u0670]/g,'').replace(/[إأآ]/g,'ا').replace(/ى/g,'ي');}

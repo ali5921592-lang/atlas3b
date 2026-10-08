@@ -1,0 +1,2 @@
+import{pathToFileURL}from'node:url';import path from'node:path';
+export async function resolve(specifier,context,next){if(specifier==='three')return{url:pathToFileURL(path.resolve('dist/vendor/build/three.module.js')).href,shortCircuit:true};if(specifier.startsWith('three/addons/'))return{url:pathToFileURL(path.resolve('dist/vendor/examples/jsm/',specifier.slice(13))).href,shortCircuit:true};return next(specifier,context);}

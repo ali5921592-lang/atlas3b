@@ -1,0 +1,32 @@
+{
+  "name": "anatomi-atlasi",
+  "version": "15.0.0",
+  "private": true,
+  "description": "Multilingual educational anatomy atlas for web, Android and iOS",
+  "scripts": {
+    "start": "node server.mjs",
+    "native:sync": "npm run build && cap sync",
+    "android:build": "node scripts/build-android.mjs",
+    "ios:open": "cap open ios",
+    "test": "node tests/features-v15.mjs && node --experimental-loader ./tests/three-loader.mjs tests/atlas-regression.mjs",
+    "build": "node scripts/build-web.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.2",
+    "@capacitor/app": "8.1.2",
+    "@capacitor/cli": "8.5.2",
+    "@capacitor/core": "8.5.2",
+    "@capacitor/ios": "8.5.2"
+  },
+  "devDependencies": {
+    "acorn": "8.19.0",
+    "esbuild-wasm": "0.28.2",
+    "jsdom": "26.1.0"
+  },
+  "overrides": {
+    "xcode": {
+      "uuid": "11.1.1"
+    }
+  },
+  "type": "module"
+}

@@ -1,0 +1,15 @@
+import {resolveMotorConnections,resolveNerveTargets} from './motor-links.js';
+import{heartPart,partNames}from'./thorax-data.js';import{resolveConnections}from'./connections.js';
+const route=['vc','ra','tricuspid','rv','pulmonary','pt','lung','pv','la','mitral','lv','aortic','ao'];
+export const relationLabels={upstream:'Önceki akış yapısı',downstream:'Sonraki akış yapısı',neighbor:'Yapısal ilişki'};
+export function resolveAtlasRelations(r,records){if(r.layer==='muscular')return resolveConnections(r,records)||resolveMotorConnections(r,records);if(r.layer==='nervous')return resolveNerveTargets(r,records);const key=heartPart(r);if(!key)return null;let targets=[];const index=route.indexOf(key);if(index>=0){if(index>0)targets.push([route[index-1],'upstream']);if(index<route.length-1)targets.push([route[index+1],'downstream']);}else if(key==='coronary')targets=[['ao','neighbor'],['ra','neighbor']];else if(key==='inside'){const n=r.name.toLowerCase();targets=/septum/.test(n)?[['rv','neighbor'],['lv','neighbor']]:/right/.test(n)?[['rv','neighbor'],['tricuspid','neighbor']]:/left/.test(n)?[['lv','neighbor'],['mitral','neighbor']]:[];}if(!targets.length)return null;const rows=[],missing=[];for(const [part,role]of targets){const matches=records.filter(x=>(x.sex||'male')===(r.sex||'male')&&x.id!==r.id&&heartPart(x)===part);if(matches.length)rows.push(...matches.map(record=>({record,role})));else missing.push({name:partNames[part],role});}return{cardiac:true,rows,missing,site:partNames[key]+' ile ilişkili yapılar',note:key==='coronary'?'Aort ve sağ kulakçık koroner dolaşımın başlangıç ve dönüş ilişkisini gösterir; tek tek damar dallarının sonlanma haritası değildir.':'Akış sırası veya yapısal ilişki gösterilir. Ara damar dalları ve kılcal ağlar eksiksiz modellenmemiştir.',url:'https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy'};}
+export const advancedHeartNotes={
+ ra:'Sistemik venöz dönüş ile koroner venöz dönüş sağ kulakçığa ulaşır. Kulakçık ve karıncık arasındaki kapak triküspittir.',
+ rv:'Sağ karıncığın çıkış yolu pulmoner kapağa uzanır. Pulmoner dolaşıma katılan arterlerdeki kan oksijen bakımından sistemik arterlerden farklıdır.',
+ la:'Pulmoner venler sol kulakçığa açılır. Sol kulakçık ile sol karıncık arasındaki açıklık mitral kapakla ilişkilidir.',
+ lv:'Sol karıncık duvarı sağ karıncığa göre daha kalındır. Bu özellik sistemik dolaşıma karşı basınç üretmesiyle ilişkilidir.',
+ mitral:'Atriyoventriküler kapaktır. Papiller kaslar ve korda tendinealar kapak destek sistemine katılır; kapak doğrudan bir kas gibi kasılarak açılmaz.',
+ tricuspid:'Sağ atriyoventriküler kapaktır. Yaprakçıklar, korda tendinealar ve papiller kaslar birlikte değerlendirilmelidir; erkek kaynak modelinde tüm bileşenler yoktur.',
+ aortic:'Yarımay kapaktır. Sol karıncık ile aort arasındaki basınç farkıyla açılıp kapanır; atriyoventriküler kapaklardaki korda düzenine sahip değildir.',
+ pulmonary:'Yarımay kapaktır. Sağ karıncık çıkışındadır; pulmoner gövdeden karıncığa geri akışı sınırlar.'
+};

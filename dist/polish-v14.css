@@ -1,0 +1,18 @@
+.search-results small{overflow-wrap:anywhere;line-height:1.6}.search-pagination{display:flex;gap:8px;padding:8px;position:sticky;bottom:0;background:#fff;border-top:1px solid #e0e7f1}.search-pagination button{flex:1!important;min-height:44px}.search-results button:focus-visible{outline:3px solid #729bf6;outline-offset:-3px}button:disabled{opacity:.48;cursor:wait}.backup-tools{margin-top:22px;padding-top:18px;border-top:1px solid #e0e7f1}.backup-tools h2{font-size:16px}.backup-tools p{font-size:13px;line-height:1.7;color:#7087a1}.backup-tools button{display:block;width:100%;margin:8px 0;min-height:44px;border:1px solid #dbe5f3;background:#f0f5fd;color:#255dde;border-radius:9px}.backup-tools label{display:block}#backupDialog textarea{display:block;width:100%;box-sizing:border-box;font-size:16px;line-height:1.6;border:1px solid #cbd8eb;border-radius:9px;margin:12px 0;padding:12px}#backupDialog button{min-height:44px}#backupStatus{font-size:14px;line-height:1.7;overflow-wrap:anywhere}#volumeCacheStatus{font-size:13px;line-height:1.6}.detail-top{gap:8px}.detail-panel .detail-jumps button{min-height:44px}.study-scope{overflow-wrap:anywhere}@media(max-width:850px){dialog{max-width:calc(100vw - 20px);max-height:calc(var(--app-height,100dvh) - 20px);overflow-y:auto}#backupDialog{width:calc(100vw - 20px);padding:16px;box-sizing:border-box}#backupDialog h2{font-size:21px;margin-right:40px}.search-box input{padding-right:9px!important;font-size:16px}.detail-expanded #thoraxPanel{height:85%}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+#backupExportDialog{width:min(620px,calc(100vw - 24px));max-height:calc(var(--app-height,100dvh) - 24px);overflow:auto;padding:24px;border:1px solid #d8e0ed;border-radius:20px;color:#182b49;background:#fff}
+#backupExportDialog textarea{display:block;box-sizing:border-box;width:100%;font-size:16px;margin:12px 0;padding:12px;border:1px solid #ccd7e7;border-radius:12px;min-height:180px}
+#backupExportDialog button{min-height:44px;margin:4px;padding:10px 14px}
+#backupExportStatus{font-size:14px;line-height:1.6;color:#4c617e}
+/* Short screens, landscape phones and the visual viewport above a keyboard. */
+@media(max-width:850px) and (max-height:620px){
+ body{--atlas-top:calc(92px + env(safe-area-inset-top));--atlas-dock:calc(56px + env(safe-area-inset-bottom))}
+ header{grid-template-rows:28px 44px;gap:4px;padding-top:calc(8px + env(safe-area-inset-top));padding-bottom:8px}
+ .brand{font-size:17px}.brand>svg{width:25px;height:25px;padding:3px}
+ .mobile-dock button{min-height:44px}.mobile-dock svg{width:18px;height:18px}
+ .viewer-heading{display:none}.viewer-toolbar{top:8px;bottom:auto;left:12px}
+ #canvasMount{top:60px;bottom:70px}
+ .explode-control{bottom:8px;padding:5px 10px 0}.explode-control input{margin:4px 0}
+ .view-controls{top:8px;bottom:8px;max-height:calc(100% - 16px);overflow-y:auto}
+ main:has(.detail-panel.open) #canvasMount{top:53px;bottom:var(--detail-height)}
+ .detail-panel .inspection-modes{margin:8px 0}.detail-panel .detail-jumps{margin-top:8px;margin-bottom:8px}
+}

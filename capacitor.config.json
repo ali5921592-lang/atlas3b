@@ -1,0 +1,7 @@
+{
+  "appId": "com.anatomiatlasi.app",
+  "appName": "Anatomi Atlası",
+  "webDir": "dist",
+  "android": { "backgroundColor": "#edf2f8" },
+  "ios": { "contentInset": "automatic", "backgroundColor": "#edf2f8" }
+}

@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {JSDOM} from 'jsdom';
+import * as THREE from '../dist/vendor/build/three.module.js';
+import {installNavigation} from '../dist/navigation-v15.js';
+import {isCover,separationVector,installCoverControl} from '../dist/dissection-v15.js';
+const dom=new JSDOM('<header><nav></nav></header><div class="viewer-toolbar"></div><div class="view-controls"></div><div id="mount"></div><div id="workspace-explore"></div><p class="gesture"></p><p id="label">Katmanlar</p><textarea id="note">kişisel not</textarea>',{url:'http://localhost'});
+for(const key of ['document','localStorage','CustomEvent','MutationObserver','NodeFilter'])globalThis[key]=dom.window[key];
+let updates=0,cancelled=0;
+const camera=new THREE.PerspectiveCamera(45,1,.01,20);camera.position.set(0,1,1);
+const controls={target:new THREE.Vector3(0,1,0),mouseButtons:{},touches:{},update(){updates++;}};
+const navigation=installNavigation({THREE,camera,controls,mount:document.querySelector('#mount'),requestRender(){},cancelMotion(){cancelled++;}});
+navigation.setMode(true);assert.equal(controls.touches.ONE,THREE.TOUCH.PAN);assert.equal(controls.mouseButtons.LEFT,THREE.MOUSE.PAN);
+navigation.setMode(false);assert.equal(controls.touches.ONE,THREE.TOUCH.ROTATE);
+const distance=camera.position.distanceTo(controls.target),before=camera.position.clone();
+navigation.shift(1);assert(camera.position.y>before.y);assert.equal(camera.position.distanceTo(controls.target),distance);
+navigation.shift(-1);assert(camera.position.distanceTo(before)<1e-10);assert(updates===2&&cancelled===4);
+let changed=0;installCoverControl(()=>changed++);const cover=document.querySelector('#showOrganCovers');assert.equal(cover.checked,false);cover.dispatchEvent(new dom.window.Event('change'));assert.equal(changed,1);
+assert(isCover({layer:'visceral',name:'Greater omentum.001'}));assert(isCover({layer:'visceral',name:'Omentum.001'}));assert(!isCover({layer:'cardiovascular',name:'Greater omentum artery.001'}));assert(!isCover({layer:'visceral',name:'Jejunum.001'}));
+const center=new THREE.Vector3(0,1,0),vectors=['Jejunum.001','Ileum.001','Transverse colon.001'].map(name=>separationVector(THREE,{name,layer:'visceral'},center));assert(vectors[0].distanceTo(vectors[1])>.05);assert.deepEqual(vectors[0].toArray(),separationVector(THREE,{name:'Jejunum.001',layer:'visceral'},center).toArray());
+const {setLanguage,installI18n,localName,translateText}=await import('../dist/i18n.js');
+const {searchText,normalize,displayName}=await import('../dist/content.js');
+const {translationData}=await import('../dist/i18n-data.js');
+const {clinicalProfile}=await import('../dist/clinical-study.js');
+const {explanationFor}=await import('../dist/explanations.js');
+const {heartPart}=await import('../dist/thorax-data.js');
+const {terminologyFor}=await import('../dist/terminology.js');
+assert.equal(heartPart({name:'Marginal artery.001',layer:'cardiovascular'}),null);
+assert.equal(heartPart({name:'Marginal artery.l.001',layer:'cardiovascular',sex:'female'}),'coronary');
+assert.equal(terminologyFor('Marginal artery.l.001'),null);
+installI18n();
+for(const lang of ['tr','en','de','es','ar']){
+ setLanguage(lang);await new Promise(resolve=>setTimeout(resolve,0));
+ assert.equal(document.documentElement.lang,lang);assert.equal(document.documentElement.dir,lang==='ar'?'rtl':'ltr');
+ assert.equal(document.querySelector('#note').value,'kişisel not');assert.equal(localStorage.getItem('anatomy-language'),lang);
+ const query=localName('heart','Kalp',lang);assert(normalize(searchText('Heart.001','visceral')).includes(normalize(query)));
+ assert(normalize(searchText('Left ventricle.001','cardiovascular')).includes(normalize(query)));
+ assert(normalize(searchText('Femur.l.001','skeleton')).includes('femur'));assert(displayName('Femur.l.001').includes(localName('Femur','Uyluk kemiği',lang)));
+ assert.equal(document.querySelector('#label').textContent,translateText('Katmanlar'));
+}
+assert.equal(localName('Unmapped source name','Türkçe karşılık','de'),'Unmapped source name');
+const records=[];for(const file of ['catalog.json','catalog-female.json','catalog-female-muscles.json'])records.push(...JSON.parse(await readFile('dist/'+file)));
+let checked=0,missing=[];
+for(const r of records){const p=clinicalProfile(r),e=explanationFor(r);for(const field of ['normal','injury','loss','tissue','check','relations']){
+ const value=p[field];if(!value||!/[^\x00-\x7f]|\b(ve|bir|ile)\b/.test(value))continue;
+ const key=value.replace(/\s+/g,' ').trim();checked++;if(!translationData.text.en?.[key])missing.push(key);
+ }assert(e.function&&e.intro);}
+assert.equal(new Set(missing).size,0,'Missing English clinical fallbacks: '+[...new Set(missing)].slice(0,6).join(' | '));
+assert.equal(records.length,3370);
+console.log('PASS pan/zoom distance, mouse/touch modes, distinct stable dissection, covers, five locales, multilingual/Latin search, RTL, note preservation, '+checked+' clinical field fallbacks.');
+dom.window.close();

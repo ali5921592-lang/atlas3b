@@ -1,0 +1,45 @@
+const base='https://www.ncbi.nlm.nih.gov/books/';
+const sources={hip:'https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs',quad:base+'NBK538425/',ham:base+'NBK546688/',front:base+'NBK539725/',back:base+'NBK537340/',side:base+'NBK519526/',max:base+'NBK538193/',med:base+'NBK557509/'};
+// Exact structure records: no substring fallback from a muscle onto its tendon.
+const rows=[
+ ['Adductor brevis','Kısa adduktor','Uyluk iç bölgesi','Kalça adduksiyonuna katılır.','Obturator sinir','hip'],
+ ['Adductor longus','Uzun adduktor','Uyluk iç bölgesi','Uyluğu orta hatta yaklaştırır.','Obturator sinir','hip'],
+ ['Adductor magnus','Büyük adduktor','Uyluk iç bölgesi','Adduksiyon; hamstring bölümü kalça ekstansiyonu.','Obturator sinir ve siyatik sinirin tibial bölümü','hip'],
+ ['Biceps femoris long','Biseps femoris · Uzun baş','Uyluk arka bölgesi','Dizi büker; kalça ekstansiyonuna katılır.','Siyatik sinirin tibial bölümü','ham'],
+ ['Biceps femoris short','Biseps femoris · Kısa baş','Uyluk arka bölgesi','Dizi büker; kalça eklemini geçmez.','Siyatik sinirin ortak fibular bölümü','ham'],
+ ['Gastrocnemius medial','Gastroknemius · Medial baş','Baldır yüzeyel arka bölgesi','Plantar fleksiyon ve diz fleksiyonu.','Tibial sinir','back'],
+ ['Gastrocnemius lateral','Gastroknemius · Lateral baş','Baldır yüzeyel arka bölgesi','Plantar fleksiyon ve diz fleksiyonu.','Tibial sinir','back'],
+ ['Gracilis','Grasilis','Uyluk iç bölgesi','Kalça adduksiyonu ve diz fleksiyonu.','Obturator sinir','hip'],
+ ['Plantaris','Plantaris','Baldır yüzeyel arka bölgesi','Plantar fleksiyona zayıf katkı.','Tibial sinir','back'],
+ ['Popliteus','Popliteus','Diz arkası','Dizin kilidinin açılmasına yardım eder.','Tibial sinir','back'],
+ ['Rectus femoris','Rektus femoris','Uyluk ön bölgesi','Diz ekstansiyonu ve kalça fleksiyonu.','Femoral sinir','quad'],
+ ['Sartorius','Sartorius','Uyluk ön bölgesi','Kalça fleksiyonu, abdüksiyonu, dış rotasyonu; diz fleksiyonu.','Femoral sinir','quad'],
+ ['Semimembranosus','Semimembranozus','Uyluk arka bölgesi','Kalça ekstansiyonu ve diz fleksiyonu.','Siyatik sinirin tibial bölümü','ham'],
+ ['Semitendinosus','Semitendinozus','Uyluk arka bölgesi','Kalça ekstansiyonu ve diz fleksiyonu.','Siyatik sinirin tibial bölümü','ham'],
+ ['Vastus intermedius','Vastus intermedius','Uyluk ön derin bölgesi','Dizi ekstansiyona getirir.','Femoral sinir','quad'],
+ ['Vastus lateralis','Vastus lateralis','Uyluk ön dış bölgesi','Dizi ekstansiyona getirir.','Femoral sinir','quad'],
+ ['Vastus medialis','Vastus medialis','Uyluk ön iç bölgesi','Diz ekstansiyonu; patella stabilitesine katkı.','Femoral sinir','quad'],
+ ['Extensor digitorum longus','Uzun parmak ekstansörü','Bacağın ön bölmesi','2–5. parmakları açar; dorsifleksiyona katılır.','Derin fibular sinir','front'],
+ ['Extensor hallucis longus','Uzun başparmak ekstansörü','Bacağın ön bölmesi','Başparmağı açar; dorsifleksiyona katılır.','Derin fibular sinir','front'],
+ ['Flexor digitorum longus','Uzun parmak fleksörü','Bacağın derin arka bölmesi','2–5. parmakları büker.','Tibial sinir','back'],
+ ['Flexor hallucis longus','Uzun başparmak fleksörü','Bacağın derin arka bölmesi','Başparmağı büker; itişe katkı verir.','Tibial sinir','back'],
+ ['Peroneus longus','Fibularis longus','Bacağın dış bölmesi','Eversiyon; plantar fleksiyona ve ayak kemerine katkı.','Yüzeyel fibular sinir','side'],
+ ['Soleus','Soleus','Baldır arka bölgesi','Plantar fleksiyon; ayakta duruşa destek.','Tibial sinir','back'],
+ ['Tibialis anterior','Tibialis anterior','Bacağın ön bölmesi','Dorsifleksiyon ve inversiyon.','Derin fibular sinir','front'],
+ ['Tibialis posterior','Tibialis posterior','Bacağın derin arka bölmesi','İnversiyon; medial ayak kemerine destek.','Tibial sinir','back'],
+ ['Gluteus maximus','Büyük gluteal kas','Kalçanın yüzeyel arka bölgesi','Kalça ekstansiyonu ve dış rotasyonu.','İnferior gluteal sinir','max'],
+ ['Gluteus medius','Orta gluteal kas','Kalçanın dış bölgesi','Kalça abdüksiyonu; tek ayak üzerinde pelvis dengesi.','Superior gluteal sinir','med'],
+ ['Gluteus minimus','Küçük gluteal kas','Kalçanın derin dış bölgesi','Kalça abdüksiyonu ve iç rotasyonu.','Superior gluteal sinir','med'],
+ ['Iliacus','İliakus','İliak çukur','Kalça fleksiyonu.','Femoral sinir','hip'],
+ ['Inferior gemellus','Alt gemellus','Kalçanın derin arka bölgesi','Kalça dış rotasyonu.','Quadratus femoris siniri','hip'],
+ ['Obturator externus','Dış obturator','Kalçanın derin bölgesi','Kalça dış rotasyonu.','Obturator sinir','hip'],
+ ['Obturator internus','İç obturator','Pelvis iç duvarı ve kalça','Kalça dış rotasyonu.','Obturator internus siniri','hip'],
+ ['Pectineus','Pektineus','Uyluk üst iç bölgesi','Kalça adduksiyonu ve fleksiyonu.','Başlıca femoral sinir','hip'],
+ ['Piriformis','Piriformis','Kalçanın derin arka bölgesi','Kalça dış rotasyonu; bükülü kalçada abdüksiyon.','Piriformis siniri','hip'],
+ ['Psoas major','Psoas major','Arka karın duvarı','Kalça fleksiyonu.','Lomber pleksusun doğrudan dalları','hip'],
+ ['Quadratus femoris','Quadratus femoris','Kalçanın derin arka bölgesi','Kalça dış rotasyonu.','Quadratus femoris siniri','hip'],
+ ['Superior gemellus','Üst gemellus','Kalçanın derin arka bölgesi','Kalça dış rotasyonu.','Obturator internus siniri','hip'],
+ ['Tensor fasciae latae','Fasya lata gerici kası','Kalçanın ön dış bölgesi','Fasya latayı gerer; pelvis ve diz stabilitesine katkı.','Superior gluteal sinir','hip']
+];
+const exact=new Map(rows.map(([name,tr,intro,action,nerve,source])=>[name.toLowerCase(),{match:name.toLowerCase(),tr,intro,function:action,relations:'Sinir bağlantısı: '+nerve+'.',group:'Alt ekstremite kasları',url:sources[source],sourceLabel:'Anatomi kaynağı · Kasın konumu ve işlevi',refs:source==='hip'?[{label:'Kalça kasları · Sinir bağlantıları',url:base+'NBK526019/'}]:[]}]));
+export function structureCard(r){if(r.layer!=='muscular')return null;let name=r.name.toLowerCase().replace(/\.[lr]\.\d+$|\.\d+$/g,'').replace(/ muscle$/,'');const aliases={'biceps femoris long head':'biceps femoris long','biceps femoris short head':'biceps femoris short','long head of biceps femoris':'biceps femoris long','short head of biceps femoris':'biceps femoris short','medial head of gastrocnemius':'gastrocnemius medial','lateral head of gastrocnemius':'gastrocnemius lateral','fibularis longus':'peroneus longus'};name=aliases[name]||name;const t=exact.get(name);return t?{...t,match:r.name.toLowerCase().replace(/\.[lr]\.\d+$|\.\d+$/g,'')}:null;}

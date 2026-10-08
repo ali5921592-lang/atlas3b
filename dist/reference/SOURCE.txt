@@ -1,0 +1,9 @@
+Visible Human Project, U.S. National Library of Medicine.
+Full color anatomical cryosection photographs, downloaded without image modification.
+Male: https://www.nlm.nih.gov/research/visible/image/png_mri/a_vm1450.png
+Female: https://www.nlm.nih.gov/research/visible/image/png_mri/avf1588a.png
+Source index: https://www.nlm.nih.gov/research/visible/full_color_png.html
+Public-domain dataset information: https://www.nlm.nih.gov/research/visible/visible_human.html
+These are single example photographs, not a CT/MRI volume or patient study. No spatial registration to the GLB models has been performed. Original image orientation and pixels are preserved. Display zoom uses CSS only.
+
+V7 volumetric supplement: 160 consecutive male PNG slices a_vm1380 through a_vm1539. Source https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Male-Images/PNG_format/thorax/index.html ; physical geometry from Fullcolor/thorax/README. Adaptation: RGB resize with Lanczos3 to 384x228; gzip storage. Individual file provenance and checksums: ../volume/manifest.json. No specimen shift correction or registration to surface meshes.
