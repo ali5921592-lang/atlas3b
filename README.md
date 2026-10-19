@@ -18,9 +18,11 @@ Türkçe, İngilizce, Almanca, İspanyolca ve Arapça sözlükleri çevrimdış�
 
 `npm test` özellik/regresyon kontrollerini çalıştırır. Telefon boyutunda tarayıcı kontrolü fiziksel cihaz testi yerine geçmez. Model kaynak/lisansları [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), ayrıntılı değişiklikler [dist/V15-NOTLAR.md](dist/V15-NOTLAR.md) içinde.
 
+19 Ekim mobil paket ve imza sonuçları [BUILD-VERIFICATION-2026-10-19.md](BUILD-VERIFICATION-2026-10-19.md) dosyasındadır.
+
 ## Mobil paketleme
 
-[MOBILE-BUILD.md](MOBILE-BUILD.md): `npm run native:sync`, `npm run android:build`; debug APK ve isteğe bağlı yayın anahtarıyla imzalı AAB. iOS projesi Mac/Xcode 26+ ve Apple Developer imzasıyla IPA için hazırlanmıştır. Windows'ta IPA üretilmiş değildir. GitHub Actions Android, iOS simülatör ve elle başlatılan imzalı AAB/IPA işlerini içerir; uzaktaki sonuçlar ayrıca doğrulanmalıdır.
+[MOBILE-BUILD.md](MOBILE-BUILD.md): `npm run native:sync`, `npm run android:build`; debug APK ve yükleme anahtarıyla imzalı AAB. iOS projesi Mac/Xcode 26+ ve Apple Developer imzasıyla IPA için hazırlanmıştır. 19 Ekim'de GitHub Actions üzerinde Android, iOS simülatör, imzalı AAB ve App Store IPA işleri başarılı oldu. Windows'ta yerel IPA derlenmedi; GitHub'da üretilen IPA `outputs/mobile/ipa/App.ipa` dosyasına indirildi. Bu, mağaza kabulü veya gerçek cihaz doğrulaması değildir.
 
 ## Önceki sürümler
 
@@ -104,7 +106,7 @@ Aşağıdaki notlar tarihsel kapsam ve test sonuçlarını içerir.
 
 Kadın modeline HRA v1.5 kaynağından 8 pubis/ischium kompakt ve süngerimsi kemik parçası eklendi; ortak ilium parçalarının dönüşümleri eşleşti ve orijinal koordinatlar korundu. Kadın modeli ayrı HRA kaynağıdır; gövde yüzeyi ve seçili organları içerir. Bazı kas/iskelet bölgeleri, özellikle üst ekstremite, eksiktir. Erkek parçalarıyla doldurulmadı. İki kaynak doğrudan nicel karşılaştırmaya uygun değildir. Kadın kaynağından 8 gebelik referansı çıkarıldı; dönüşümler korunarak Draco sıkıştırması yapıldı ve model sahneye ötelendi. Kadın dosyası yaklaşık 24 MB'dır.
 
-Yerel Android debug APK ve imzalı AAB derlendi; imzalı iOS paketi veya mağaza dağıtımı henüz doğrulanmadı. PWA ve çevrimdışı özellikler HTTPS/localhost ve destekleyen tarayıcı gerektirir. Tarayıcıdan telefonda açmak için erişilebilir bir HTTPS adresi gerekir; yerel mobil paketin ilk açılışı için ağ gerekmez. Fiziksel cihaz performansı, GPU görüntü kalitesi ve tıbbi içerik uzman incelemesi bekliyor.
+Yerel Android debug APK ve imzalı AAB derlendi; GitHub macOS işinde App Store için imzalı IPA üretildi. Mağaza yüklemesi/incelemesi henüz yapılmadı. PWA ve çevrimdışı özellikler HTTPS/localhost ve destekleyen tarayıcı gerektirir. Tarayıcıdan telefonda açmak için erişilebilir bir HTTPS adresi gerekir; yerel mobil paketin ilk açılışı için ağ gerekmez. Fiziksel cihaz performansı, GPU görüntü kalitesi ve tıbbi içerik uzman incelemesi bekliyor.
 
 ## Doğrulama
 

@@ -91,14 +91,14 @@
     "Free-download setting, future in-app purchase products and distribution territories",
     "Apple age-rating questionnaire answers based on final anatomical imagery",
     "Apple privacy declarations checked against the final signed binary",
-    "Cloud signing workflow results and final production-artifact validation",
+    "Physical-device testing and final production-artifact review before store upload",
     "Device-captured screenshots from the final signed iPhone/iPad/Android build",
     "Human clinical/anatomical review and language-editor approval",
     "Commercial rights for OpenStax-linked notes and remaining third-party content",
     "Apple App Privacy data collection label must be completed from the final binary and third-party viewer review"
   ],
   "readiness": {
-    "auditDate": "2026-10-18",
+    "auditDate": "2026-10-19",
     "ready": false,
     "blockers": [
       "Commercial rights for OpenStax-linked notes and remaining third-party content unverified",
@@ -106,7 +106,7 @@
       "Google Play app record not created because required legal attestations remain unaccepted",
       "Clinical and language editor reviews pending",
       "Full female donor musculoskeletal coverage unavailable",
-      "Signed iOS build, cloud signing jobs and physical-device validation pending",
+      "Cloud signed AAB and IPA artifacts built successfully; physical-device and store-upload validation pending",
       "Play Console draft currently has paid-up-front selected, contrary to the free-download plan; in-app purchase is not implemented",
       "Store territories, age rating and privacy declarations are not finalized"
     ],
