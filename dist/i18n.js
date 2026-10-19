@@ -1,14 +1,17 @@
 import {translationData} from './i18n-data.js';
 import {languageLabels,commonNames,reviewedText} from './i18n-overrides.js';
+import {clinicalLabelTranslations} from './clinical-label-translations.js';
+import {contentFallbackEn} from './content-fallback-en.js';
 const codes=['tr','en','de','es','ar'],norm=s=>String(s).replace(/\s+/g,' ').trim();
 let language='tr';try{const saved=localStorage.getItem('anatomy-language');if(codes.includes(saved))language=saved;}catch{}
 export const currentLanguage=()=>language;
 export function translateText(text,lang=language){
  const key=norm(text);if(!key||lang==='tr')return text;
- const reviewed=reviewedText[key];let value=reviewed?.[codes.indexOf(lang)-1]||translationData.text?.[lang]?.[key]||translationData.text?.en?.[key];
+ const reviewed=reviewedText[key];let value=reviewed?.[codes.indexOf(lang)-1]||clinicalLabelTranslations[key]?.[codes.indexOf(lang)]||translationData.text?.[lang]?.[key]||translationData.text?.en?.[key];
  if(!value&&/[·↗→←]/.test(key))value=key.split(/(\s*[·↗→←]\s*)/).map(piece=>/[·↗→←]/.test(piece)?piece:translateText(piece,lang)).join('');
  if(!value){const pieces=key.split(/(\d[\d.,% /–-]*)/);if(pieces.length>1)value=pieces.map(p=>{const k=norm(p);return /^\d/.test(k)?p:(reviewedText[k]?.[codes.indexOf(lang)-1]||translationData.text?.[lang]?.[k]||translationData.text?.en?.[k]||p);}).join(' ');}
- return value||text;
+ if(!value){const generic=key.match(/^Seçili kayıt:\s*(.+?)\.\s*Aşağıdaki açıklama (.+?) için genel bilgidir\.$/);if(generic){const name=localName(generic[1].trim(),generic[1].trim(),lang),kind=reviewedText[generic[2]]?.[codes.indexOf(lang)-1]||clinicalLabelTranslations[generic[2]]?.[codes.indexOf(lang)]||translationData.text?.[lang]?.[generic[2]]||translationData.text?.en?.[generic[2]]||generic[2];if(lang==='en')return 'Selected model structure: '+name+'. The following is general information about this structure type: '+kind+'.';if(lang==='de')return 'Ausgewählte Modellstruktur: '+name+'. Es folgen allgemeine Informationen zu dieser Strukturart: '+kind+'.';if(lang==='es')return 'Estructura seleccionada del modelo: '+name+'. A continuación se ofrece información general sobre este tipo de estructura: '+kind+'.';if(lang==='ar')return 'البنية المحددة في النموذج: '+name+'. فيما يلي معلومات عامة عن هذا النوع من البنى: '+kind+'.';}}
+ return value||contentFallbackEn[key]||text;
 }
 export function localName(raw,turkish=raw,lang=language){const key=raw.toLowerCase(),row=commonNames[key];return row?.[codes.indexOf(lang)]||(lang==='en'?raw:translationData.names?.[lang]?.[raw])||(lang==='tr'?turkish:raw);}
 export function allLocalNames(raw,turkish=raw){return codes.map(code=>localName(raw,turkish,code)).join(' ');}

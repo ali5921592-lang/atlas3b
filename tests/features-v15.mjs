@@ -3,7 +3,7 @@ import {readFile} from 'node:fs/promises';
 import {JSDOM} from 'jsdom';
 import * as THREE from '../dist/vendor/build/three.module.js';
 import {installNavigation} from '../dist/navigation-v15.js';
-import {isCover,separationVector,installCoverControl} from '../dist/dissection-v15.js';
+import {isCover,separationVector,separatedView,installCoverControl} from '../dist/dissection-v15.js';
 const dom=new JSDOM('<header><nav></nav></header><div class="viewer-toolbar"></div><div class="view-controls"></div><div id="mount"></div><div id="workspace-explore"></div><p class="gesture"></p><p id="label">Katmanlar</p><textarea id="note">kişisel not</textarea>',{url:'http://localhost'});
 for(const key of ['document','localStorage','CustomEvent','MutationObserver','NodeFilter'])globalThis[key]=dom.window[key];
 let updates=0,cancelled=0;
@@ -17,7 +17,13 @@ navigation.shift(1);assert(camera.position.y>before.y);assert.equal(camera.posit
 navigation.shift(-1);assert(camera.position.distanceTo(before)<1e-10);assert(updates===2&&cancelled===4);
 let changed=0;installCoverControl(()=>changed++);const cover=document.querySelector('#showOrganCovers');assert.equal(cover.checked,false);cover.dispatchEvent(new dom.window.Event('change'));assert.equal(changed,1);
 assert(isCover({layer:'visceral',name:'Greater omentum.001'}));assert(isCover({layer:'visceral',name:'Omentum.001'}));assert(!isCover({layer:'cardiovascular',name:'Greater omentum artery.001'}));assert(!isCover({layer:'visceral',name:'Jejunum.001'}));
-const center=new THREE.Vector3(0,1,0),vectors=['Jejunum.001','Ileum.001','Transverse colon.001'].map(name=>separationVector(THREE,{name,layer:'visceral'},center));assert(vectors[0].distanceTo(vectors[1])>.05);assert.deepEqual(vectors[0].toArray(),separationVector(THREE,{name:'Jejunum.001',layer:'visceral'},center).toArray());
+const center=new THREE.Vector3(.1,1,0),a={id:'organ:a',name:'Jejunum.001',layer:'visceral'},b={id:'organ:b',name:'Ileum.001',layer:'visceral'};
+const av=separationVector(THREE,a,center),bv=separationVector(THREE,b,center);
+assert(av.distanceTo(bv)>.1,'individual organs at the same center must not move together');
+assert.deepEqual(av.toArray(),separationVector(THREE,a,center).toArray(),'returning to a value must preserve each part trajectory');
+assert(av.distanceTo(separationVector(THREE,{...a,id:'other-subpart'},center))>.05,'same-name subparts retain distinct trajectories');
+for(const p of [new THREE.Vector3(-.2,.4,.1),new THREE.Vector3(.2,1.5,-.1),new THREE.Vector3(0,.86,.035)]){const d=separationVector(THREE,a,p),radial=new THREE.Vector3(p.x*2.8,(p.y-.86)*1.05,(p.z-.035)*2.8);assert(d.toArray().every(Number.isFinite));if(radial.lengthSq()>0)assert(d.dot(radial)>0,'parts must travel outward');}
+for(const aspect of [.65,2.2]){const box=new THREE.Box3(new THREE.Vector3(-.8,-.3,-.4),new THREE.Vector3(.9,2.1,.5)),cam=new THREE.PerspectiveCamera(39,aspect,.005,25);cam.position.set(1,1,4);cam.lookAt(0,.8,0);const view=separatedView(THREE,box,cam,aspect);cam.position.copy(view.position);cam.lookAt(view.center);cam.updateMatrixWorld(true);for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]){const p=new THREE.Vector3(x,y,z).project(cam);assert(Math.abs(p.x)<=.92&&Math.abs(p.y)<=.92&&p.z<1,'exploded anatomy fits portrait and landscape viewports');}}
 const {setLanguage,installI18n,localName,translateText}=await import('../dist/i18n.js');
 const {searchText,normalize,displayName}=await import('../dist/content.js');
 const {translationData}=await import('../dist/i18n-data.js');
@@ -47,5 +53,16 @@ for(const r of records){const p=clinicalProfile(r),e=explanationFor(r);for(const
  }assert(e.function&&e.intro);}
 assert.equal(new Set(missing).size,0,'Missing English clinical fallbacks: '+[...new Set(missing)].slice(0,6).join(' | '));
 assert.equal(records.length,3370);
+for(const lang of ['en','de','es','ar']){
+ assert(!/[ğışçöü]/i.test(translateText('Areola üzerindeki küçük kabarıklıklardır.',lang)),'New female card must have English fallback');
+ assert(!/[ğışçöü]/i.test(translateText('Bacağın iç tarafında bulunan uzun kemiktir.',lang)),'Bone card must have English fallback');
+ const ductNote=translateText('Kanal sistemi çok dallıdır; basitleştirilmiş 3B parça mikroskobik dallanmayı bütünüyle göstermez.',lang);
+ assert(!ductNote.includes('Kanal sistemi'),'Duct clinical note must be localized');
+ const veinNote=translateText('Seçili kayıt: Superior rectal vein. Aşağıdaki açıklama toplardamar için genel bilgidir.',lang);
+ assert(veinNote.includes(localName('Superior rectal vein','Üst rektal ven',lang)),'Generic note must use the localized structure name');
+ assert(!veinNote.includes('toplardamar')&&!veinNote.includes('Seçili kayıt'),'Generic note must translate its tissue type and template');
+}
+setLanguage('tr');assert.match(displayName('Radius.l.001'),/ön kol/);assert.doesNotMatch(displayName('Radius.l.001'),/Yarıçap/);
+assert.match(displayName('Proper palmar digital branches of median nerve.l.001'),/özel palmar/);
 console.log('PASS pan/zoom distance, mouse/touch modes, distinct stable dissection, covers, five locales, multilingual/Latin search, RTL, note preservation, '+checked+' clinical field fallbacks.');
 dom.window.close();

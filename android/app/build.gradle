@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+def androidUploadKeyStore = System.getenv('ANDROID_UPLOAD_KEYSTORE_PATH')
+def androidUploadKey = androidUploadKeyStore ? [
+    storeFile: file(androidUploadKeyStore),
+    storePassword: System.getenv('ANDROID_UPLOAD_STORE_PASSWORD'),
+    keyAlias: System.getenv('ANDROID_UPLOAD_KEY_ALIAS'),
+    keyPassword: System.getenv('ANDROID_UPLOAD_KEY_PASSWORD')
+] : null
+
 android {
     namespace = "com.anatomiatlasi.app"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -16,9 +24,20 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    if (androidUploadKey) {
+        signingConfigs {
+            release {
+                storeFile androidUploadKey.storeFile
+                storePassword androidUploadKey.storePassword
+                keyAlias androidUploadKey.keyAlias
+                keyPassword androidUploadKey.keyPassword
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
+            if (androidUploadKey) signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

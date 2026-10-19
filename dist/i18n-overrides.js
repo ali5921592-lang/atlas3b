@@ -1,6 +1,18 @@
 // Reviewed UI labels and common anatomical names. Latin identifiers are never translated.
 export const languageLabels={tr:'Türkçe',en:'English',de:'Deutsch',es:'Español',ar:'العربية'};
 export const commonNames={
+ '????????':['Adı doğrulanmamış damar yapısı','Vascular structure · name unverified','Gefäßstruktur · Name ungeprüft','Estructura vascular · nombre sin verificar','بنية وعائية · الاسم غير موثّق'],
+ 'proper palmar digital arteries':['Özel palmar dijital arterler','Proper palmar digital arteries','Eigene palmare Fingerarterien','Arterias digitales palmares propias','الشرايين الرقمية الراحية الخاصة'],
+ 'proper plantar digital arteries':['Özel plantar dijital arterler','Proper plantar digital arteries','Eigene plantare Zehenarterien','Arterias digitales plantares propias','الشرايين الرقمية الأخمصية الخاصة'],
+ 'proper palmar digital branches of ulnar nerve':['Ulnar sinirin özel palmar dijital dalları','Proper palmar digital branches of ulnar nerve','Eigene palmare Fingeräste des Nervus ulnaris','Ramos digitales palmares propios del nervio ulnar','الفروع الرقمية الراحية الخاصة للعصب الزندي'],
+ 'proper palmar digital branches of median nerve':['Median sinirin özel palmar dijital dalları','Proper palmar digital branches of median nerve','Eigene palmare Fingeräste des Nervus medianus','Ramos digitales palmares propios del nervio mediano','الفروع الرقمية الراحية الخاصة للعصب المتوسط'],
+ 'proper plantar digital branches of medial plantar nerve':['Medial plantar sinirin özel plantar dijital dalları','Proper plantar digital branches of medial plantar nerve','Eigene plantare Zehenäste des Nervus plantaris medialis','Ramos digitales plantares propios del nervio plantar medial','الفروع الرقمية الأخمصية الخاصة للعصب الأخمصي الإنسي'],
+ 'proper plantar digital branches of lateral plantar nerve':['Lateral plantar sinirin özel plantar dijital dalları','Proper plantar digital branches of lateral plantar nerve','Eigene plantare Zehenäste des Nervus plantaris lateralis','Ramos digitales plantares propios del nervio plantar lateral','الفروع الرقمية الأخمصية الخاصة للعصب الأخمصي الوحشي'],
+ 'radius':['Radius (ön kol kemiği)','Radius','Speiche','Radio','الكعبرة'],
+ 'superior rectal vein':['Üst rektal ven','Superior rectal vein','Obere Rektalvene','Vena rectal superior','الوريد المستقيمي العلوي'],
+ 'hepatic artery proper':['Asıl hepatik arter','Proper hepatic artery','Arteria hepatica propria','Arteria hepática propia','الشريان الكبدي الخاص'],
+ 'superior gemellus':['Üst ikiz kas','Superior gemellus','Musculus gemellus superior','Músculo gemelo superior','العضلة التوأمية العلوية'],
+ 'inferior gemellus':['Alt ikiz kas','Inferior gemellus','Musculus gemellus inferior','Músculo gemelo inferior','العضلة التوأمية السفلية'],
  'heart':['Kalp','Heart','Herz','Corazón','القلب'], 'brain':['Beyin','Brain','Gehirn','Cerebro','الدماغ'],
  'lung':['Akciğer','Lung','Lunge','Pulmón','الرئة'],'left lung':['Sol akciğer','Left lung','Linke Lunge','Pulmón izquierdo','الرئة اليسرى'],'right lung':['Sağ akciğer','Right lung','Rechte Lunge','Pulmón derecho','الرئة اليمنى'],
  'liver':['Karaciğer','Liver','Leber','Hígado','الكبد'],'stomach':['Mide','Stomach','Magen','Estómago','المعدة'],
@@ -16,6 +28,8 @@ export const commonNames={
  'deltoid muscle':['Deltoid kası','Deltoid muscle','Deltamuskel','Músculo deltoides','العضلة الدالية'],'biceps brachii muscle':['Kolun iki başlı kası','Biceps brachii muscle','Zweiköpfiger Oberarmmuskel','Músculo bíceps braquial','العضلة ذات الرأسين العضدية']
 };
 export const reviewedText={
+ 'toplardamar':['vein','Vene','vena','وريد'],
+ 'Kanal sistemi çok dallıdır; basitleştirilmiş 3B parça mikroskobik dallanmayı bütünüyle göstermez.':['The duct system branches extensively; the simplified 3D structure does not show all microscopic branches.','Das Gangsystem ist stark verzweigt; die vereinfachte 3D-Struktur zeigt nicht alle mikroskopischen Verzweigungen.','El sistema de conductos se ramifica ampliamente; la estructura 3D simplificada no muestra todas las ramificaciones microscópicas.','تتفرع القنوات على نطاق واسع؛ ولا يُظهر النموذج ثلاثي الأبعاد المبسّط جميع التفرعات المجهرية.'],
  'YAPI REHBERİ':['STRUCTURE GUIDE','STRUKTURÜBERSICHT','GUÍA DE ESTRUCTURAS','دليل البنى التشريحية'],
  'Temel görevi':['Main function','Hauptfunktion','Función principal','الوظيفة الرئيسية'],
  'Sağlık çalışanı için çalışma kartı':['Study card for healthcare professionals','Lernkarte für Gesundheitsberufe','Ficha de estudio para profesionales sanitarios','بطاقة دراسة للعاملين في الرعاية الصحية'],

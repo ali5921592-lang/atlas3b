@@ -14,13 +14,13 @@ Türkçe, İngilizce, Almanca, İspanyolca ve Arapça sözlükleri çevrimdış�
 
 ## İçerik ve doğrulama sınırları
 
-3.370 model kaydı; 2.731 Latince eşleşme, 639 bekleyen kayıt. Klinik içerik: 353 özel yapı/organ, 123 ana yapı, 26 grup ve 2.868 genel doku/sistem kartı. Her parçaya özgü klinik açıklama tamamlanmış değildir. Kadın kaynak modelinin eksik bölgeleri ve yaklaşık kas yerleşimi vardır. RGB hacim sadece erkek göğüs bölgesindeki 160 kaynak kesittir; GLB ile anatomik eş-kayıt veya tüm vücut hacmi değildir.
+3.370 model kaydı; 2.762 Latince eşleşme, 608 bekleyen kayıt. Klinik içerik: 353 özel yapı/organ, 125 ana yapı, 26 grup ve 2.866 genel doku/sistem kartı. Her parçaya özgü klinik açıklama tamamlanmış değildir. Kadın kaynak modelinin eksik bölgeleri ve yaklaşık kas yerleşimi vardır. RGB hacim sadece erkek göğüs bölgesindeki 160 kaynak kesittir; GLB ile anatomik eş-kayıt veya tüm vücut hacmi değildir.
 
 `npm test` özellik/regresyon kontrollerini çalıştırır. Telefon boyutunda tarayıcı kontrolü fiziksel cihaz testi yerine geçmez. Model kaynak/lisansları [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), ayrıntılı değişiklikler [dist/V15-NOTLAR.md](dist/V15-NOTLAR.md) içinde.
 
 ## Mobil paketleme
 
-[MOBILE-BUILD.md](MOBILE-BUILD.md): `npm run native:sync`, `npm run android:build`; debug imzalı APK ve yayın imzası sağlanmadığında imzasız AAB. iOS projesi Mac/Xcode 26+ ve Apple Developer imzasıyla IPA için hazırlanmıştır. Windows'ta IPA üretilmiş değildir. GitHub Actions Android ve iOS simülatör derleme iş akışını içerir.
+[MOBILE-BUILD.md](MOBILE-BUILD.md): `npm run native:sync`, `npm run android:build`; debug APK ve isteğe bağlı yayın anahtarıyla imzalı AAB. iOS projesi Mac/Xcode 26+ ve Apple Developer imzasıyla IPA için hazırlanmıştır. Windows'ta IPA üretilmiş değildir. GitHub Actions Android, iOS simülatör ve elle başlatılan imzalı AAB/IPA işlerini içerir; uzaktaki sonuçlar ayrıca doğrulanmalıdır.
 
 ## Önceki sürümler
 
@@ -104,7 +104,7 @@ Aşağıdaki notlar tarihsel kapsam ve test sonuçlarını içerir.
 
 Kadın modeline HRA v1.5 kaynağından 8 pubis/ischium kompakt ve süngerimsi kemik parçası eklendi; ortak ilium parçalarının dönüşümleri eşleşti ve orijinal koordinatlar korundu. Kadın modeli ayrı HRA kaynağıdır; gövde yüzeyi ve seçili organları içerir. Bazı kas/iskelet bölgeleri, özellikle üst ekstremite, eksiktir. Erkek parçalarıyla doldurulmadı. İki kaynak doğrudan nicel karşılaştırmaya uygun değildir. Kadın kaynağından 8 gebelik referansı çıkarıldı; dönüşümler korunarak Draco sıkıştırması yapıldı ve model sahneye ötelendi. Kadın dosyası yaklaşık 24 MB'dır.
 
-Henüz APK, imzalı iOS paketi veya mağaza dağıtımı yoktur. PWA ve çevrimdışı özellikler HTTPS/localhost ve destekleyen tarayıcı gerektirir. Telefon için çevrimiçi bir HTTPS adresi gerekir. Fiziksel cihaz performansı, GPU görüntü kalitesi ve tıbbi içerik uzman incelemesi bekliyor.
+Yerel Android debug APK ve imzalı AAB derlendi; imzalı iOS paketi veya mağaza dağıtımı henüz doğrulanmadı. PWA ve çevrimdışı özellikler HTTPS/localhost ve destekleyen tarayıcı gerektirir. Tarayıcıdan telefonda açmak için erişilebilir bir HTTPS adresi gerekir; yerel mobil paketin ilk açılışı için ağ gerekmez. Fiziksel cihaz performansı, GPU görüntü kalitesi ve tıbbi içerik uzman incelemesi bekliyor.
 
 ## Doğrulama
 
@@ -114,8 +114,8 @@ v4: 956 kadın parçası çözülüp eşleştirildi. Gerçek kadın modelinden 1
 
 ## Kaynaklar ve lisanslar
 
-Erkek: Z-Anatomy / Gauthier Kervyn ve katkıda bulunanlar; BodyParts3D / DBCLS / Kousaku Okubo. GLB dönüşümleri: https://github.com/Liyucheng1997/242_lab-human-anatomy. Tam atıflar: `dist/models/SOURCE-LICENSE.txt`. Bazı bileşenlerin ticari olmayan kullanım koşulları nedeniyle bu prototip ticari olmayan eğitim içindir.
+Erkek modellerinin çoğu Z-Anatomy / Gauthier Kervyn ve katkıda bulunanlar ile BodyParts3D / DBCLS / Kousaku Okubo kaynaklarından uyarlanmıştır. İki böbrek, altı iç kulak parçası, altı kulak kemikçiği ve iki telensefalon beyaz-madde geometrisi özgün prosedürel geometriyle değiştirildi. Kalan modellerin atıf ve ShareAlike koşulları sürer; ayrıntılar `dist/models/SOURCE-LICENSE.txt` içindedir.
 
 Kadın: Human Reference Atlas / HuBMAP, Kristen Browne ve Heidi Schlehlein; Visible Human Dataset / NLM, Female v1.10 (2026), CC BY 4.0. Kaynak ve dönüşüm kaydı: `dist/models/FEMALE-LICENSE.txt`.
 
-Eğitim notları OpenStax (J. Gordon Betts ve diğerleri / Rice University), NIH/NHLBI, NIDDK ve NCBI kaynaklarına bağlantı verir. Notlar CC BY-NC-SA 4.0 kapsamında paylaşılır. Three.js lisansı: `dist/vendor/LICENSE`.
+Eğitim notları OpenStax (J. Gordon Betts ve diğerleri / Rice University), NIH/NHLBI, NIDDK ve NCBI kaynaklarına doğrulama/ileri okuma için bağlantı verir; açıklamalar yeniden yazılmış kısa anatomi özetleridir. Three.js lisansı: `dist/vendor/LICENSE`.

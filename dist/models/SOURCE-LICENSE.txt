@@ -28,11 +28,17 @@ Please be sure attribute any content copied or derived from the content of this 
    The original model can be downloaded [here](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html).  
       -**"Z-Anatomy - The libre 3D atlas of anatomy - CC-BY-SA 4.0"** 
    
-The following models have been used as reference/included and adapted: 
-   -"Brainder" and "White matter" from the University of Washington
-   -"Cranial Nerves and Foramina - by University of Dundee, CAHID - CC-BY 4.0"
+The following works were present in an earlier package revision and are **not included in the current model geometry**:
    -"Anatomy of the Inner Ear - by University of Dundee School of Medicine - CC-BY-NC-SA 4.0"
    -"Kidney - by Lissie Cowley - CC-BY-NC 4.0" 
+The Dundee "Cranial Nerves and Foramina" (CC-BY 4.0) derivative remains in the package; its attribution and license terms still apply.
+
+### CURRENT PACKAGE UPDATE (2026-10-14)
+The two kidney meshes previously attributed to Lissie Cowley and six inner-ear meshes previously attributed to the University of Dundee (right/left tympanic membrane, vestibule and cochlea) have been replaced. The six malleus, incus and stapes meshes with uncertain source mapping have also been replaced. The new shapes and atlas-frame placements are authored in `scripts/build-original-anatomy.mjs`; no source-mesh vertices are read by that script. These replacement shapes are an initial educational prototype and have not been reviewed by an anatomist or clinician; they must not be described as clinically validated or photorealistic.
+
+The left and right telencephalon white-matter meshes whose upstream attribution was unclear have also been replaced by newly authored procedural geometry and placements in the same script. The source note previously attributed white matter to a University of Washington/Brainder source; that mapping was not sufficiently specific to verify, so the replaced meshes are no longer distributed.
+
+These replacements remove the listed non-commercial geometries from the current GLBs only. They do not clear the rest of this mixed-source package for commercial distribution; retain the applicable attribution and share-alike notices for remaining sources and review all bundled text, volume, and screenshot assets before release.
    
 ### DEFINITIONS  
    -**"Wikipedia - CC-BY-SA 3.0"**  
