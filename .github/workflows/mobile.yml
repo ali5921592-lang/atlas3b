@@ -1,8 +1,19 @@
 name: Mobile builds
 on:
   workflow_dispatch:
+    inputs:
+      build_signed_android:
+        description: Build an upload-key-signed Android App Bundle
+        type: boolean
+        required: true
+        default: false
+      build_signed_ipa:
+        description: Build an App Store-signed IPA
+        type: boolean
+        required: true
+        default: false
   push:
-    branches: [main]
+    branches: [main, 'codex/**']
 permissions:
   contents: read
 jobs:
@@ -28,6 +39,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: android-debug-apk-and-unsigned-aab
+          if-no-files-found: error
           path: |
             android/app/build/outputs/apk/debug/*.apk
             android/app/build/outputs/bundle/release/*.aab
@@ -46,4 +58,118 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ios-simulator-app-not-ipa
+          if-no-files-found: error
           path: ios/App/DerivedData/Build/Products/Debug-iphonesimulator/App.app
+  android-play-release:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.build_signed_android }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: microsoft
+          java-version: '21'
+      - name: Install Android signing key
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_UPLOAD_STORE_PASSWORD: ${{ secrets.ANDROID_UPLOAD_STORE_PASSWORD }}
+          ANDROID_UPLOAD_KEY_ALIAS: ${{ secrets.ANDROID_UPLOAD_KEY_ALIAS }}
+          ANDROID_UPLOAD_KEY_PASSWORD: ${{ secrets.ANDROID_UPLOAD_KEY_PASSWORD }}
+        run: |
+          test -n "$ANDROID_KEYSTORE_BASE64" && test -n "$ANDROID_UPLOAD_STORE_PASSWORD" && test -n "$ANDROID_UPLOAD_KEY_ALIAS" && test -n "$ANDROID_UPLOAD_KEY_PASSWORD"
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/anatomi-upload.jks"
+          echo "ANDROID_UPLOAD_KEYSTORE_PATH=$RUNNER_TEMP/anatomi-upload.jks" >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npm test
+      - run: npm run native:sync
+      - name: Build signed Android App Bundle
+        env:
+          ANDROID_UPLOAD_STORE_PASSWORD: ${{ secrets.ANDROID_UPLOAD_STORE_PASSWORD }}
+          ANDROID_UPLOAD_KEY_ALIAS: ${{ secrets.ANDROID_UPLOAD_KEY_ALIAS }}
+          ANDROID_UPLOAD_KEY_PASSWORD: ${{ secrets.ANDROID_UPLOAD_KEY_PASSWORD }}
+        run: npm run android:build
+      - run: python3 scripts/check-android-assets.py
+      - name: Verify signed App Bundle
+        run: |
+          bundle=android/app/build/outputs/bundle/release/app-release.aab
+          jarsigner -verify "$bundle" > "$RUNNER_TEMP/aab-signature-check.log" 2>&1
+          grep -Fq 'jar verified.' "$RUNNER_TEMP/aab-signature-check.log"
+          echo 'Signed Android App Bundle verified.'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: anatomi-atlasi-play-signed-aab
+          if-no-files-found: error
+          path: android/app/build/outputs/bundle/release/app-release.aab
+  ios-app-store-ipa:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.build_signed_ipa }}
+    runs-on: macos-26
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install Apple distribution certificate and profile
+        env:
+          IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64 }}
+          IOS_DISTRIBUTION_CERTIFICATE_PASSWORD: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_PASSWORD }}
+          IOS_APP_STORE_PROFILE_BASE64: ${{ secrets.IOS_APP_STORE_PROFILE_BASE64 }}
+          IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+        run: |
+          test -n "$IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64" && test -n "$IOS_DISTRIBUTION_CERTIFICATE_PASSWORD" && test -n "$IOS_APP_STORE_PROFILE_BASE64" && test -n "$IOS_TEAM_ID"
+          security create-keychain -p "$RUNNER_TEMP/keychain-password" "$RUNNER_TEMP/anatomi.keychain-db"
+          security set-keychain-settings -lut 21600 "$RUNNER_TEMP/anatomi.keychain-db"
+          security unlock-keychain -p "$RUNNER_TEMP/keychain-password" "$RUNNER_TEMP/anatomi.keychain-db"
+          echo "$IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64" | base64 --decode > "$RUNNER_TEMP/distribution.p12"
+          security import "$RUNNER_TEMP/distribution.p12" -k "$RUNNER_TEMP/anatomi.keychain-db" -P "$IOS_DISTRIBUTION_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$RUNNER_TEMP/keychain-password" "$RUNNER_TEMP/anatomi.keychain-db"
+          security list-keychains -d user -s "$RUNNER_TEMP/anatomi.keychain-db"
+          security default-keychain -d user -s "$RUNNER_TEMP/anatomi.keychain-db"
+          echo "$IOS_APP_STORE_PROFILE_BASE64" | base64 --decode > "$RUNNER_TEMP/appstore.mobileprovision"
+          security cms -D -i "$RUNNER_TEMP/appstore.mobileprovision" > "$RUNNER_TEMP/profile.plist"
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c 'Print UUID' "$RUNNER_TEMP/profile.plist")
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          cp "$RUNNER_TEMP/appstore.mobileprovision" "$HOME/Library/MobileDevice/Provisioning Profiles/$PROFILE_UUID.mobileprovision"
+          echo "IOS_PROFILE_UUID=$PROFILE_UUID" >> "$GITHUB_ENV"
+          echo "IOS_KEYCHAIN_PATH=$RUNNER_TEMP/anatomi.keychain-db" >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npm test
+      - run: npm run native:sync
+      - name: Archive App Store build
+        env:
+          IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+        run: >-
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release -sdk iphoneos
+          -archivePath "$RUNNER_TEMP/AnatomiAtlas.xcarchive" -derivedDataPath "$RUNNER_TEMP/DerivedData"
+          CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="Apple Distribution"
+          PROVISIONING_PROFILE_SPECIFIER="$IOS_PROFILE_UUID" DEVELOPMENT_TEAM="$IOS_TEAM_ID" archive
+      - name: Export IPA
+        env:
+          IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+        run: |
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+          <key>method</key><string>app-store-connect</string>
+          <key>teamID</key><string>$IOS_TEAM_ID</string>
+          <key>signingStyle</key><string>manual</string>
+          <key>signingCertificate</key><string>Apple Distribution</string>
+          <key>provisioningProfiles</key><dict><key>com.anatomiatlasi.app</key><string>$IOS_PROFILE_UUID</string></dict>
+          </dict></plist>
+          EOF
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/AnatomiAtlas.xcarchive" -exportPath "$RUNNER_TEMP/ipa" -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: anatomi-atlasi-app-store-ipa
+          if-no-files-found: error
+          path: ${{ runner.temp }}/ipa/*.ipa
+      - name: Remove temporary signing keychain
+        if: always()
+        run: security delete-keychain "$IOS_KEYCHAIN_PATH" || true
