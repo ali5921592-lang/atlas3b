@@ -576,6 +576,748 @@ var init_web = __esm({
   }
 });
 
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/generated/error-codes.js
+var PURCHASES_ERROR_CODE;
+var init_error_codes = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/generated/error-codes.js"() {
+    (function(PURCHASES_ERROR_CODE2) {
+      PURCHASES_ERROR_CODE2["UNKNOWN_ERROR"] = "0";
+      PURCHASES_ERROR_CODE2["PURCHASE_CANCELLED_ERROR"] = "1";
+      PURCHASES_ERROR_CODE2["STORE_PROBLEM_ERROR"] = "2";
+      PURCHASES_ERROR_CODE2["PURCHASE_NOT_ALLOWED_ERROR"] = "3";
+      PURCHASES_ERROR_CODE2["PURCHASE_INVALID_ERROR"] = "4";
+      PURCHASES_ERROR_CODE2["PRODUCT_NOT_AVAILABLE_FOR_PURCHASE_ERROR"] = "5";
+      PURCHASES_ERROR_CODE2["PRODUCT_ALREADY_PURCHASED_ERROR"] = "6";
+      PURCHASES_ERROR_CODE2["RECEIPT_ALREADY_IN_USE_ERROR"] = "7";
+      PURCHASES_ERROR_CODE2["INVALID_RECEIPT_ERROR"] = "8";
+      PURCHASES_ERROR_CODE2["MISSING_RECEIPT_FILE_ERROR"] = "9";
+      PURCHASES_ERROR_CODE2["NETWORK_ERROR"] = "10";
+      PURCHASES_ERROR_CODE2["INVALID_CREDENTIALS_ERROR"] = "11";
+      PURCHASES_ERROR_CODE2["UNEXPECTED_BACKEND_RESPONSE_ERROR"] = "12";
+      PURCHASES_ERROR_CODE2["RECEIPT_IN_USE_BY_OTHER_SUBSCRIBER_ERROR"] = "13";
+      PURCHASES_ERROR_CODE2["INVALID_APP_USER_ID_ERROR"] = "14";
+      PURCHASES_ERROR_CODE2["OPERATION_ALREADY_IN_PROGRESS_ERROR"] = "15";
+      PURCHASES_ERROR_CODE2["UNKNOWN_BACKEND_ERROR"] = "16";
+      PURCHASES_ERROR_CODE2["INVALID_APPLE_SUBSCRIPTION_KEY_ERROR"] = "17";
+      PURCHASES_ERROR_CODE2["INELIGIBLE_ERROR"] = "18";
+      PURCHASES_ERROR_CODE2["INSUFFICIENT_PERMISSIONS_ERROR"] = "19";
+      PURCHASES_ERROR_CODE2["PAYMENT_PENDING_ERROR"] = "20";
+      PURCHASES_ERROR_CODE2["INVALID_SUBSCRIBER_ATTRIBUTES_ERROR"] = "21";
+      PURCHASES_ERROR_CODE2["LOG_OUT_ANONYMOUS_USER_ERROR"] = "22";
+      PURCHASES_ERROR_CODE2["CONFIGURATION_ERROR"] = "23";
+      PURCHASES_ERROR_CODE2["UNSUPPORTED_ERROR"] = "24";
+      PURCHASES_ERROR_CODE2["EMPTY_SUBSCRIBER_ATTRIBUTES_ERROR"] = "25";
+      PURCHASES_ERROR_CODE2["PRODUCT_DISCOUNT_MISSING_IDENTIFIER_ERROR"] = "26";
+      PURCHASES_ERROR_CODE2["PRODUCT_DISCOUNT_MISSING_SUBSCRIPTION_GROUP_IDENTIFIER_ERROR"] = "28";
+      PURCHASES_ERROR_CODE2["CUSTOMER_INFO_ERROR"] = "29";
+      PURCHASES_ERROR_CODE2["SYSTEM_INFO_ERROR"] = "30";
+      PURCHASES_ERROR_CODE2["BEGIN_REFUND_REQUEST_ERROR"] = "31";
+      PURCHASES_ERROR_CODE2["PRODUCT_REQUEST_TIMED_OUT_ERROR"] = "32";
+      PURCHASES_ERROR_CODE2["API_ENDPOINT_BLOCKED"] = "33";
+      PURCHASES_ERROR_CODE2["INVALID_PROMOTIONAL_OFFER_ERROR"] = "34";
+      PURCHASES_ERROR_CODE2["OFFLINE_CONNECTION_ERROR"] = "35";
+      PURCHASES_ERROR_CODE2["TEST_STORE_SIMULATED_PURCHASE_ERROR"] = "42";
+    })(PURCHASES_ERROR_CODE || (PURCHASES_ERROR_CODE = {}));
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/errors.js
+var __extends, UninitializedPurchasesError, UnsupportedPlatformError;
+var init_errors = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/errors.js"() {
+    init_error_codes();
+    __extends = /* @__PURE__ */ (function() {
+      var extendStatics = function(d, b) {
+        extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+          d2.__proto__ = b2;
+        } || function(d2, b2) {
+          for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+        };
+        return extendStatics(d, b);
+      };
+      return function(d, b) {
+        if (typeof b !== "function" && b !== null)
+          throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() {
+          this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+      };
+    })();
+    UninitializedPurchasesError = /** @class */
+    (function(_super) {
+      __extends(UninitializedPurchasesError2, _super);
+      function UninitializedPurchasesError2() {
+        var _this = _super.call(this, "There is no singleton instance. Make sure you configure Purchases before trying to get the default instance. More info here: https://errors.rev.cat/configuring-sdk") || this;
+        Object.setPrototypeOf(_this, UninitializedPurchasesError2.prototype);
+        return _this;
+      }
+      return UninitializedPurchasesError2;
+    })(Error);
+    UnsupportedPlatformError = /** @class */
+    (function(_super) {
+      __extends(UnsupportedPlatformError2, _super);
+      function UnsupportedPlatformError2() {
+        var _this = _super.call(this, "This method is not available in the current platform.") || this;
+        Object.setPrototypeOf(_this, UnsupportedPlatformError2.prototype);
+        return _this;
+      }
+      return UnsupportedPlatformError2;
+    })(Error);
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/errorNormalizer.js
+function isRecord(value) {
+  return typeof value === "object" && value !== null;
+}
+function readPayload(error) {
+  for (var _i = 0, PAYLOAD_KEYS_1 = PAYLOAD_KEYS; _i < PAYLOAD_KEYS_1.length; _i++) {
+    var key = PAYLOAD_KEYS_1[_i];
+    var candidate = error[key];
+    if (isRecord(candidate)) {
+      return candidate;
+    }
+  }
+  return {};
+}
+function firstString() {
+  var values = [];
+  for (var _i = 0; _i < arguments.length; _i++) {
+    values[_i] = arguments[_i];
+  }
+  for (var _a = 0, values_1 = values; _a < values_1.length; _a++) {
+    var value = values_1[_a];
+    if (typeof value === "string") {
+      return value;
+    }
+  }
+  return "";
+}
+function readCode(error, payload) {
+  var _a;
+  var candidate = (_a = error.code) !== null && _a !== void 0 ? _a : payload.code;
+  var code = String(candidate);
+  return /^\d+$/.test(code) ? code : void 0;
+}
+function normalizePurchasesError(error) {
+  if (!isRecord(error)) {
+    return error;
+  }
+  var payload = readPayload(error);
+  var code = readCode(error, payload);
+  if (code === void 0) {
+    return error;
+  }
+  error.code = code;
+  var userInfo = __assign({}, payload);
+  if (typeof userInfo.readableErrorCode !== "string") {
+    userInfo.readableErrorCode = firstString(payload.readableErrorCode, error.readableErrorCode);
+  }
+  error.userInfo = userInfo;
+  if (typeof error.message !== "string" || error.message === "") {
+    error.message = firstString(payload.message);
+  }
+  if (typeof error.readableErrorCode !== "string") {
+    error.readableErrorCode = userInfo.readableErrorCode;
+  }
+  if (typeof error.underlyingErrorMessage !== "string") {
+    error.underlyingErrorMessage = firstString(payload.underlyingErrorMessage);
+  }
+  error.userCancelled = code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR;
+  return error;
+}
+var __assign, PAYLOAD_KEYS;
+var init_errorNormalizer = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/errorNormalizer.js"() {
+    init_error_codes();
+    __assign = function() {
+      __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+        }
+        return t;
+      };
+      return __assign.apply(this, arguments);
+    };
+    PAYLOAD_KEYS = ["userInfo", "data", "info"];
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/customerInfo.js
+var init_customerInfo = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/customerInfo.js"() {
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/offerings.js
+var PACKAGE_TYPE, INTRO_ELIGIBILITY_STATUS, PRODUCT_CATEGORY, PRODUCT_TYPE, PRORATION_MODE, STORE_REPLACEMENT_MODE, BILLING_PLAN_TYPE, RECURRENCE_MODE, OFFER_PAYMENT_MODE, PERIOD_UNIT;
+var init_offerings = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/offerings.js"() {
+    (function(PACKAGE_TYPE2) {
+      PACKAGE_TYPE2["UNKNOWN"] = "UNKNOWN";
+      PACKAGE_TYPE2["CUSTOM"] = "CUSTOM";
+      PACKAGE_TYPE2["LIFETIME"] = "LIFETIME";
+      PACKAGE_TYPE2["ANNUAL"] = "ANNUAL";
+      PACKAGE_TYPE2["SIX_MONTH"] = "SIX_MONTH";
+      PACKAGE_TYPE2["THREE_MONTH"] = "THREE_MONTH";
+      PACKAGE_TYPE2["TWO_MONTH"] = "TWO_MONTH";
+      PACKAGE_TYPE2["MONTHLY"] = "MONTHLY";
+      PACKAGE_TYPE2["WEEKLY"] = "WEEKLY";
+    })(PACKAGE_TYPE || (PACKAGE_TYPE = {}));
+    (function(INTRO_ELIGIBILITY_STATUS2) {
+      INTRO_ELIGIBILITY_STATUS2[INTRO_ELIGIBILITY_STATUS2["INTRO_ELIGIBILITY_STATUS_UNKNOWN"] = 0] = "INTRO_ELIGIBILITY_STATUS_UNKNOWN";
+      INTRO_ELIGIBILITY_STATUS2[INTRO_ELIGIBILITY_STATUS2["INTRO_ELIGIBILITY_STATUS_INELIGIBLE"] = 1] = "INTRO_ELIGIBILITY_STATUS_INELIGIBLE";
+      INTRO_ELIGIBILITY_STATUS2[INTRO_ELIGIBILITY_STATUS2["INTRO_ELIGIBILITY_STATUS_ELIGIBLE"] = 2] = "INTRO_ELIGIBILITY_STATUS_ELIGIBLE";
+      INTRO_ELIGIBILITY_STATUS2[INTRO_ELIGIBILITY_STATUS2["INTRO_ELIGIBILITY_STATUS_NO_INTRO_OFFER_EXISTS"] = 3] = "INTRO_ELIGIBILITY_STATUS_NO_INTRO_OFFER_EXISTS";
+    })(INTRO_ELIGIBILITY_STATUS || (INTRO_ELIGIBILITY_STATUS = {}));
+    (function(PRODUCT_CATEGORY2) {
+      PRODUCT_CATEGORY2["NON_SUBSCRIPTION"] = "NON_SUBSCRIPTION";
+      PRODUCT_CATEGORY2["SUBSCRIPTION"] = "SUBSCRIPTION";
+      PRODUCT_CATEGORY2["UNKNOWN"] = "UNKNOWN";
+    })(PRODUCT_CATEGORY || (PRODUCT_CATEGORY = {}));
+    (function(PRODUCT_TYPE2) {
+      PRODUCT_TYPE2["CONSUMABLE"] = "CONSUMABLE";
+      PRODUCT_TYPE2["NON_CONSUMABLE"] = "NON_CONSUMABLE";
+      PRODUCT_TYPE2["NON_RENEWABLE_SUBSCRIPTION"] = "NON_RENEWABLE_SUBSCRIPTION";
+      PRODUCT_TYPE2["AUTO_RENEWABLE_SUBSCRIPTION"] = "AUTO_RENEWABLE_SUBSCRIPTION";
+      PRODUCT_TYPE2["PREPAID_SUBSCRIPTION"] = "PREPAID_SUBSCRIPTION";
+      PRODUCT_TYPE2["UNKNOWN"] = "UNKNOWN";
+    })(PRODUCT_TYPE || (PRODUCT_TYPE = {}));
+    (function(PRORATION_MODE2) {
+      PRORATION_MODE2[PRORATION_MODE2["UNKNOWN_SUBSCRIPTION_UPGRADE_DOWNGRADE_POLICY"] = 0] = "UNKNOWN_SUBSCRIPTION_UPGRADE_DOWNGRADE_POLICY";
+      PRORATION_MODE2[PRORATION_MODE2["IMMEDIATE_WITH_TIME_PRORATION"] = 1] = "IMMEDIATE_WITH_TIME_PRORATION";
+      PRORATION_MODE2[PRORATION_MODE2["IMMEDIATE_AND_CHARGE_PRORATED_PRICE"] = 2] = "IMMEDIATE_AND_CHARGE_PRORATED_PRICE";
+      PRORATION_MODE2[PRORATION_MODE2["IMMEDIATE_WITHOUT_PRORATION"] = 3] = "IMMEDIATE_WITHOUT_PRORATION";
+      PRORATION_MODE2[PRORATION_MODE2["DEFERRED"] = 6] = "DEFERRED";
+      PRORATION_MODE2[PRORATION_MODE2["IMMEDIATE_AND_CHARGE_FULL_PRICE"] = 5] = "IMMEDIATE_AND_CHARGE_FULL_PRICE";
+    })(PRORATION_MODE || (PRORATION_MODE = {}));
+    (function(STORE_REPLACEMENT_MODE2) {
+      STORE_REPLACEMENT_MODE2["WITHOUT_PRORATION"] = "WITHOUT_PRORATION";
+      STORE_REPLACEMENT_MODE2["WITH_TIME_PRORATION"] = "WITH_TIME_PRORATION";
+      STORE_REPLACEMENT_MODE2["CHARGE_FULL_PRICE"] = "CHARGE_FULL_PRICE";
+      STORE_REPLACEMENT_MODE2["CHARGE_PRORATED_PRICE"] = "CHARGE_PRORATED_PRICE";
+      STORE_REPLACEMENT_MODE2["DEFERRED"] = "DEFERRED";
+    })(STORE_REPLACEMENT_MODE || (STORE_REPLACEMENT_MODE = {}));
+    (function(BILLING_PLAN_TYPE2) {
+      BILLING_PLAN_TYPE2["UP_FRONT"] = "UP_FRONT";
+      BILLING_PLAN_TYPE2["MONTHLY"] = "MONTHLY";
+      BILLING_PLAN_TYPE2["UNKNOWN"] = "UNKNOWN";
+    })(BILLING_PLAN_TYPE || (BILLING_PLAN_TYPE = {}));
+    (function(RECURRENCE_MODE2) {
+      RECURRENCE_MODE2[RECURRENCE_MODE2["INFINITE_RECURRING"] = 1] = "INFINITE_RECURRING";
+      RECURRENCE_MODE2[RECURRENCE_MODE2["FINITE_RECURRING"] = 2] = "FINITE_RECURRING";
+      RECURRENCE_MODE2[RECURRENCE_MODE2["NON_RECURRING"] = 3] = "NON_RECURRING";
+    })(RECURRENCE_MODE || (RECURRENCE_MODE = {}));
+    (function(OFFER_PAYMENT_MODE2) {
+      OFFER_PAYMENT_MODE2["FREE_TRIAL"] = "FREE_TRIAL";
+      OFFER_PAYMENT_MODE2["SINGLE_PAYMENT"] = "SINGLE_PAYMENT";
+      OFFER_PAYMENT_MODE2["DISCOUNTED_RECURRING_PAYMENT"] = "DISCOUNTED_RECURRING_PAYMENT";
+    })(OFFER_PAYMENT_MODE || (OFFER_PAYMENT_MODE = {}));
+    (function(PERIOD_UNIT2) {
+      PERIOD_UNIT2["DAY"] = "DAY";
+      PERIOD_UNIT2["WEEK"] = "WEEK";
+      PERIOD_UNIT2["MONTH"] = "MONTH";
+      PERIOD_UNIT2["YEAR"] = "YEAR";
+      PERIOD_UNIT2["UNKNOWN"] = "UNKNOWN";
+    })(PERIOD_UNIT || (PERIOD_UNIT = {}));
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/enums.js
+var PURCHASE_TYPE, BILLING_FEATURE, REFUND_REQUEST_STATUS, LOG_LEVEL, IN_APP_MESSAGE_TYPE, ENTITLEMENT_VERIFICATION_MODE, VERIFICATION_RESULT, PAYWALL_RESULT, STOREKIT_VERSION, PURCHASES_ARE_COMPLETED_BY_TYPE;
+var init_enums = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/enums.js"() {
+    (function(PURCHASE_TYPE2) {
+      PURCHASE_TYPE2["INAPP"] = "inapp";
+      PURCHASE_TYPE2["SUBS"] = "subs";
+    })(PURCHASE_TYPE || (PURCHASE_TYPE = {}));
+    (function(BILLING_FEATURE2) {
+      BILLING_FEATURE2[BILLING_FEATURE2["SUBSCRIPTIONS"] = 0] = "SUBSCRIPTIONS";
+      BILLING_FEATURE2[BILLING_FEATURE2["SUBSCRIPTIONS_UPDATE"] = 1] = "SUBSCRIPTIONS_UPDATE";
+      BILLING_FEATURE2[BILLING_FEATURE2["IN_APP_ITEMS_ON_VR"] = 2] = "IN_APP_ITEMS_ON_VR";
+      BILLING_FEATURE2[BILLING_FEATURE2["SUBSCRIPTIONS_ON_VR"] = 3] = "SUBSCRIPTIONS_ON_VR";
+      BILLING_FEATURE2[BILLING_FEATURE2["PRICE_CHANGE_CONFIRMATION"] = 4] = "PRICE_CHANGE_CONFIRMATION";
+    })(BILLING_FEATURE || (BILLING_FEATURE = {}));
+    (function(REFUND_REQUEST_STATUS2) {
+      REFUND_REQUEST_STATUS2[REFUND_REQUEST_STATUS2["SUCCESS"] = 0] = "SUCCESS";
+      REFUND_REQUEST_STATUS2[REFUND_REQUEST_STATUS2["USER_CANCELLED"] = 1] = "USER_CANCELLED";
+      REFUND_REQUEST_STATUS2[REFUND_REQUEST_STATUS2["ERROR"] = 2] = "ERROR";
+    })(REFUND_REQUEST_STATUS || (REFUND_REQUEST_STATUS = {}));
+    (function(LOG_LEVEL2) {
+      LOG_LEVEL2["VERBOSE"] = "VERBOSE";
+      LOG_LEVEL2["DEBUG"] = "DEBUG";
+      LOG_LEVEL2["INFO"] = "INFO";
+      LOG_LEVEL2["WARN"] = "WARN";
+      LOG_LEVEL2["ERROR"] = "ERROR";
+    })(LOG_LEVEL || (LOG_LEVEL = {}));
+    (function(IN_APP_MESSAGE_TYPE2) {
+      IN_APP_MESSAGE_TYPE2[IN_APP_MESSAGE_TYPE2["BILLING_ISSUE"] = 0] = "BILLING_ISSUE";
+      IN_APP_MESSAGE_TYPE2[IN_APP_MESSAGE_TYPE2["PRICE_INCREASE_CONSENT"] = 1] = "PRICE_INCREASE_CONSENT";
+      IN_APP_MESSAGE_TYPE2[IN_APP_MESSAGE_TYPE2["GENERIC"] = 2] = "GENERIC";
+      IN_APP_MESSAGE_TYPE2[IN_APP_MESSAGE_TYPE2["WIN_BACK_OFFER"] = 3] = "WIN_BACK_OFFER";
+    })(IN_APP_MESSAGE_TYPE || (IN_APP_MESSAGE_TYPE = {}));
+    (function(ENTITLEMENT_VERIFICATION_MODE2) {
+      ENTITLEMENT_VERIFICATION_MODE2["DISABLED"] = "DISABLED";
+      ENTITLEMENT_VERIFICATION_MODE2["INFORMATIONAL"] = "INFORMATIONAL";
+    })(ENTITLEMENT_VERIFICATION_MODE || (ENTITLEMENT_VERIFICATION_MODE = {}));
+    (function(VERIFICATION_RESULT2) {
+      VERIFICATION_RESULT2["NOT_REQUESTED"] = "NOT_REQUESTED";
+      VERIFICATION_RESULT2["VERIFIED"] = "VERIFIED";
+      VERIFICATION_RESULT2["FAILED"] = "FAILED";
+      VERIFICATION_RESULT2["VERIFIED_ON_DEVICE"] = "VERIFIED_ON_DEVICE";
+    })(VERIFICATION_RESULT || (VERIFICATION_RESULT = {}));
+    (function(PAYWALL_RESULT2) {
+      PAYWALL_RESULT2["NOT_PRESENTED"] = "NOT_PRESENTED";
+      PAYWALL_RESULT2["ERROR"] = "ERROR";
+      PAYWALL_RESULT2["CANCELLED"] = "CANCELLED";
+      PAYWALL_RESULT2["PURCHASED"] = "PURCHASED";
+      PAYWALL_RESULT2["RESTORED"] = "RESTORED";
+    })(PAYWALL_RESULT || (PAYWALL_RESULT = {}));
+    (function(STOREKIT_VERSION2) {
+      STOREKIT_VERSION2["STOREKIT_1"] = "STOREKIT_1";
+      STOREKIT_VERSION2["STOREKIT_2"] = "STOREKIT_2";
+      STOREKIT_VERSION2["DEFAULT"] = "DEFAULT";
+    })(STOREKIT_VERSION || (STOREKIT_VERSION = {}));
+    (function(PURCHASES_ARE_COMPLETED_BY_TYPE2) {
+      PURCHASES_ARE_COMPLETED_BY_TYPE2["MY_APP"] = "MY_APP";
+      PURCHASES_ARE_COMPLETED_BY_TYPE2["REVENUECAT"] = "REVENUECAT";
+    })(PURCHASES_ARE_COMPLETED_BY_TYPE || (PURCHASES_ARE_COMPLETED_BY_TYPE = {}));
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/purchaseParams.js
+var init_purchaseParams = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/purchaseParams.js"() {
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/purchasesConfiguration.js
+var init_purchasesConfiguration = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/purchasesConfiguration.js"() {
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/callbackTypes.js
+var init_callbackTypes = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/callbackTypes.js"() {
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/webRedemption.js
+var WebPurchaseRedemptionResultType;
+var init_webRedemption = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/webRedemption.js"() {
+    (function(WebPurchaseRedemptionResultType2) {
+      WebPurchaseRedemptionResultType2["SUCCESS"] = "SUCCESS";
+      WebPurchaseRedemptionResultType2["ERROR"] = "ERROR";
+      WebPurchaseRedemptionResultType2["PURCHASE_BELONGS_TO_OTHER_USER"] = "PURCHASE_BELONGS_TO_OTHER_USER";
+      WebPurchaseRedemptionResultType2["INVALID_TOKEN"] = "INVALID_TOKEN";
+      WebPurchaseRedemptionResultType2["EXPIRED"] = "EXPIRED";
+    })(WebPurchaseRedemptionResultType || (WebPurchaseRedemptionResultType = {}));
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/storefront.js
+var init_storefront = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/storefront.js"() {
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/virtualCurrency.js
+var init_virtualCurrency = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/virtualCurrency.js"() {
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/paywallInteractionEvent.js
+var init_paywallInteractionEvent = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/paywallInteractionEvent.js"() {
+  }
+});
+
+// node_modules/@revenuecat/purchases-typescript-internal-esm/dist/index.js
+var init_dist2 = __esm({
+  "node_modules/@revenuecat/purchases-typescript-internal-esm/dist/index.js"() {
+    init_errors();
+    init_errorNormalizer();
+    init_customerInfo();
+    init_offerings();
+    init_enums();
+    init_purchaseParams();
+    init_purchasesConfiguration();
+    init_callbackTypes();
+    init_webRedemption();
+    init_storefront();
+    init_virtualCurrency();
+    init_paywallInteractionEvent();
+  }
+});
+
+// node_modules/@revenuecat/purchases-capacitor/dist/esm/web.js
+var web_exports2 = {};
+__export(web_exports2, {
+  PurchasesWeb: () => PurchasesWeb
+});
+var PurchasesWeb;
+var init_web2 = __esm({
+  "node_modules/@revenuecat/purchases-capacitor/dist/esm/web.js"() {
+    init_dist();
+    init_dist2();
+    PurchasesWeb = class extends WebPlugin {
+      constructor() {
+        super(...arguments);
+        this.shouldMockWebResults = false;
+        this.webNotSupportedErrorMessage = "Web not supported in this plugin.";
+        this.mockEmptyCustomerInfo = {
+          entitlements: {
+            all: {},
+            active: {},
+            verification: VERIFICATION_RESULT.NOT_REQUESTED
+          },
+          activeSubscriptions: [],
+          allPurchasedProductIdentifiers: [],
+          latestExpirationDate: null,
+          firstSeen: "2023-08-31T15:11:21.445Z",
+          originalAppUserId: "mock-web-user-id",
+          requestDate: "2023-08-31T15:11:21.445Z",
+          allExpirationDates: {},
+          allPurchaseDates: {},
+          originalApplicationVersion: null,
+          originalPurchaseDate: null,
+          managementURL: null,
+          nonSubscriptionTransactions: [],
+          subscriptionsByProductIdentifier: {}
+        };
+        this.mockEmptyVirtualCurrencies = {
+          all: {}
+        };
+      }
+      configure(_configuration) {
+        return this.mockNonReturningFunctionIfEnabled("configure");
+      }
+      parseAsWebPurchaseRedemption(_options) {
+        return this.mockReturningFunctionIfEnabled("parseAsWebPurchaseRedemption", { webPurchaseRedemption: null });
+      }
+      redeemWebPurchase(_options) {
+        return this.mockReturningFunctionIfEnabled("redeemWebPurchase", {
+          result: WebPurchaseRedemptionResultType.INVALID_TOKEN
+        });
+      }
+      setMockWebResults(options) {
+        this.shouldMockWebResults = options.shouldMockWebResults;
+        return Promise.resolve();
+      }
+      setSimulatesAskToBuyInSandbox(_simulatesAskToBuyInSandbox) {
+        return this.mockNonReturningFunctionIfEnabled("setSimulatesAskToBuyInSandbox");
+      }
+      addCustomerInfoUpdateListener(_customerInfoUpdateListener) {
+        return this.mockReturningFunctionIfEnabled("addCustomerInfoUpdateListener", "mock-callback-id");
+      }
+      removeCustomerInfoUpdateListener(_options) {
+        return this.mockReturningFunctionIfEnabled("removeCustomerInfoUpdateListener", { wasRemoved: false });
+      }
+      addShouldPurchasePromoProductListener(_shouldPurchasePromoProductListener) {
+        return this.mockReturningFunctionIfEnabled("addShouldPurchasePromoProductListener", "mock-callback-id");
+      }
+      removeShouldPurchasePromoProductListener(_listenerToRemove) {
+        return this.mockReturningFunctionIfEnabled("removeShouldPurchasePromoProductListener", { wasRemoved: false });
+      }
+      getOfferings() {
+        const mockOfferings = {
+          all: {},
+          current: null
+        };
+        return this.mockReturningFunctionIfEnabled("getOfferings", mockOfferings);
+      }
+      getCurrentOfferingForPlacement(_options) {
+        const mockOffering = null;
+        return this.mockReturningFunctionIfEnabled("getCurrentOfferingForPlacement", mockOffering);
+      }
+      syncAttributesAndOfferingsIfNeeded() {
+        const mockOfferings = {
+          all: {},
+          current: null
+        };
+        return this.mockReturningFunctionIfEnabled("syncAttributesAndOfferingsIfNeeded", mockOfferings);
+      }
+      getProducts(_options) {
+        const mockProducts = { products: [] };
+        return this.mockReturningFunctionIfEnabled("getProducts", mockProducts);
+      }
+      purchaseStoreProduct(_options) {
+        const mockPurchaseResult = {
+          productIdentifier: _options.product.identifier,
+          customerInfo: this.mockEmptyCustomerInfo,
+          transaction: this.mockTransaction(_options.product.identifier)
+        };
+        return this.mockReturningFunctionIfEnabled("purchaseStoreProduct", mockPurchaseResult);
+      }
+      purchaseDiscountedProduct(_options) {
+        const mockPurchaseResult = {
+          productIdentifier: _options.product.identifier,
+          customerInfo: this.mockEmptyCustomerInfo,
+          transaction: this.mockTransaction(_options.product.identifier)
+        };
+        return this.mockReturningFunctionIfEnabled("purchaseDiscountedProduct", mockPurchaseResult);
+      }
+      purchasePackage(_options) {
+        const mockPurchaseResult = {
+          productIdentifier: _options.aPackage.product.identifier,
+          customerInfo: this.mockEmptyCustomerInfo,
+          transaction: this.mockTransaction(_options.aPackage.product.identifier)
+        };
+        return this.mockReturningFunctionIfEnabled("purchasePackage", mockPurchaseResult);
+      }
+      purchaseSubscriptionOption(_options) {
+        const mockPurchaseResult = {
+          productIdentifier: _options.subscriptionOption.productId,
+          customerInfo: this.mockEmptyCustomerInfo,
+          transaction: this.mockTransaction(_options.subscriptionOption.productId)
+        };
+        return this.mockReturningFunctionIfEnabled("purchaseSubscriptionOption", mockPurchaseResult);
+      }
+      purchaseDiscountedPackage(_options) {
+        const mockPurchaseResult = {
+          productIdentifier: _options.aPackage.product.identifier,
+          customerInfo: this.mockEmptyCustomerInfo,
+          transaction: this.mockTransaction(_options.aPackage.product.identifier)
+        };
+        return this.mockReturningFunctionIfEnabled("purchaseDiscountedPackage", mockPurchaseResult);
+      }
+      restorePurchases() {
+        const mockResponse = { customerInfo: this.mockEmptyCustomerInfo };
+        return this.mockReturningFunctionIfEnabled("restorePurchases", mockResponse);
+      }
+      recordPurchase(options) {
+        const mockResponse = {
+          transaction: this.mockTransaction(options.productID)
+        };
+        return this.mockReturningFunctionIfEnabled("recordPurchase", mockResponse);
+      }
+      getAppUserID() {
+        return this.mockReturningFunctionIfEnabled("getAppUserID", {
+          appUserID: "test-web-user-id"
+        });
+      }
+      getStorefront() {
+        return this.mockReturningFunctionIfEnabled("getStorefront", {
+          countryCode: "USA"
+        });
+      }
+      logIn(_appUserID) {
+        const mockLogInResult = {
+          customerInfo: this.mockEmptyCustomerInfo,
+          created: false
+        };
+        return this.mockReturningFunctionIfEnabled("logIn", mockLogInResult);
+      }
+      logOut() {
+        const mockResponse = { customerInfo: this.mockEmptyCustomerInfo };
+        return this.mockReturningFunctionIfEnabled("logOut", mockResponse);
+      }
+      setLogLevel(_level) {
+        return this.mockNonReturningFunctionIfEnabled("setLogLevel");
+      }
+      setLogHandler(_logHandler) {
+        return this.mockNonReturningFunctionIfEnabled("setLogHandler");
+      }
+      getCustomerInfo() {
+        const mockResponse = { customerInfo: this.mockEmptyCustomerInfo };
+        return this.mockReturningFunctionIfEnabled("getCustomerInfo", mockResponse);
+      }
+      syncPurchases() {
+        return this.mockNonReturningFunctionIfEnabled("syncPurchases");
+      }
+      syncObserverModeAmazonPurchase(_options) {
+        return this.mockNonReturningFunctionIfEnabled("syncObserverModeAmazonPurchase");
+      }
+      syncAmazonPurchase(_options) {
+        return this.mockNonReturningFunctionIfEnabled("syncAmazonPurchase");
+      }
+      enableAdServicesAttributionTokenCollection() {
+        return this.mockNonReturningFunctionIfEnabled("enableAdServicesAttributionTokenCollection");
+      }
+      isAnonymous() {
+        const mockResponse = { isAnonymous: false };
+        return this.mockReturningFunctionIfEnabled("isAnonymous", mockResponse);
+      }
+      checkTrialOrIntroductoryPriceEligibility(_productIdentifiers) {
+        return this.mockReturningFunctionIfEnabled("checkTrialOrIntroductoryPriceEligibility", {});
+      }
+      getPromotionalOffer(_options) {
+        return this.mockReturningFunctionIfEnabled("getPromotionalOffer", void 0);
+      }
+      getEligibleWinBackOffersForProduct(_options) {
+        return this.mockReturningFunctionIfEnabled("getEligibleWinBackOffersForProduct", { eligibleWinBackOffers: [] });
+      }
+      getEligibleWinBackOffersForPackage(_options) {
+        return this.mockReturningFunctionIfEnabled("getEligibleWinBackOffersForPackage", { eligibleWinBackOffers: [] });
+      }
+      purchaseProductWithWinBackOffer(_options) {
+        return this.mockReturningFunctionIfEnabled("purchaseProductWithWinBackOffer", void 0);
+      }
+      purchasePackageWithWinBackOffer(_options) {
+        return this.mockReturningFunctionIfEnabled("purchasePackageWithWinBackOffer", void 0);
+      }
+      invalidateCustomerInfoCache() {
+        return this.mockNonReturningFunctionIfEnabled("invalidateCustomerInfoCache");
+      }
+      presentCodeRedemptionSheet() {
+        return this.mockNonReturningFunctionIfEnabled("presentCodeRedemptionSheet");
+      }
+      setAttributes(_attributes) {
+        return this.mockNonReturningFunctionIfEnabled("setAttributes");
+      }
+      setEmail(_email) {
+        return this.mockNonReturningFunctionIfEnabled("setEmail");
+      }
+      setPhoneNumber(_phoneNumber) {
+        return this.mockNonReturningFunctionIfEnabled("setPhoneNumber");
+      }
+      setDisplayName(_displayName) {
+        return this.mockNonReturningFunctionIfEnabled("setDisplayName");
+      }
+      setPushToken(_pushToken) {
+        return this.mockNonReturningFunctionIfEnabled("setPushToken");
+      }
+      setProxyURL(_url) {
+        return this.mockNonReturningFunctionIfEnabled("setProxyURL");
+      }
+      collectDeviceIdentifiers() {
+        return this.mockNonReturningFunctionIfEnabled("collectDeviceIdentifiers");
+      }
+      setAdjustID(_adjustID) {
+        return this.mockNonReturningFunctionIfEnabled("setAdjustID");
+      }
+      setAppsflyerID(_appsflyerID) {
+        return this.mockNonReturningFunctionIfEnabled("setAppsflyerID");
+      }
+      setFBAnonymousID(_fbAnonymousID) {
+        return this.mockNonReturningFunctionIfEnabled("setFBAnonymousID");
+      }
+      setMparticleID(_mparticleID) {
+        return this.mockNonReturningFunctionIfEnabled("setMparticleID");
+      }
+      setCleverTapID(_cleverTapID) {
+        return this.mockNonReturningFunctionIfEnabled("setCleverTapID");
+      }
+      setMixpanelDistinctID(_mixpanelDistinctID) {
+        return this.mockNonReturningFunctionIfEnabled("setMixpanelDistinctID");
+      }
+      setFirebaseAppInstanceID(_firebaseAppInstanceID) {
+        return this.mockNonReturningFunctionIfEnabled("setFirebaseAppInstanceID");
+      }
+      setOnesignalID(_onesignalID) {
+        return this.mockNonReturningFunctionIfEnabled("setOnesignalID");
+      }
+      setOnesignalUserID(_onesignalUserID) {
+        return this.mockNonReturningFunctionIfEnabled("setOnesignalUserID");
+      }
+      setSingularDeviceID(_singularDeviceID) {
+        return this.mockNonReturningFunctionIfEnabled("setSingularDeviceID");
+      }
+      setAirshipChannelID(_airshipChannelID) {
+        return this.mockNonReturningFunctionIfEnabled("setAirshipChannelID");
+      }
+      setMediaSource(_mediaSource) {
+        return this.mockNonReturningFunctionIfEnabled("setMediaSource");
+      }
+      setCampaign(_campaign) {
+        return this.mockNonReturningFunctionIfEnabled("setCampaign");
+      }
+      setAdGroup(_adGroup) {
+        return this.mockNonReturningFunctionIfEnabled("setAdGroup");
+      }
+      setAd(_ad) {
+        return this.mockNonReturningFunctionIfEnabled("setAd");
+      }
+      setKeyword(_keyword) {
+        return this.mockNonReturningFunctionIfEnabled("setKeyword");
+      }
+      setCreative(_creative) {
+        return this.mockNonReturningFunctionIfEnabled("setCreative");
+      }
+      canMakePayments(_features) {
+        return this.mockReturningFunctionIfEnabled("canMakePayments", {
+          canMakePayments: true
+        });
+      }
+      beginRefundRequestForActiveEntitlement() {
+        const mockResult = {
+          refundRequestStatus: REFUND_REQUEST_STATUS.USER_CANCELLED
+        };
+        return this.mockReturningFunctionIfEnabled("beginRefundRequestForActiveEntitlement", mockResult);
+      }
+      beginRefundRequestForEntitlement(_entitlementInfo) {
+        const mockResult = {
+          refundRequestStatus: REFUND_REQUEST_STATUS.USER_CANCELLED
+        };
+        return this.mockReturningFunctionIfEnabled("beginRefundRequestForEntitlement", mockResult);
+      }
+      beginRefundRequestForProduct(_storeProduct) {
+        const mockResult = {
+          refundRequestStatus: REFUND_REQUEST_STATUS.USER_CANCELLED
+        };
+        return this.mockReturningFunctionIfEnabled("beginRefundRequestForProduct", mockResult);
+      }
+      showInAppMessages(_options) {
+        return this.mockNonReturningFunctionIfEnabled("showInAppMessages");
+      }
+      isConfigured() {
+        const mockResult = { isConfigured: true };
+        return this.mockReturningFunctionIfEnabled("isConfigured", mockResult);
+      }
+      overridePreferredUILocale(_options) {
+        return this.mockNonReturningFunctionIfEnabled("overridePreferredUILocale");
+      }
+      getVirtualCurrencies() {
+        return this.mockReturningFunctionIfEnabled("getVirtualCurrencies", {
+          virtualCurrencies: this.mockEmptyVirtualCurrencies
+        });
+      }
+      invalidateVirtualCurrenciesCache() {
+        return this.mockNonReturningFunctionIfEnabled("invalidateVirtualCurrenciesCache");
+      }
+      getCachedVirtualCurrencies() {
+        return this.mockReturningFunctionIfEnabled("getCachedVirtualCurrencies", {
+          cachedVirtualCurrencies: this.mockEmptyVirtualCurrencies
+        });
+      }
+      trackCustomPaywallImpression(_options) {
+        return this.mockNonReturningFunctionIfEnabled("trackCustomPaywallImpression");
+      }
+      mockTransaction(productIdentifier) {
+        return {
+          productIdentifier,
+          purchaseDate: (/* @__PURE__ */ new Date()).toISOString(),
+          transactionIdentifier: "",
+          purchaseToken: null,
+          originalJson: null,
+          signature: null
+        };
+      }
+      mockNonReturningFunctionIfEnabled(functionName) {
+        if (!this.shouldMockWebResults) {
+          return Promise.reject(this.webNotSupportedErrorMessage);
+        }
+        console.log(`${functionName} called on web with mocking enabled. No-op`);
+        return Promise.resolve();
+      }
+      mockReturningFunctionIfEnabled(functionName, returnValue) {
+        if (!this.shouldMockWebResults) {
+          return Promise.reject(this.webNotSupportedErrorMessage);
+        }
+        console.log(`${functionName} called on web with mocking enabled. Returning mocked value`);
+        return Promise.resolve(returnValue);
+      }
+    };
+  }
+});
+
 // dist/vendor/build/three.core.js
 function generateUUID() {
   const d0 = Math.random() * 4294967295 | 0;
@@ -43445,11 +44187,275 @@ var App = registerPlugin("App", {
   web: () => Promise.resolve().then(() => (init_web(), web_exports)).then((m) => new m.AppWeb())
 });
 
+// dist/billing.js
+init_dist();
+
+// node_modules/@revenuecat/purchases-capacitor/dist/esm/index.js
+init_dist();
+init_dist2();
+
+// node_modules/@revenuecat/purchases-capacitor/dist/esm/definitions.js
+init_dist2();
+
+// node_modules/@revenuecat/purchases-capacitor/dist/esm/index.js
+var nativePlugin = registerPlugin("Purchases", {
+  web: () => Promise.resolve().then(() => (init_web2(), web_exports2)).then((m) => new m.PurchasesWeb())
+});
+function normalizeRejection(result) {
+  if (!(result instanceof Promise)) {
+    return result;
+  }
+  const normalized = result.then(void 0, (error) => {
+    throw normalizePurchasesError(error);
+  });
+  const remove = result.remove;
+  if (typeof remove === "function") {
+    normalized.remove = remove;
+  }
+  return normalized;
+}
+function getNativeTrackCustomPaywallImpressionOptions(options) {
+  var _a;
+  const offering = options === null || options === void 0 ? void 0 : options.offering;
+  const nativeOptions = {};
+  if ((options === null || options === void 0 ? void 0 : options.paywallId) != null) {
+    nativeOptions.paywallId = options.paywallId;
+  }
+  if (offering != null) {
+    nativeOptions.offeringId = offering.identifier;
+    const presentedOfferingContext = (_a = offering.availablePackages[0]) === null || _a === void 0 ? void 0 : _a.presentedOfferingContext;
+    if (presentedOfferingContext != null) {
+      nativeOptions.presentedOfferingContext = presentedOfferingContext;
+    }
+  } else if ((options === null || options === void 0 ? void 0 : options.offeringId) != null) {
+    nativeOptions.offeringId = options.offeringId;
+  }
+  return nativeOptions;
+}
+function toNativeArgs(prop, args) {
+  if (prop !== "trackCustomPaywallImpression") {
+    return args;
+  }
+  return [getNativeTrackCustomPaywallImpressionOptions(args[0])];
+}
+var Purchases = new Proxy(nativePlugin, {
+  get(target, prop, receiver) {
+    const value = Reflect.get(target, prop, receiver);
+    if (typeof value !== "function") {
+      return value;
+    }
+    return new Proxy(value, {
+      apply: (method, _thisArg, args) => normalizeRejection(Reflect.apply(method, target, toNativeArgs(prop, args)))
+    });
+  }
+});
+
+// dist/billing-config.js
+var BILLING_ENTITLEMENT = "atlas_pro";
+var BILLING_KEYS = Object.freeze({
+  android: "goog_XWqiqFSCwnDidAflQSEPEGJguLN",
+  ios: ""
+  // Add only after the App Store configuration and IAP key are verified.
+});
+
+// dist/billing-trial.js
+var TRIAL_KEY = "anatomi-first-open-trial-v1";
+var TRIAL_DURATION_MS = 7 * 24 * 60 * 60 * 1e3;
+function trialStatus(storage, now = Date.now()) {
+  let raw;
+  try {
+    raw = storage.getItem(TRIAL_KEY);
+  } catch {
+    return { state: "unavailable", remainingMs: 0 };
+  }
+  let data;
+  try {
+    data = raw ? JSON.parse(raw) : null;
+  } catch {
+    data = null;
+  }
+  if (!data || !Number.isFinite(data.startedAt) || data.startedAt < 0) {
+    data = { startedAt: now, lastSeenAt: now };
+  }
+  const effectiveNow = Math.max(now, data.startedAt, Number(data.lastSeenAt) || now);
+  data.lastSeenAt = effectiveNow;
+  try {
+    storage.setItem(TRIAL_KEY, JSON.stringify(data));
+  } catch {
+    return { state: "unavailable", remainingMs: 0 };
+  }
+  const remainingMs = Math.max(0, data.startedAt + TRIAL_DURATION_MS - effectiveNow);
+  return { state: remainingMs > 0 ? "trial" : "expired", remainingMs, startedAt: data.startedAt };
+}
+
+// dist/billing.js
+var LANGS = {
+  tr: { trial: "Ücretsiz kullanım", days: (n) => `${n} gün kaldı`, hours: (n) => `${n} saat kaldı`, manage: "Erişimi yönet", title: "Atlası keşfetmeye devam et", intro: "7 günlük ücretsiz kullanımın sona erdi. Devam etmek için bir plan seç. Satın alma işlemi yalnızca seçtiğinde başlar.", monthly: "Aylık", yearly: "Yıllık", lifetime: "Ömür boyu", oneTime: "Tek ödeme", renew: "Abonelik mağaza hesabından otomatik yenilenir; istediğin zaman mağaza ayarlarından iptal edebilirsin.", buy: "Satın al", restore: "Satın alımları geri yükle", privacy: "Gizlilik", terms: "Kullanım koşulları", unavailable: "Mağaza ürünleri henüz hazır değil. Lütfen daha sonra tekrar dene.", loading: "Mağaza fiyatları yükleniyor…", error: "Satın alma tamamlanamadı. Bağlantını kontrol edip tekrar dene.", restored: "Etkin bir satın alma bulunamadı.", active: "Tam erişim etkin", preview: "7 gün ödeme bilgisi olmadan tam erişim. Süre sonunda otomatik ücret alınmaz.", notNative: "Satın alma iOS ve Android uygulamasında kullanılabilir." },
+  en: { trial: "Free access", days: (n) => `${n} days left`, hours: (n) => `${n} hours left`, manage: "Manage access", title: "Keep exploring the atlas", intro: "Your 7-day free access has ended. Choose a plan to continue. A purchase starts only when you select it.", monthly: "Monthly", yearly: "Yearly", lifetime: "Lifetime", oneTime: "One-time payment", renew: "Subscriptions renew through your store account. Cancel anytime in store settings.", buy: "Purchase", restore: "Restore purchases", privacy: "Privacy", terms: "Terms of use", unavailable: "Store products are not ready yet. Please try again later.", loading: "Loading store prices…", error: "Purchase could not be completed. Check your connection and try again.", restored: "No active purchase was found.", active: "Full access active", preview: "7 days of full access without payment details. No automatic charge at the end.", notNative: "Purchases are available in the iOS and Android apps." },
+  de: { trial: "Kostenlose Nutzung", days: (n) => `${n} Tage übrig`, hours: (n) => `${n} Stunden übrig`, manage: "Zugang verwalten", title: "Atlas weiter erkunden", intro: "Deine 7-tägige kostenlose Nutzung ist beendet. Wähle einen Tarif, um fortzufahren. Erst mit deiner Auswahl beginnt ein Kauf.", monthly: "Monatlich", yearly: "Jährlich", lifetime: "Lebenslang", oneTime: "Einmalzahlung", renew: "Abonnements verlängern sich über dein Store-Konto. Du kannst jederzeit in den Store-Einstellungen kündigen.", buy: "Kaufen", restore: "Käufe wiederherstellen", privacy: "Datenschutz", terms: "Nutzungsbedingungen", unavailable: "Store-Produkte sind noch nicht verfügbar. Bitte versuche es später erneut.", loading: "Store-Preise werden geladen…", error: "Der Kauf konnte nicht abgeschlossen werden. Prüfe deine Verbindung.", restored: "Kein aktiver Kauf gefunden.", active: "Voller Zugang aktiv", preview: "7 Tage voller Zugang ohne Zahlungsdaten. Danach erfolgt keine automatische Abbuchung.", notNative: "Käufe sind in den iOS- und Android-Apps verfügbar." },
+  es: { trial: "Acceso gratuito", days: (n) => `${n} días restantes`, hours: (n) => `${n} horas restantes`, manage: "Gestionar acceso", title: "Sigue explorando el atlas", intro: "Han terminado tus 7 días de acceso gratuito. Elige un plan para continuar. La compra comienza solo cuando la eliges.", monthly: "Mensual", yearly: "Anual", lifetime: "De por vida", oneTime: "Pago único", renew: "Las suscripciones se renuevan mediante tu cuenta de la tienda. Puedes cancelarlas en los ajustes de la tienda.", buy: "Comprar", restore: "Restaurar compras", privacy: "Privacidad", terms: "Condiciones de uso", unavailable: "Los productos de la tienda aún no están disponibles. Inténtalo más tarde.", loading: "Cargando precios de la tienda…", error: "No se pudo completar la compra. Comprueba la conexión.", restored: "No se encontró ninguna compra activa.", active: "Acceso completo activo", preview: "7 días de acceso completo sin datos de pago. No se cobrará automáticamente al finalizar.", notNative: "Las compras están disponibles en las apps de iOS y Android." },
+  ar: { trial: "استخدام مجاني", days: (n) => `${n} أيام متبقية`, hours: (n) => `${n} ساعات متبقية`, manage: "إدارة الوصول", title: "واصل استكشاف الأطلس", intro: "انتهت فترة الاستخدام المجاني لمدة 7 أيام. اختر خطة للمتابعة. لا تبدأ عملية الشراء إلا عندما تختارها.", monthly: "شهريًا", yearly: "سنويًا", lifetime: "مدى الحياة", oneTime: "دفعة واحدة", renew: "تتجدد الاشتراكات عبر حساب المتجر. يمكنك إلغاؤها من إعدادات المتجر في أي وقت.", buy: "شراء", restore: "استعادة المشتريات", privacy: "الخصوصية", terms: "شروط الاستخدام", unavailable: "منتجات المتجر غير متاحة بعد. يُرجى المحاولة لاحقًا.", loading: "جارٍ تحميل أسعار المتجر…", error: "تعذر إتمام الشراء. تحقق من اتصالك وحاول مجددًا.", restored: "لم يتم العثور على عملية شراء نشطة.", active: "الوصول الكامل مفعل", preview: "7 أيام من الوصول الكامل دون بيانات دفع. لن يتم الخصم تلقائيًا عند انتهائها.", notNative: "تتوفر المشتريات في تطبيقي iOS وAndroid." }
+};
+function hasAtlasAccess(customerInfo) {
+  return customerInfo?.entitlements?.active?.[BILLING_ENTITLEMENT]?.isActive === true;
+}
+function language() {
+  const value = document.documentElement.lang?.toLowerCase().split("-")[0];
+  return LANGS[value] ? value : "en";
+}
+function dictionary() {
+  return LANGS[language()];
+}
+function packageKind(pkg) {
+  const id = String(pkg.identifier || "").toLowerCase(), type = String(pkg.packageType || "").toLowerCase();
+  if (type.includes("monthly") || id.includes("monthly")) return "monthly";
+  if (type.includes("annual") || type.includes("yearly") || id.includes("annual") || id.includes("yearly")) return "yearly";
+  if (type.includes("lifetime") || id.includes("lifetime")) return "lifetime";
+  return null;
+}
+async function installBilling() {
+  if (!Capacitor.isNativePlatform()) return { mode: "web" };
+  const platform = Capacitor.getPlatform(), apiKey = BILLING_KEYS[platform] || "";
+  let trial = trialStatus(localStorage), entitled = false, configured = false, offeringsLoaded = false, packages = [], busy = false, statusMessage = "";
+  const button = document.createElement("button");
+  button.id = "billingStatusButton";
+  button.type = "button";
+  const dialog = document.createElement("dialog");
+  dialog.id = "billingDialog";
+  dialog.setAttribute("aria-labelledby", "billingTitle");
+  dialog.setAttribute("aria-modal", "true");
+  document.body.append(button, dialog);
+  function update() {
+    const t = dictionary();
+    button.textContent = entitled ? t.active : trial.state === "trial" ? `${t.trial} · ${trial.remainingMs >= 864e5 ? t.days(Math.ceil(trial.remainingMs / 864e5)) : t.hours(Math.max(1, Math.ceil(trial.remainingMs / 36e5)))}` : t.manage;
+    button.hidden = trial.state === "unavailable" && !entitled;
+    const locked = !entitled && trial.state !== "trial";
+    document.body.classList.toggle("billing-locked", locked);
+    if (locked && !dialog.open) dialog.showModal();
+    if (!locked && dialog.open) dialog.close();
+  }
+  function render2(message = statusMessage) {
+    statusMessage = message;
+    const t = dictionary();
+    dialog.dir = language() === "ar" ? "rtl" : "ltr";
+    const names2 = { monthly: t.monthly, yearly: t.yearly, lifetime: t.lifetime };
+    const options = packages.map((pkg, index) => {
+      const kind = packageKind(pkg);
+      if (!kind) return "";
+      const price = pkg.product?.priceString || "";
+      return `<button type="button" class="billing-plan" data-billing-package="${index}" ${busy ? "disabled" : ""}><span><b>${names2[kind]}</b>${kind === "lifetime" ? `<small>${t.oneTime}</small>` : ""}</span><strong>${price}</strong></button>`;
+    }).join("");
+    const suffix = language() === "tr" ? "" : `-${language()}`;
+    dialog.innerHTML = `<div class="billing-card"><button type="button" class="billing-close" aria-label="Close" ${!entitled && trial.state !== "trial" ? "hidden" : ""}>×</button><div class="billing-icon">✦</div><p class="billing-kicker">ANATOMİ ATLASI</p><h2 id="billingTitle">${t.title}</h2><p>${t.intro}</p><p class="billing-trial-note">${t.preview}</p><div class="billing-options">${options || `<p class="billing-muted">${configured && !offeringsLoaded ? t.loading : t.unavailable}</p>`}</div><p class="billing-renewal">${t.renew}</p><p id="billingMessage" role="status">${message}</p><button type="button" id="billingRestore" ${configured && !busy ? "" : "disabled"}>${t.restore}</button><div class="billing-links"><a href="./privacy-policy${suffix}.html" target="_blank" rel="noopener">${t.privacy}</a><a href="./terms${suffix}.html" target="_blank" rel="noopener">${t.terms}</a></div></div>`;
+    dialog.querySelector(".billing-close").onclick = () => dialog.close();
+    dialog.querySelectorAll("[data-billing-package]").forEach((el) => el.addEventListener("click", () => purchase(packages[Number(el.dataset.billingPackage)])));
+    dialog.querySelector("#billingRestore").onclick = restore;
+  }
+  function accept(info) {
+    if (hasAtlasAccess(info)) {
+      entitled = true;
+      statusMessage = "";
+      update();
+      render2();
+      return true;
+    }
+    entitled = false;
+    update();
+    return false;
+  }
+  async function loadOfferings() {
+    if (!configured) return;
+    try {
+      const result = await Purchases.getOfferings();
+      packages = result.current?.availablePackages || [];
+    } catch {
+      packages = [];
+    }
+    offeringsLoaded = true;
+    render2();
+  }
+  async function purchase(pkg) {
+    if (!configured || !pkg || busy) return;
+    busy = true;
+    render2();
+    try {
+      const result = await Purchases.purchasePackage({ aPackage: pkg });
+      if (!accept(result.customerInfo)) render2(dictionary().error);
+    } catch (error) {
+      if (!error?.userCancelled) render2(dictionary().error);
+    } finally {
+      busy = false;
+      render2();
+    }
+  }
+  async function restore() {
+    if (!configured || busy) return;
+    busy = true;
+    render2();
+    try {
+      const result = await Purchases.restorePurchases();
+      if (!accept(result.customerInfo)) render2(dictionary().restored);
+    } catch {
+      render2(dictionary().error);
+    } finally {
+      busy = false;
+      render2();
+    }
+  }
+  button.onclick = () => {
+    render2();
+    if (!dialog.open) dialog.showModal();
+  };
+  dialog.addEventListener("cancel", (event) => {
+    if (!entitled && trial.state !== "trial") event.preventDefault();
+  });
+  document.addEventListener("atlas-language-change", () => {
+    update();
+    render2();
+  });
+  document.addEventListener("visibilitychange", async () => {
+    if (document.hidden) return;
+    trial = trialStatus(localStorage);
+    if (configured) {
+      try {
+        accept((await Purchases.getCustomerInfo()).customerInfo);
+      } catch {
+      }
+    }
+    update();
+    render2();
+  });
+  setInterval(() => {
+    trial = trialStatus(localStorage);
+    update();
+    render2();
+  }, 6e4);
+  update();
+  render2();
+  if (!apiKey) return { mode: "unconfigured", platform };
+  try {
+    await Purchases.configure({ apiKey });
+    configured = true;
+    await Purchases.addCustomerInfoUpdateListener((info2) => accept(info2));
+    const [info] = await Promise.allSettled([Purchases.getCustomerInfo(), loadOfferings()]);
+    if (info.status === "fulfilled") accept(info.value.customerInfo);
+    update();
+    render2();
+    return { mode: "ready", platform };
+  } catch (error) {
+    console.warn("Billing initialization failed:", error);
+    render2(dictionary().unavailable);
+    return { mode: "error", platform };
+  }
+}
+
 // dist/native.js
+installBilling().catch((error) => console.warn("Billing setup:", error));
 if (Capacitor.isNativePlatform()) {
   App.addListener("backButton", () => {
     const dialog = document.querySelector("dialog[open]");
     if (dialog) {
+      if (dialog.id === "billingDialog" && document.body.classList.contains("billing-locked")) return;
       dialog.close();
       return;
     }
@@ -43847,14 +44853,14 @@ var contentFallbackEn = {
 // dist/i18n.js
 var codes = ["tr", "en", "de", "es", "ar"];
 var norm = (s) => String(s).replace(/\s+/g, " ").trim();
-var language = "tr";
+var language2 = "tr";
 try {
   const saved = localStorage.getItem("anatomy-language");
-  if (codes.includes(saved)) language = saved;
+  if (codes.includes(saved)) language2 = saved;
 } catch {
 }
-var currentLanguage = () => language;
-function translateText(text, lang = language) {
+var currentLanguage = () => language2;
+function translateText(text, lang = language2) {
   const key = norm(text);
   if (!key || lang === "tr") return text;
   const reviewed = reviewedText[key];
@@ -43879,7 +44885,7 @@ function translateText(text, lang = language) {
   }
   return value || contentFallbackEn[key] || text;
 }
-function localName(raw, turkish = raw, lang = language) {
+function localName(raw, turkish = raw, lang = language2) {
   const key = raw.toLowerCase(), row2 = commonNames[key];
   return row2?.[codes.indexOf(lang)] || (lang === "en" ? raw : translationData.names?.[lang]?.[raw]) || (lang === "tr" ? turkish : raw);
 }
@@ -43895,7 +44901,7 @@ function localSide(raw) {
 }
 function setLanguage(code) {
   if (!codes.includes(code)) throw Error("Unsupported language");
-  language = code;
+  language2 = code;
   try {
     localStorage.setItem("anatomy-language", code);
   } catch {
@@ -43914,7 +44920,7 @@ function installI18n() {
   select.dataset.noI18n = "true";
   select.innerHTML = codes.map((code) => '<option value="' + code + '">' + languageLabels[code] + "</option>").join("");
   document.querySelector("header>nav").prepend(select);
-  select.value = language;
+  select.value = language2;
   const originals = /* @__PURE__ */ new WeakMap(), attributes = /* @__PURE__ */ new WeakMap();
   let queued = false;
   const skip = (el) => !el || el.closest("script,style,textarea,[data-no-i18n],.english-name,.latin-name i,#backupExportText,#backupText");
@@ -43953,7 +44959,7 @@ function installI18n() {
     apply();
   };
   document.addEventListener("atlas-language-change", apply);
-  setLanguage(language);
+  setLanguage(language2);
   apply();
   return { apply };
 }
@@ -44471,9 +45477,9 @@ var rows5 = {
 };
 var normalize = (s) => String(s).toLowerCase().replace(/\.[lr]\.\d+$|\.\d+$/, "").replace(/\b(left|right)\b/g, "").replace(/\s+/g, " ").trim();
 var names = new Map(Object.entries(rows5).map(([key, value]) => [key, value]));
-function femaleNameTranslation(raw, language2 = "en") {
+function femaleNameTranslation(raw, language3 = "en") {
   const row2 = names.get(normalize(raw));
-  return row2?.[{ tr: 1, en: 0, de: 2, es: 3, ar: 4 }[language2]] || null;
+  return row2?.[{ tr: 1, en: 0, de: 2, es: 3, ar: 4 }[language3]] || null;
 }
 
 // dist/structure-cards.js

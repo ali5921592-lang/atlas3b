@@ -80,15 +80,14 @@
     "googleHealthApps": "Medical Reference and Education",
     "medicalDevice": false,
     "clinicalDecisionSupport": false,
-    "dataCollection": "No data collected by developer or third-party SDKs based on current source/dependency audit; user-initiated external links disclose data to those external sites under their own policies. Confirm against final signed binary before declaring.",
+    "dataCollection": "RevenueCat processes anonymous app user ID, purchase history, store receipts/tokens, and device/OS details for entitlements and aggregate revenue analytics. Local study notes are not transmitted. Update Apple App Privacy and Google Play Data safety before submission.",
     "paidUpFront": false,
-    "plannedMonetization": "Free download and preview, with optional in-app purchase later; purchase and entitlement flows are not implemented yet."
+    "plannedMonetization": "Free download. Seven days of full device-local access begin at first open without payment details or automatic charge. Then monthly/yearly auto-renewing subscriptions or a one-time lifetime purchase unlock atlas_pro via RevenueCat. Store products and credentials are not yet fully configured."
   },
   "unresolvedAccountInputs": [
     "Verified legal publisher identity/business details",
     "Apple Developer Program updated agreement must be reviewed and accepted by the account holder",
-    "Google Play app record creation remains blocked until required developer-policy and US export-law attestations can be truthfully accepted",
-    "Free-download setting, future in-app purchase products and distribution territories",
+    "Google Play draft app exists and is free; monthly, yearly and lifetime products and territories remain to be configured",
     "Apple age-rating questionnaire answers based on final anatomical imagery",
     "Apple privacy declarations checked against the final signed binary",
     "Physical-device testing and final production-artifact review before store upload",
@@ -103,11 +102,11 @@
     "blockers": [
       "Commercial rights for OpenStax-linked notes and remaining third-party content unverified",
       "Apple updated developer agreement awaits account-holder acceptance",
-      "Google Play app record not created because required legal attestations remain unaccepted",
+      "Google Play app draft exists and is free, but subscription and one-time products are not configured",
       "Clinical and language editor reviews pending",
       "Full female donor musculoskeletal coverage unavailable",
       "Cloud signed AAB and IPA artifacts built successfully; physical-device and store-upload validation pending",
-      "Play Console draft currently has paid-up-front selected, contrary to the free-download plan; in-app purchase is not implemented",
+      "RevenueCat SDK and paywall are integrated locally; Apple IAP key and Google service account credentials remain unconfigured, and real store products have not been tested",
       "Store territories, age rating and privacy declarations are not finalized"
     ],
     "sourceView": "HRA female, general anatomy and female leg supplement are separate frames; never claim a complete female donor atlas."
@@ -146,10 +145,11 @@
     },
     "googlePlay": {
       "packageId": "com.anatomiatlasi.app",
-      "appRecordCreated": false,
+      "appRecordCreated": true,
+      "playConsoleAppId": "4972748025383490726",
       "draftFormPrepared": true,
-      "paidApp": true,
-      "mustChangeToFreeBeforeCreate": true
+      "paidApp": false,
+      "mustChangeToFreeBeforeCreate": false
     }
   },
   "publicUrls": {

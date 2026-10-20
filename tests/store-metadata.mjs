@@ -21,7 +21,8 @@ for(const locale of locales){
 assert.ok(data.reviewNotes['en-US']&&data.reviewNotes['tr-TR'],'review notes in primary and Turkish');
 assert.equal(data.consoleDeclarations.googleHealthApps,'Medical Reference and Education');
 assert.equal(data.consoleDeclarations.paidUpFront,false,'planned download is free');
-assert.equal(data.storeRecords.googlePlay.mustChangeToFreeBeforeCreate,true,'old paid draft is flagged for correction');
+assert.equal(data.storeRecords.googlePlay.appRecordCreated,true,'Google Play draft app exists');
+assert.equal(data.storeRecords.googlePlay.paidApp,false,'Google Play download is free');
 async function pngSize(path){const b=await readFile(new URL(path,import.meta.url));assert.equal(b.toString('hex',0,8),'89504e470d0a1a0a',`${path} is PNG`);return[b.readUInt32BE(16),b.readUInt32BE(20)];}
 assert.deepEqual(await pngSize('../store/google-play-icon.png'),[512,512],'Google Play app icon size');
 assert.deepEqual(await pngSize('../store/google-feature-tr.png'),[1024,500],'Google Play feature graphic size');

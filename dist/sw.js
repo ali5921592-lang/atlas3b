@@ -1,4 +1,4 @@
-const VERSION='anatomy-v15.8';
+const VERSION='anatomy-v16.0';
 self.addEventListener('install',e=>{e.waitUntil((async()=>{const manifest=await fetch('./offline-assets.json').then(r=>r.json());const cache=await caches.open(VERSION+'-core');await cache.addAll(manifest.core);await self.skipWaiting();})());});
 self.addEventListener('activate',e=>e.waitUntil((async()=>{const names=await caches.keys();const core=await caches.open(VERSION+'-core');const manifest=await (await core.match('./offline-assets.json')).json();
 // The Existing model binaries are unchanged. The new supplementary file downloads separately.
