@@ -147,8 +147,7 @@ jobs:
         run: >-
           xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release -sdk iphoneos
           -archivePath "$RUNNER_TEMP/AnatomiAtlas.xcarchive" -derivedDataPath "$RUNNER_TEMP/DerivedData"
-          CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="Apple Distribution"
-          PROVISIONING_PROFILE_SPECIFIER="$IOS_PROFILE_UUID" DEVELOPMENT_TEAM="$IOS_TEAM_ID" archive
+          IOS_PROFILE_UUID="$IOS_PROFILE_UUID" IOS_TEAM_ID="$IOS_TEAM_ID" archive
       - name: Export IPA
         env:
           IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
