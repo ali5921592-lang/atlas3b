@@ -1,5 +1,7 @@
 # Store submission preparation
 
+> Aşağıdaki adımlar 14-19 Ekim tarihli hazırlık notlarıdır. Artık Google Play uygulama kaydı ve üç ürün taslağı var; abonelik/satın alma kodu yazıldı, imzalı AAB kapalı test taslağına yüklendi ve yeni imzalı IPA üretildi. Taslaklar etkinleştirilmedi; Apple'a derleme gönderilmedi. Güncel durum: [BILLING-RELEASE-STATUS-2026-10-21.md](BILLING-RELEASE-STATUS-2026-10-21.md).
+
 Prepared 14 October 2026. This package reduces known submission gaps; Apple and Google make the final decision and approval cannot be guaranteed.
 
 ## Prepared in this repository

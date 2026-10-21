@@ -1,5 +1,7 @@
 # Mağaza hesapları ve taslak durumu — 18 Ekim 2026
 
+> Bu belge 18 Ekim'de görülen durumun tarihsel kaydıdır. Google Play uygulaması ve abonelik/tek seferlik ürün taslakları daha sonra oluşturuldu. Güncel durum: [BILLING-RELEASE-STATUS-2026-10-21.md](BILLING-RELEASE-STATUS-2026-10-21.md).
+
 Bu kayıt, App Store Connect ve Google Play Console'da gerçekten görülen durumu, mağazaya henüz gönderilmemiş yerel hazırlıklardan ayırır. Mağaza incelemesi veya yayına gönderim yapılmadı.
 
 **19 Ekim ek notu:** Kullanıcı mağazadan ücretsiz indirme, uygulama içinde daha sonra isteğe bağlı satın alma istiyor. Aşağıdaki Google Play formunda 18 Ekim'de seçilen “ücretli” seçenek uygulama kaydı oluşturulmadan önce “ücretsiz” olarak değiştirilmelidir. Uygulama içi satın alma ve yetki akışı henüz yapılmadı; mağaza hesabındaki fiyat ayarları bu notla değiştirilmedi. Yerel Android AAB imzalandı ve doğrulandı. [GitHub çalışmasında](https://github.com/ali5921592-lang/atlas3b/actions/runs/39226770828) imzalı AAB ve App Store IPA üretildi; indirilen AAB imzası, IPA arşivinin yükü ve imza/profil dosyaları kontrol edildi. Bu, mağaza kabulü veya gerçek cihaz testi değildir.

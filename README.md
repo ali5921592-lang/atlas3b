@@ -1,6 +1,6 @@
 # Anatomi Atlası · v15
 
-Mobil uyumlu, beş dilli eğitim prototipi. Yerel Three.js modelleri ve RGB kesit hacmi; Android/iOS için Capacitor 8 projeleri. API anahtarı gerektirmez.
+Mobil uyumlu, beş dilli eğitim prototipi. Yerel Three.js modelleri ve RGB kesit hacmi; Android/iOS için Capacitor 8 projeleri. Atlasın tarayıcı önizlemesi API anahtarı gerektirmez; yerel mağaza satın alması için RevenueCat ve mağaza yapılandırması gerekir.
 
 ## Çalıştırma
 
@@ -19,6 +19,10 @@ Türkçe, İngilizce, Almanca, İspanyolca ve Arapça sözlükleri çevrimdış�
 `npm test` özellik/regresyon kontrollerini çalıştırır. Telefon boyutunda tarayıcı kontrolü fiziksel cihaz testi yerine geçmez. Model kaynak/lisansları [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), ayrıntılı değişiklikler [dist/V15-NOTLAR.md](dist/V15-NOTLAR.md) içinde.
 
 19 Ekim mobil paket ve imza sonuçları [BUILD-VERIFICATION-2026-10-19.md](BUILD-VERIFICATION-2026-10-19.md) dosyasındadır.
+
+## Ücretsiz erişim ve ödeme taslağı
+
+Native uygulamada ilk açılışla başlayan, ödeme bilgisi gerektirmeyen yedi günlük yerel tam erişim; aylık/yıllık abonelik, tek seferlik ömür boyu satın alma ve geri yükleme akışları kodlandı. Süre sonunda kendiliğinden ücret alınmaz. Google Play'deki üç ürün ve kapalı test AAB'si taslaktır; ürünler satışa açılmadı. Apple ödeme bağlantısı, RevenueCat mağaza doğrulaması, cihaz testleri ve ticari içerik hakları eksik olduğundan ücretli yayın hazır değildir. Güncel fiyat, hesap ve derleme durumu [21 Ekim abonelik kaydında](BILLING-RELEASE-STATUS-2026-10-21.md).
 
 ## Mobil paketleme
 

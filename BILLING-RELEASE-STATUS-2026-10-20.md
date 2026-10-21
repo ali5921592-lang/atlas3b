@@ -1,5 +1,7 @@
 # Abonelik ve mağaza hazırlığı — 20 Ekim 2026
 
+> Tarihsel durum kaydıdır. Güncel, doğrulanmış durum için [21 Ekim kaydına](BILLING-RELEASE-STATUS-2026-10-21.md) bakın.
+
 ## Kesinleşen ürün davranışı
 
 - İndirme ücretsizdir. Bu cihazda ilk açılışla başlayan yedi günlük tam erişim ödeme bilgisi istemez; süre sonunda otomatik ücret alınmaz.

@@ -82,31 +82,31 @@
     "clinicalDecisionSupport": false,
     "dataCollection": "RevenueCat processes anonymous app user ID, purchase history, store receipts/tokens, and device/OS details for entitlements and aggregate revenue analytics. Local study notes are not transmitted. Update Apple App Privacy and Google Play Data safety before submission.",
     "paidUpFront": false,
-    "plannedMonetization": "Free download. Seven days of full device-local access begin at first open without payment details or automatic charge. Then monthly/yearly auto-renewing subscriptions or a one-time lifetime purchase unlock atlas_pro via RevenueCat. Store products and credentials are not yet fully configured."
+    "plannedMonetization": "Free download. Seven days of full device-local access begin at first open without payment details or automatic charge. Then monthly/yearly auto-renewing subscriptions or a one-time lifetime purchase may unlock atlas_pro via RevenueCat. Google Play products exist as inactive US/Turkey drafts and are mapped to the default RevenueCat offering. Store validation credentials and purchase tests are not complete; iOS products and SDK configuration are still pending."
   },
   "unresolvedAccountInputs": [
     "Verified legal publisher identity/business details",
     "Apple Developer Program updated agreement must be reviewed and accepted by the account holder",
-    "Google Play draft app exists and is free; monthly, yearly and lifetime products and territories remain to be configured",
+    "Google Play draft app is free and has monthly, yearly and lifetime US/Turkey product drafts; these remain inactive and untested",
     "Apple age-rating questionnaire answers based on final anatomical imagery",
     "Apple privacy declarations checked against the final signed binary",
-    "Physical-device testing and final production-artifact review before store upload",
+    "Physical-device testing and final production-artifact review before store submission; an Android AAB is uploaded only to a closed-test draft",
     "Device-captured screenshots from the final signed iPhone/iPad/Android build",
     "Human clinical/anatomical review and language-editor approval",
     "Commercial rights for OpenStax-linked notes and remaining third-party content",
     "Apple App Privacy data collection label must be completed from the final binary and third-party viewer review"
   ],
   "readiness": {
-    "auditDate": "2026-10-19",
+    "auditDate": "2026-10-21",
     "ready": false,
     "blockers": [
       "Commercial rights for OpenStax-linked notes and remaining third-party content unverified",
       "Apple updated developer agreement awaits account-holder acceptance",
-      "Google Play app draft exists and is free, but subscription and one-time products are not configured",
+      "Google Play subscription and lifetime products are inactive drafts limited to the US and Turkey; RevenueCat store validation and purchase tests are incomplete",
       "Clinical and language editor reviews pending",
       "Full female donor musculoskeletal coverage unavailable",
-      "Cloud signed AAB and IPA artifacts built successfully; physical-device and store-upload validation pending",
-      "RevenueCat SDK and paywall are integrated locally; Apple IAP key and Google service account credentials remain unconfigured, and real store products have not been tested",
+      "Cloud signed subscription AAB and IPA artifacts built successfully; Android AAB uploaded only to a closed-test draft; physical-device and store-review validation pending",
+      "RevenueCat SDK and paywall are integrated; Apple IAP key and Google service account credentials remain unconfigured, and real store purchases have not been tested",
       "Store territories, age rating and privacy declarations are not finalized"
     ],
     "sourceView": "HRA female, general anatomy and female leg supplement are separate frames; never claim a complete female donor atlas."
@@ -149,7 +149,15 @@
       "playConsoleAppId": "4972748025383490726",
       "draftFormPrepared": true,
       "paidApp": false,
-      "mustChangeToFreeBeforeCreate": false
+      "mustChangeToFreeBeforeCreate": false,
+      "closedTestAabDraftUploaded": true,
+      "productsActive": false,
+      "monthlyUsd": "4.99",
+      "monthlyTry": "99.99",
+      "yearlyUsd": "24.99",
+      "yearlyTry": "549.99",
+      "lifetimeUsd": "46.99",
+      "lifetimeTry": "989.99"
     }
   },
   "publicUrls": {
