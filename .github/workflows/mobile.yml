@@ -106,7 +106,7 @@ jobs:
           if-no-files-found: error
           path: android/app/build/outputs/bundle/release/app-release.aab
   ios-app-store-ipa:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.build_signed_ipa }}
+    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.build_signed_ipa) || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     runs-on: macos-26
     timeout-minutes: 40
     steps:
@@ -147,7 +147,8 @@ jobs:
         run: >-
           xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release -sdk iphoneos
           -archivePath "$RUNNER_TEMP/AnatomiAtlas.xcarchive" -derivedDataPath "$RUNNER_TEMP/DerivedData"
-          IOS_PROFILE_UUID="$IOS_PROFILE_UUID" IOS_TEAM_ID="$IOS_TEAM_ID" archive
+          IOS_PROFILE_UUID="$IOS_PROFILE_UUID" IOS_TEAM_ID="$IOS_TEAM_ID"
+          CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER" archive
       - name: Export IPA
         env:
           IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
@@ -169,6 +170,30 @@ jobs:
           name: anatomi-atlasi-app-store-ipa
           if-no-files-found: error
           path: ${{ runner.temp }}/ipa/*.ipa
+      - name: Upload IPA to App Store Connect
+        env:
+          IOS_APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY_ID }}
+          IOS_APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_APP_STORE_CONNECT_ISSUER_ID }}
+          IOS_APP_STORE_CONNECT_API_KEY_P8: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY_P8 }}
+        run: |
+          test -n "$IOS_APP_STORE_CONNECT_API_KEY_ID" && test -n "$IOS_APP_STORE_CONNECT_ISSUER_ID" && test -n "$IOS_APP_STORE_CONNECT_API_KEY_P8"
+          key_dir="$HOME/.appstoreconnect/private_keys"
+          mkdir -p "$key_dir"
+          chmod 700 "$key_dir"
+          printf '%s\n' "$IOS_APP_STORE_CONNECT_API_KEY_P8" > "$key_dir/AuthKey_${IOS_APP_STORE_CONNECT_API_KEY_ID}.p8"
+          chmod 600 "$key_dir/AuthKey_${IOS_APP_STORE_CONNECT_API_KEY_ID}.p8"
+          ipa="$RUNNER_TEMP/ipa/App.ipa"
+          test -f "$ipa"
+          xcrun altool --validate-app -f "$ipa" -t ios --apiKey "$IOS_APP_STORE_CONNECT_API_KEY_ID" --apiIssuer "$IOS_APP_STORE_CONNECT_ISSUER_ID"
+          xcrun altool --upload-app -f "$ipa" -t ios --apiKey "$IOS_APP_STORE_CONNECT_API_KEY_ID" --apiIssuer "$IOS_APP_STORE_CONNECT_ISSUER_ID"
+      - name: Remove temporary Apple API key
+        if: always()
+        env:
+          IOS_APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.IOS_APP_STORE_CONNECT_API_KEY_ID }}
+        run: |
+          if [ -n "$IOS_APP_STORE_CONNECT_API_KEY_ID" ]; then
+            rm -f "$HOME/.appstoreconnect/private_keys/AuthKey_${IOS_APP_STORE_CONNECT_API_KEY_ID}.p8"
+          fi
       - name: Remove temporary signing keychain
         if: always()
         run: security delete-keychain "$IOS_KEYCHAIN_PATH" || true
