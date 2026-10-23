@@ -1,5 +1,7 @@
 # Abonelik ve mağaza hazırlığı — 21 Ekim 2026
 
+> Tarihsel kayıt. Etkin Google Play ürünleri, dahili test ve Apple IPA aktarımının güncel durumu için [24 Ekim kaydına](BILLING-RELEASE-STATUS-2026-10-24.md) bakın.
+
 ## Uygulamada mevcut akış
 
 - İndirme ücretsizdir. İlk açılışta bu cihazda yedi günlük tam erişim başlar; ödeme bilgisi istenmez ve sürenin sonunda otomatik ücret alınmaz.

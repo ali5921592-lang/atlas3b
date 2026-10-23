@@ -1,6 +1,6 @@
 # App Store submission readiness
 
-> Aşağıdaki ayrıntılar 19 Ekim tarihli tarihsel denetimdir. 21 Ekim'de abonelik akışı kodlandı, yeni imzalı AAB/IPA üretildi ve Google Play kapalı testine AAB taslağı yüklendi. Ürünler hâlâ taslak, App Store'a derleme yüklenmedi ve mağaza incelemesi başlamadı. Güncel durum: [BILLING-RELEASE-STATUS-2026-10-21.md](BILLING-RELEASE-STATUS-2026-10-21.md).
+> Aşağıdaki ayrıntılar 19 Ekim tarihli tarihsel denetimdir. Google Play dahili test, etkin ürünler ve App Store Connect'e IPA aktarımının güncel durumu için [24 Ekim ödeme ve yayın kaydına](BILLING-RELEASE-STATUS-2026-10-24.md) bakın. Mağaza incelemesi ve genel yayın başlamadı.
 
 **19 October 2026 status: NOT READY for store release.** The public privacy/support URLs now return HTTP 200. Local and GitHub-built Android AAB files passed signature checks, and the GitHub macOS job exported an App Store IPA artifact with an app payload, code signature and embedded profile. Female source frames are isolated instead of mixing unregistered donor geometry, but 608 of 3,370 unique source mesh records still lack a verified Latin mapping and most cards remain general/parent-level. Clinical/language review, commercial content rights, physical-device testing and store submission remain open. The 16 October audit in `outputs/YAYIN-HAZIRLIK-DENETIMI-2026-10-16.md` is historical; its 404/unsigned-AAB findings no longer describe the 19 October state. Earlier checklist entries are preparation notes, not proof of submission readiness.
 
