@@ -6,7 +6,7 @@ Bu kayıt, kod ile mağaza panellerinde doğrulanan durumu ayırır. Genel mağa
 
 - Native Android/iOS kodunda ödeme bilgisi istemeyen, ilk açılışta başlayan yedi günlük cihaz-yerel erişim; süre bitince aylık/yıllık/ömür boyu seçimli ödeme duvarı; RevenueCat `atlas_pro` kontrolü, satın alma ve geri yükleme akışı vardır. Web sürümünde mağaza satın alması yoktur. Cihaz verisi silinirse deneme yeniden başlayabilir.
 - Android RevenueCat genel SDK anahtarı kodda vardır. **iOS SDK anahtarı boştur; iOS satın alma çalışır durumda değildir.**
-- [GitHub Actions çalıştırması 39937332911](https://github.com/ali5921592-lang/atlas3b/actions/runs/39937332911) bütün işleri başarıyla bitirdi; iOS IPA doğrulaması ve App Store Connect aktarımı araç günlüklerinde başarılıdır. Apple'ın derlemeyi TestFlight'ta işlediği ve satın almanın çalıştığı ayrıca doğrulanmadı.
+- [GitHub Actions çalıştırması 39937332911](https://github.com/ali5921592-lang/atlas3b/actions/runs/39937332911) bütün işleri başarıyla bitirdi; iOS IPA doğrulaması ve App Store Connect aktarımı araç günlüklerinde başarılıdır. App Store Connect'te Build 18'in işlendiği ve şifreleme beyanından sonra **Ready to Submit** durumuna geçtiği doğrulandı. Bu, satın almanın çalıştığını veya App Review onayını göstermez.
 - Otomatik IPA yükleme workflow değişikliği `codex/anatomy-release-prep` dalındadır. Varsayılan `main` dalına henüz alınmadığından `main` üzerindeki her push için otomatik yükleme henüz etkin değildir.
 
 ## Google Play
@@ -27,8 +27,9 @@ Fiyatlar yalnız ABD ve Türkiye için ayarlıdır. Uygulamanın mağazadan indi
 
 ## Apple
 
-- App Store Connect hesabındaki Paid Apps Agreement, bankacılık ve vergi kayıtları etkin görünüyordu. Buna rağmen Apple Developer hesabı 24 Ekim'de güncel Program License Agreement için **Review agreement** uyarısını gösterdi. Hesap sahibinin sözleşmeyi bizzat inceleyip kabul ettiği ekranda henüz doğrulanmadı.
-- Apple aylık/yıllık abonelik grubu ve ömür boyu uygulama içi satın alma ürünü oluşturulmadı; ülke fiyatları, yerelleştirme, RevenueCat iOS bağlantısı ve sandbox testleri yapılmadı. App Store Connect tarayıcı oturumu yeniden giriş sayfasına döndü.
+- Apple Developer Program License Agreement'ın 24 Ekim'de hesap sahibi tarafından kabul edildiği doğrulandı. App Store Connect Business ekranında mevcut Paid Apps Agreement, bankacılık ve vergi kayıtları etkin; ancak **yeni Paid Applications Schedule / Paid Apps Agreement sürümü için “View and Agree to Terms” bekliyor**. Bu yeni hukuki kabulü hesap sahibi tamamlamalı; henüz tamamlandığı doğrulanmadı.
+- TestFlight Build 18 için App Encryption Documentation sorusunda özel ya da Apple işletim sistemi dışında standart şifreleme uygulanmadığı beyan edildi; durum **Ready to Submit**. Uygulama ve yerel bağımlılıklar incelendi; Capacitor'ın CommonCrypto SHA-256 kullanımı kimlik özeti oluşturuyor, şifreleme değil. Sonraki derlemelerde sorunun tekrar çıkmaması için `Info.plist` dosyasına `ITSAppUsesNonExemptEncryption=false` eklendi. Bağımlılık veya şifreleme kullanımı değişirse beyan yeniden değerlendirilmeli.
+- Apple aylık/yıllık abonelik grubu ve ömür boyu uygulama içi satın alma ürünü oluşturulmadı; ülke fiyatları, yerelleştirme, RevenueCat iOS bağlantısı ve sandbox testleri yapılmadı. Yeni ücretli uygulama sözleşmesi beklerken bu işlemlerin tamamlandığı iddia edilemez.
 
 ## Yayın öncesi engeller
 
