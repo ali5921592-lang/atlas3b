@@ -1,3 +1,4 @@
+import * as femaleSupport from '../dist/female-shared.js';
 import {tissueFor} from '../dist/materials.js';
 import {resolveMotorConnections,resolveNerveTargets} from '../dist/motor-links.js';
 import {installStudyBackup} from '../dist/study-backup.js';
@@ -10,13 +11,14 @@ import {structureCard} from '../dist/structure-cards.js';
 import{resolveAtlasRelations,relationLabels,advancedHeartNotes}from'../dist/atlas-learning.js';
 import{VolumeViewer}from'../dist/volume.js';import{cardioTopic}from'../dist/cardio-content.js';
 import{ThoraxCourse}from'../dist/thorax.js';import{heartPart}from'../dist/thorax-data.js';
+import{resolveOrganLinks}from'../dist/organ-links.js';
 import * as personalTools from '../dist/personal.js';
 import{JSDOM}from'jsdom';import vm from'node:vm';import assert from'node:assert/strict';import{readFile}from'node:fs/promises';import*as THREE from'three';import*as content from'../dist/content.js';import*as study from'../dist/study.js';
 import {OrganMotion} from '../dist/physiology.js';import {SectionCaps} from '../dist/sections.js';import * as connections from '../dist/connections.js';
 const dom=new JSDOM(await readFile('dist/index.html','utf8'),{url:'http://localhost/'});dom.window.HTMLDialogElement.prototype.showModal=function(){this.open=true;};dom.window.HTMLDialogElement.prototype.close=function(){this.open=false;};
-globalThis.document=dom.window.document;globalThis.Event=dom.window.Event;globalThis.CustomEvent=dom.window.CustomEvent;const context=vm.createContext({installI18n(){},translateText:x=>x,currentLanguage:()=>'tr',installNavigation(){},installCoverControl(){},isCover:r=>r.layer==='visceral'&&/omentum|mesocolon/i.test(r.name),Event:dom.window.Event,CustomEvent:dom.window.CustomEvent,performance,window:dom.window,document:dom.window.document,localStorage:dom.window.localStorage,navigator:dom.window.navigator,THREE,installStudyBackup,terminologyFor,clinicalStudyHTML,setupInterface,decorateDetails,explanationFor,explanationScope,openHeartReference,structureCard,resolveAtlasRelations,relationLabels,advancedHeartNotes,VolumeViewer,cardioTopic,ThoraxCourse,heartPart,...personalTools,OrganMotion,SectionCaps,...connections,applyPalette(){},...content,...study,console,setTimeout,clearTimeout,requestAnimationFrame:()=>1,cancelAnimationFrame(){},registerOffline(){},openMotion(){},downloadOffline(){}});
+globalThis.document=dom.window.document;globalThis.Event=dom.window.Event;globalThis.CustomEvent=dom.window.CustomEvent;const context=vm.createContext({...femaleSupport,installI18n(){},translateText:x=>x,currentLanguage:()=>'tr',installNavigation(){},installCoverControl(){},isCover:r=>r.layer==='visceral'&&/omentum|mesocolon/i.test(r.name),Event:dom.window.Event,CustomEvent:dom.window.CustomEvent,performance,window:dom.window,document:dom.window.document,localStorage:dom.window.localStorage,navigator:dom.window.navigator,THREE,installStudyBackup,terminologyFor,clinicalStudyHTML,setupInterface,decorateDetails,explanationFor,explanationScope,openHeartReference,structureCard,resolveAtlasRelations,resolveOrganLinks,relationLabels,advancedHeartNotes,VolumeViewer,cardioTopic,ThoraxCourse,heartPart,...personalTools,OrganMotion,SectionCaps,...connections,applyPalette(){},...content,...study,console,setTimeout,clearTimeout,requestAnimationFrame:()=>1,cancelAnimationFrame(){},registerOffline(){},openMotion(){},downloadOffline(){}});
 let code=await readFile('dist/app.js','utf8');code=code.replace(/^import .*;\r?\n/gm,'').replace(/\ninit\(\);\s*$/,'');vm.runInContext(code,context);
-const male=JSON.parse(await readFile('dist/catalog.json')).map(r=>({...r,sex:'male'})),female=JSON.parse(await readFile('dist/catalog-female.json'));context.rows=[...male,...female,...JSON.parse(await readFile('dist/catalog-female-muscles.json'))];
+const male=JSON.parse(await readFile('dist/catalog.json')).map(r=>({...r,sex:'male'})),female=JSON.parse(await readFile('dist/catalog-female.json'));const femaleNative=[...female,...JSON.parse(await readFile('dist/catalog-female-muscles.json'))];context.rows=[...male,...femaleNative,...femaleSupport.femaleSharedRecords(male,femaleNative)];
 vm.runInContext(`catalog=rows;catalog.forEach(r=>r.search=searchText(r.name,r.layer));scene=new THREE.Scene();camera=new THREE.PerspectiveCamera();renderer={render(){}};controls={target:new THREE.Vector3(),update(){}};for(const r of [catalog.find(r=>r.name==='Femur.l.001'&&r.sex==='male'),catalog.find(r=>r.name==='Ovary.l.001')]){const o=new THREE.Mesh(new THREE.BoxGeometry(.1,.2,.1),new THREE.MeshStandardMaterial());o.userData={record:r,basePosition:new THREE.Vector3(),explodeDirection:new THREE.Vector3(),worldCenter:new THREE.Vector3(.2,.8,0)};objects.set(r.id,o);scene.add(o);}wire();`,context);
 const run=s=>vm.runInContext(s,context);assert(run("matches('Rahim').length===0"));run("sex='female';renderLayers();active.add('visceral');refresh()");assert(run("matches('Rahim').length>0"));assert(run("[...objects.values()].filter(o=>o.visible).every(o=>o.userData.record.sex==='female')"));
 run("$('#cutAxis').value='y';$('#cutPosition').value=50;applyCut()");assert(run("cutEnabled&&Math.abs(cutPlane.constant)<.001"));assert(run("[...objects.values()].every(o=>o.material.clippingPlanes.length===1)"));run("$('#cutAxis').value='none';applyCut()");assert(run("[...objects.values()].every(o=>!o.material.clippingPlanes.length)"));
@@ -79,6 +81,27 @@ console.log('PASS tissue/material distinctions and reciprocal motor links with s
 run("sex='male';showDetails(catalog.find(r=>r.name==='Brachioradialis muscle.r.001'))");assert(!document.querySelector('[data-related]'));console.log('PASS undefined topic keys cannot suggest unrelated structures');
 
 run("sex='male';selected=objects.get('skeleton:97')||[...objects.values()][0];refresh()");
-assert(run("selected.material.color.getHexString()==='00cdbd'&&selected.material.emissive.getHexString()==='00ffe6'&&selected.material.emissiveIntensity===.55"));
+run("isolated=false;$('#showConnections').checked=false;refresh()");assert(run("selected.material.color.getHexString()==='00cdbd'&&selected.material.emissive.getHexString()==='00ffe6'&&selected.material.emissiveIntensity===.55"));
+run("selected.material.color.set('#ad5b50');isolated=true;relationRoles.clear();relationRoot=null;refresh()");assert(run("selected.material.color.getHexString()==='ad5b50'&&selected.material.emissiveIntensity===0"));
 run("selected=null;refresh()");assert(run("[...objects.values()].every(o=>o.material.emissiveIntensity===0)"));
-console.log('PASS bright selected material and emission clearing on deselect');
+console.log('PASS body selection glows while isolated single structure keeps its tissue palette');
+
+const byName=(n,sex='male')=>context.rows.find(r=>r.name===n&&(r.sex||'male')===sex);
+const kidney=resolveOrganLinks(byName('Kidney.r.001'),context.rows);assert(kidney?.organ&&kidney.rows.some(x=>/Right renal artery/.test(x.record.name))&&kidney.rows.some(x=>/Ureter.r/.test(x.record.name)));
+const liver=resolveOrganLinks(byName('Liver.001'),context.rows);assert(liver?.rows.some(x=>x.role==='vein'&&/Hepatic portal vein/.test(x.record.name)));
+const bladder=resolveOrganLinks(byName('Urinary bladder.001'),context.rows);assert(bladder?.rows.some(x=>x.role==='downstream'&&/Urethra/.test(x.record.name)));
+const uterus=resolveOrganLinks(byName('Body of uterus.001','female'),context.rows);assert(uterus?.rows.some(x=>/uterine tube/i.test(x.record.name))&&uterus.rows.some(x=>/Uterine cervix/.test(x.record.name)));
+console.log('PASS curated organ relation maps: side-aware kidney, liver vasculature, bladder outflow and female reproductive structures');
+
+run("loadLayer=async function(id){for(const r of currentRecords().filter(x=>x.layer===id)){if(objects.has(r.id))continue;const o=new THREE.Mesh(new THREE.BoxGeometry(.01,.01,.01),new THREE.MeshStandardMaterial());o.userData={record:r,basePosition:new THREE.Vector3(),explodeDirection:new THREE.Vector3(),worldCenter:new THREE.Vector3(.2,1,0)};objects.set(r.id,o);scene.add(o);}};");
+assert.equal(await run("switchSex('female')"),true);
+assert(run("femaleFrame==='native'&&currentRecords().length===956"));
+run("$('#search').value='scaphoid';search()");assert(document.querySelector('[data-search-frame="general"]'));
+assert.equal(await run("switchFemaleReference('general')"),true);
+assert(run("currentRecords().length===2310&&[...objects.values()].filter(o=>o.visible).every(o=>o.userData.record.sharedReference)"));
+run("$('#search').value='rahim';search()");assert(document.querySelector('[data-search-frame="native"]'));
+run("saveStudyView()");assert.equal(await run("switchFemaleReference('native')"),true);await run("restoreStudyView()");assert(run("femaleFrame==='general'"));
+run("loadLayer=async()=>{throw Error('offline');}");assert.equal(await run("switchFemaleReference('muscles')"),false);
+assert(run("femaleFrame==='general'&&!$('#sexModel').disabled&&!$('#femaleSource').disabled"));
+assert(run("[...objects.values()].filter(o=>o.visible).every(o=>o.userData.record.sharedReference)"));
+console.log('PASS source frame visibility isolation, cross-source search discovery, saved frame restoration and failed source switch rollback');

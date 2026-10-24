@@ -10,7 +10,7 @@
 
 ## İçerik sınırları
 
-3.370 model kaydı; 2.731 Latince eşleşme, 639 bekleyen kayıt. Klinik içerik: 353 özel, 123 ana yapı, 26 grup, 2.868 genel doku/sistem kaydı. Her parçaya özgü klinik açıklama ve bütün Latin eşleşmeleri tamamlanmış değildir. Yanlış Latin terim veya doğrulanmamış parçaya özel kayıp sonucu uydurulmaz.
+3.370 model kaydı; 2.762 Latince eşleşme, 608 bekleyen kayıt. Klinik içerik: 353 özel, 125 ana yapı, 26 grup, 2.866 genel doku/sistem kaydı. Her parçaya özgü klinik açıklama ve bütün Latin eşleşmeleri tamamlanmış değildir. Yanlış Latin terim veya doğrulanmamış parçaya özel kayıp sonucu uydurulmaz.
 
 Kadın üst gövde kasları ve kafatası gibi bazı bölgeler kaynakta eksiktir; 76 ek alt ekstremite kasının yerleşimi yaklaşık uyarlamadır. Gerçek fotoğraf hacmi sadece erkek göğüs bölgesindeki 160 kaynak düzlemini kapsar. Model yüzeyleriyle anatomik kayıt veya mikroskobik iç hacim değildir. Daha önceki kaynak, lisans ve klinik kapsam notları geçerlidir.
 

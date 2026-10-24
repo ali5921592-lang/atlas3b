@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" role="img" aria-label="Anatomi Atlası: insan anatomisini 3B katmanlar ve kesitlerle keşfet">
+ <defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#102039"/><stop offset="1" stop-color="#1d4463"/></linearGradient>
+  <radialGradient id="orb"><stop stop-color="#36b6bd" stop-opacity=".24"/><stop offset="1" stop-color="#36b6bd" stop-opacity="0"/></radialGradient>
+  <linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4ede0"/><stop offset="1" stop-color="#cbdbe5"/></linearGradient>
+ </defs>
+ <rect width="1024" height="500" fill="url(#bg)"/>
+ <circle cx="270" cy="258" r="288" fill="url(#orb)"/>
+ <g transform="translate(-5,-10) scale(.42)">
+  <circle cx="512" cy="212" r="83" fill="url(#body)"/>
+  <path d="M452 320 Q512 350 572 320 L577 389 Q650 399 711 437 Q771 474 791 555 L824 682 Q841 748 785 780 L746 799 L728 914 Q512 958 296 914 L278 799 L239 780 Q183 748 200 682 L233 555 Q253 474 313 437 Q374 399 447 389Z" fill="url(#body)"/>
+  <path d="M511 419v355" fill="none" stroke="#7e9baa" stroke-width="18" stroke-linecap="round" opacity=".8"/>
+  <g fill="none" stroke="#b88972" stroke-width="17" stroke-linecap="round" opacity=".92">
+   <path d="M500 449Q425 425 348 455Q308 471 287 510"/><path d="M500 490Q414 462 330 501Q292 520 276 557"/><path d="M500 531Q411 500 321 541Q285 560 271 599"/><path d="M500 572Q415 540 321 583Q288 602 276 641"/><path d="M500 613Q420 582 329 626Q299 644 290 678"/>
+   <path d="M524 449Q599 425 676 455Q716 471 737 510"/><path d="M524 490Q610 462 694 501Q732 520 748 557"/><path d="M524 531Q613 500 703 541Q739 560 753 599"/><path d="M524 572Q609 540 703 583Q736 602 748 641"/><path d="M524 613Q604 582 695 626Q725 644 734 678"/>
+  </g>
+  <path d="M512 686c-19-23-55-48-72-18-22 39 30 75 72 106 42-31 94-67 72-106-17-30-53-5-72 18Z" fill="#db806f" stroke="#9f5e58" stroke-width="8"/>
+  <g fill="#426578" opacity=".86"><ellipse cx="512" cy="446" rx="14" ry="10"/><ellipse cx="512" cy="488" rx="14" ry="10"/><ellipse cx="512" cy="530" rx="14" ry="10"/><ellipse cx="512" cy="572" rx="14" ry="10"/><ellipse cx="512" cy="614" rx="14" ry="10"/><ellipse cx="512" cy="656" rx="14" ry="10"/><ellipse cx="512" cy="698" rx="14" ry="10"/></g>
+  <circle cx="512" cy="212" r="83" fill="none" stroke="#6ed1d0" stroke-width="7" opacity=".85"/>
+ </g>
+ <g font-family="Arial,Helvetica,sans-serif" fill="#f5f7f4">
+  <text x="530" y="194" font-size="45" font-weight="700" letter-spacing="1">ANATOMİ ATLASI</text>
+  <text x="532" y="247" font-size="24" fill="#9edfe0" letter-spacing="3">3B İNSAN ANATOMİSİ</text>
+  <path d="M532 278h72" stroke="#e28a72" stroke-width="5" stroke-linecap="round"/>
+  <text x="532" y="333" font-size="24" fill="#e4ebf1">Katmanları keşfet</text>
+  <text x="532" y="374" font-size="24" fill="#e4ebf1">Kesitleri incele</text>
+  <text x="532" y="415" font-size="24" fill="#e4ebf1">Yapılar arasındaki bağları gör</text>
+ </g>
+</svg>
