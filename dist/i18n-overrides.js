@@ -28,6 +28,8 @@ export const commonNames={
  'deltoid muscle':['Deltoid kası','Deltoid muscle','Deltamuskel','Músculo deltoides','العضلة الدالية'],'biceps brachii muscle':['Kolun iki başlı kası','Biceps brachii muscle','Zweiköpfiger Oberarmmuskel','Músculo bíceps braquial','العضلة ذات الرأسين العضدية']
 };
 export const reviewedText={
+ 'İNSAN ATLASI 3B':['HUMAN ATLAS 3D','ATLAS DES MENSCHEN 3D','ATLAS HUMANO 3D','أطلس الإنسان 3D'],
+ 'İnsan Atlası 3B ana sayfa':['Human Atlas 3D home','Startseite des Atlas des Menschen 3D','Inicio de Atlas Humano 3D','الصفحة الرئيسية لأطلس الإنسان 3D'],
  'toplardamar':['vein','Vene','vena','وريد'],
  'Kanal sistemi çok dallıdır; basitleştirilmiş 3B parça mikroskobik dallanmayı bütünüyle göstermez.':['The duct system branches extensively; the simplified 3D structure does not show all microscopic branches.','Das Gangsystem ist stark verzweigt; die vereinfachte 3D-Struktur zeigt nicht alle mikroskopischen Verzweigungen.','El sistema de conductos se ramifica ampliamente; la estructura 3D simplificada no muestra todas las ramificaciones microscópicas.','تتفرع القنوات على نطاق واسع؛ ولا يُظهر النموذج ثلاثي الأبعاد المبسّط جميع التفرعات المجهرية.'],
  'YAPI REHBERİ':['STRUCTURE GUIDE','STRUKTURÜBERSICHT','GUÍA DE ESTRUCTURAS','دليل البنى التشريحية'],

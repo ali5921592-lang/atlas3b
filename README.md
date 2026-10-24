@@ -1,4 +1,4 @@
-# Anatomi Atlası · v15
+# İnsan Atlası 3B · v15
 
 Mobil uyumlu, beş dilli eğitim prototipi. Yerel Three.js modelleri ve RGB kesit hacmi; Android/iOS için Capacitor 8 projeleri. Atlasın tarayıcı önizlemesi API anahtarı gerektirmez; yerel mağaza satın alması için RevenueCat ve mağaza yapılandırması gerekir.
 

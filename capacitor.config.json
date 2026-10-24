@@ -1,6 +1,6 @@
 {
   "appId": "com.anatomiatlasi.app",
-  "appName": "Anatomi Atlası",
+  "appName": "İnsan Atlası 3B",
   "webDir": "dist",
   "android": { "backgroundColor": "#edf2f8" },
   "ios": { "contentInset": "automatic", "backgroundColor": "#edf2f8" }

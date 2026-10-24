@@ -13,7 +13,7 @@ export function validView(v){return !!(v&&v.version===1&&['male','female'].inclu
 export function parseStudyBackup(text){
  if(typeof text!=='string'||text.length>2_000_000)throw Error('Yedek en fazla 2 MB olabilir.');
  let raw;try{raw=JSON.parse(text);}catch{throw Error('Geçerli bir JSON yedeği gir.');}
- if(raw?.format!=='anatomy-study-backup'||raw.version!==1)throw Error('Bu dosya desteklenen bir Anatomi Atlas yedeği değil.');
+ if(raw?.format!=='anatomy-study-backup'||raw.version!==1)throw Error('Bu dosya desteklenen bir İnsan Atlası 3B yedeği değil.');
  return cleanData(raw.study,true);
 }
 export function studyStore(storage){
