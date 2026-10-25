@@ -20,6 +20,7 @@ Apple ve Google Play taslakları ile Android, iOS ve web kaynakları şu yerel a
 - RevenueCat'in **genel** iOS SDK anahtarı `dist/billing-config.js` dosyasına eklendi ve `npm run native:sync` ile iOS/Android web varlıklarına kopyalandı. `npm test` geçti. Bu adımlar cihazda satın alma testinin yerini tutmaz.
 - App Store Connect > App Information bölümünde RevenueCat'in bu uygulamaya özel Apple Server Notification URL'si hem **Production Server URL** hem **Sandbox Server URL** alanına kaydedildi. İki alanın kayıtlı değerleri arayüzde doğrulandı; henüz gerçek bir olay teslimi görülmedi.
 - GitHub Actions'ın `40198896293` çalışmasında Android, iOS simülatör ve imzalı App Store IPA işleri **success** tamamlandı. App Store Connect TestFlight ekranında **1.0 (Build 23), Ready to Submit** görüldü; bu Apple'a yükleme ve işlemeyi doğrular, genel yayın anlamına gelmez. `*.p8` dosyaları `.gitignore` kapsamına alındı.
+- Aynı çalışmanın debug APK'sı yerel `outputs/build-23-2026-10-25/apk/debug/app-debug.apk` konumuna indirildi (SHA-256: `B18A70C207DA8D3AFBB906A907A09EEC33FDF2B28B6CD71C41470CF6BBFE6AB6`). Bu test APK'sıdır. Önceki Play dahili test sürüm kodu `1` olduğundan yeni yükleme için Android sürümü `2` / `1.0.1` olarak yükseltildi; yeni imzalı AAB sonucu ayrıca doğrulanacak.
 
 ## Çalışmayan veya doğrulanmayan akışlar
 
