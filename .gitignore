@@ -13,4 +13,5 @@ ios/App/DerivedData/
 *.jks
 *.keystore
 *.p12
+*.p8
 *.mobileprovision

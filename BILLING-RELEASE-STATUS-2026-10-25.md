@@ -18,10 +18,12 @@ Apple ve Google Play taslakları ile Android, iOS ve web kaynakları şu yerel a
 - App Store uygulaması `com.anatomiatlasi.app`, RevenueCat proje `d9cc12e9` içinde `app7927b2333a` kimliğiyle oluşturuldu. Apple In-App Purchase anahtarı `BCN9B849GW` yüklendi; panel **Valid credentials** gösterdi. Özel `.p8` içeriği depoya veya uygulamaya eklenmedi.
 - `atlas_monthly`, `atlas_yearly` ve tüketilemeyen `atlas_lifetime` iOS ürünleri RevenueCat'e eklendi. Üçü de `atlas_pro` yetkisine bağlandı. Varsayılan teklifte `$rc_monthly`, `$rc_annual` ve `$rc_lifetime` paketlerine sırasıyla eşlendi; kaydedilmiş teklif ekranında üç eşleme doğrulandı.
 - RevenueCat'in **genel** iOS SDK anahtarı `dist/billing-config.js` dosyasına eklendi ve `npm run native:sync` ile iOS/Android web varlıklarına kopyalandı. `npm test` geçti. Bu adımlar cihazda satın alma testinin yerini tutmaz.
+- App Store Connect > App Information bölümünde RevenueCat'in bu uygulamaya özel Apple Server Notification URL'si hem **Production Server URL** hem **Sandbox Server URL** alanına kaydedildi. İki alanın kayıtlı değerleri arayüzde doğrulandı; henüz gerçek bir olay teslimi görülmedi.
+- GitHub Actions'ın `40198896293` çalışmasında Android, iOS simülatör ve imzalı App Store IPA işleri **success** tamamlandı. App Store Connect TestFlight ekranında **1.0 (Build 23), Ready to Submit** görüldü; bu Apple'a yükleme ve işlemeyi doğrular, genel yayın anlamına gelmez. `*.p8` dosyaları `.gitignore` kapsamına alındı.
 
 ## Çalışmayan veya doğrulanmayan akışlar
 
-- iOS RevenueCat uygulaması ve ürün eşlemesi kuruldu; App Store Connect API bağlantısı henüz eklenmediği için RevenueCat'te otomatik ürün içe aktarma/fiyat senkronizasyonu açık değil. Ürünler elle eşlendi. Apple Server Notification URL'si App Store Connect'te henüz yapılandırılmadı.
+- iOS RevenueCat uygulaması ve ürün eşlemesi kuruldu; App Store Connect API bağlantısı henüz eklenmediği için RevenueCat'te otomatik ürün içe aktarma/fiyat senkronizasyonu açık değil. Ürünler elle eşlendi. Bildirim URL'leri kayıtlı olsa da yenileme/iptal/iade olaylarının uçtan uca teslimi henüz test edilmedi.
 - Android yerelleştirilmiş ad kaynakları `:app:processDebugResources` derlemesinden geçti. Beş web dilinde başlık değişimi tarayıcıda doğrulandı; iOS projesi ayrıştırılabildi ancak yeni iOS ikilisi cihazda henüz test edilmedi.
 - Gerçek iOS/Android sandbox satın alma, abonelik yenileme, iptal ve geri yükleme testleri yapılmadı. Yedi günlük yerel deneme, cihaz verileri silinirse yeniden başlayabilir.
 - Google Play ürünleri ve dahili test sürümü için önceki doğrulamalar [24 Ekim kaydında](./BILLING-RELEASE-STATUS-2026-10-24.md) yer alır. Bu kayıt yeni satın alma doğrulaması yapıldığı anlamına gelmez.
