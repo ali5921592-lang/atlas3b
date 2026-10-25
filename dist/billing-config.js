@@ -3,5 +3,5 @@
 export const BILLING_ENTITLEMENT = 'atlas_pro';
 export const BILLING_KEYS = Object.freeze({
   android: 'goog_XWqiqFSCwnDidAflQSEPEGJguLN',
-  ios: '', // Add only after the App Store configuration and IAP key are verified.
+  ios: 'appl_zCuaLVHjbIyUQjkiChpmncIemik',
 });

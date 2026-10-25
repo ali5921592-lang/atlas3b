@@ -44254,8 +44254,7 @@ var Purchases = new Proxy(nativePlugin, {
 var BILLING_ENTITLEMENT = "atlas_pro";
 var BILLING_KEYS = Object.freeze({
   android: "goog_XWqiqFSCwnDidAflQSEPEGJguLN",
-  ios: ""
-  // Add only after the App Store configuration and IAP key are verified.
+  ios: "appl_zCuaLVHjbIyUQjkiChpmncIemik"
 });
 
 // dist/billing-trial.js
