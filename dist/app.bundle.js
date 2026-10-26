@@ -45968,7 +45968,7 @@ function setupInterface() {
     syncViewport();
   }
   document.body.classList.add("atlas-v12");
-  $(".brand").innerHTML = icon("layers") + "<span>Anatomi <strong>Atlası</strong><small>İNTERAKTİF ANATOMİ</small></span>";
+  $(".brand").innerHTML = '<img class="brand-logo" src="icon-192.png" alt="" width="42" height="42"><span>İnsan <strong>Atlası 3B</strong><small>İNTERAKTİF ANATOMİ</small></span>';
   $("#sourcesNav").innerHTML = icon("info");
   $(".side-heading").innerHTML = '<span class="eyebrow">ÇALIŞMA ALANI</span><h1>Keşfet ve incele</h1>';
   const header = document.createElement("div");

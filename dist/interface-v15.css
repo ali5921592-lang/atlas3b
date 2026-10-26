@@ -17,3 +17,7 @@
 .reference-banner{position:absolute;z-index:2;top:130px;left:16px;max-width:calc(100% - 32px);margin:0;padding:6px 10px;border:1px solid #d5dfeb;border-radius:8px;background:#ffffffed;color:#405b77;font-size:11px;pointer-events:none}.reference-banner[hidden]{display:none}
 @media(max-width:850px){.reference-banner{top:61px;left:12px;max-width:calc(100% - 24px);font-size:10px}}
 @media(max-width:850px) and (orientation:landscape) and (max-height:500px){.reference-banner{top:47px}}
+/* Supplied neon anatomy artwork is the shared product mark on every screen. */
+.brand .brand-logo{display:block;width:42px;height:42px;flex:none;object-fit:cover;border-radius:11px;background:#051d3a;box-shadow:0 2px 9px #123b5c33}
+@media(max-width:850px){.brand .brand-logo{width:31px;height:31px;border-radius:8px}}
+@media(max-width:850px) and (max-height:620px){.brand .brand-logo{width:25px;height:25px;border-radius:7px}}
