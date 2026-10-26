@@ -38,11 +38,9 @@ jobs:
       - run: python3 scripts/check-android-assets.py
       - uses: actions/upload-artifact@v4
         with:
-          name: android-debug-apk-and-unsigned-aab
+          name: android-debug-apk-NOT-FOR-PLAY
           if-no-files-found: error
-          path: |
-            android/app/build/outputs/apk/debug/*.apk
-            android/app/build/outputs/bundle/release/*.aab
+          path: android/app/build/outputs/apk/debug/*.apk
   ios-simulator:
     runs-on: macos-26
     timeout-minutes: 30
@@ -61,7 +59,7 @@ jobs:
           if-no-files-found: error
           path: ios/App/DerivedData/Build/Products/Debug-iphonesimulator/App.app
   android-play-release:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.build_signed_android }}
+    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.build_signed_android) || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/anatomy-release-prep')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -100,11 +98,12 @@ jobs:
           jarsigner -verify "$bundle" > "$RUNNER_TEMP/aab-signature-check.log" 2>&1
           grep -Fq 'jar verified.' "$RUNNER_TEMP/aab-signature-check.log"
           echo 'Signed Android App Bundle verified.'
+          cp "$bundle" "$RUNNER_TEMP/insan-atlasi-3b-v3-play-signed.aab"
       - uses: actions/upload-artifact@v4
         with:
-          name: anatomi-atlasi-play-signed-aab
+          name: PLAY-CONSOLE-UPLOAD-SIGNED-AAB
           if-no-files-found: error
-          path: android/app/build/outputs/bundle/release/app-release.aab
+          path: ${{ runner.temp }}/insan-atlasi-3b-v3-play-signed.aab
   ios-app-store-ipa:
     if: ${{ (github.event_name == 'workflow_dispatch' && inputs.build_signed_ipa) || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
     runs-on: macos-26
