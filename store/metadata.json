@@ -93,14 +93,14 @@
     "Physical-device testing and final production-artifact review before store submission; an Android AAB is uploaded only to a closed-test draft",
     "Device-captured screenshots from the final signed iPhone/iPad/Android build",
     "Human clinical/anatomical review and language-editor approval",
-    "Commercial rights for OpenStax-linked notes and remaining third-party content",
+    "Final attribution and ShareAlike review for remaining third-party 3B model content",
     "Apple App Privacy data collection label must be completed from the final binary and third-party viewer review"
   ],
   "readiness": {
     "auditDate": "2026-10-21",
     "ready": false,
     "blockers": [
-      "Commercial rights for OpenStax-linked notes and remaining third-party content unverified",
+      "OpenStax runtime content has been removed; final attribution and ShareAlike review for remaining third-party 3B model content is still required",
       "Apple updated developer agreement awaits account-holder acceptance",
       "Google Play subscription and lifetime products are inactive drafts limited to the US and Turkey; RevenueCat store validation and purchase tests are incomplete",
       "Clinical and language editor reviews pending",

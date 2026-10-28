@@ -5,7 +5,7 @@ import {structureCard} from './structure-cards.js';
 import {cardioTopic} from './cardio-content.js';
 import {expanded} from './clinical.js';
 import {reproductiveTopics} from './reproductive.js';
-const book='https://openstax.org/books/anatomy-and-physiology-2e/pages/';
+const book='https://purl.obolibrary.org/obo/UBERON_0001062';
 export const topics=[
 {match:'left ventricle',tr:'Sol karıncık',group:'Kalp',intro:'Kalbin sol alt odacığıdır.',function:'Oksijenlenmiş kanı aort aracılığıyla sistemik dolaşıma pompalar.',clinical:'Pompa işlevindeki azalma organlara kan akışını etkileyebilir. Bu not seçili anatomiyi açıklar; kişisel bir bulgunun nedenini belirlemez.',source:'19-1-heart-anatomy'},
 {match:'right ventricle',tr:'Sağ karıncık',group:'Kalp',intro:'Kalbin sağ alt odacığıdır.',function:'Kanı pulmoner gövde üzerinden akciğerlere gönderir.',clinical:'Sağ ve sol kalbin dolaşım yolları birlikte değerlendirilir.',source:'19-1-heart-anatomy'},
@@ -39,7 +39,7 @@ topics.push(...reproductiveTopics);
 for(const t of topics)Object.assign(t,expanded[t.match]||{});
 for(const t of topics){if(t.match==='deltoid muscle')t.refs=[{label:'NCBI · Deltoid anatomisi',url:'https://www.ncbi.nlm.nih.gov/books/NBK537056/'}];if(t.match==='pectoralis major')t.refs=[{label:'NCBI · Pektoralis major anatomisi',url:'https://www.ncbi.nlm.nih.gov/books/NBK525991/'}];}
 for(const t of topics){if(['femur','tibia'].includes(t.match))t.source='8-4-bones-of-the-lower-limb';if(t.match==='humerus')t.source='8-2-bones-of-the-upper-limb';if(t.match==='vertebra')t.source='7-3-the-vertebral-column';if(t.match==='rib')t.source='7-4-the-thoracic-cage';}
-export const sourceURL=t=>t.url||(t.source==='27-2-anatomy-and-physiology-of-the-female-reproductive-system'?'https://openstax.org/books/anatomy-and-physiology/pages/'+t.source:book+t.source);
+export const sourceURL=t=>t.url||book;
 export function isExactTopic(raw,t){return !!t&&cleanName(raw).toLowerCase().replace(/ muscle$/,'')===t.match.replace(/ muscle$/,'');}
 export function topicFor(name){const n=name.toLowerCase();return topics.filter(t=>new RegExp('\\b'+t.match+'\\b').test(n)).sort((a,b)=>b.match.length-a.match.length)[0];}
 export function cleanName(raw){return raw.replace(/\.[lr]\.\d+$/,'').replace(/\.\d+$/,'');}

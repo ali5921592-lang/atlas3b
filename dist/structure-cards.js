@@ -1,5 +1,5 @@
 const base='https://www.ncbi.nlm.nih.gov/books/';
-const sources={hip:'https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs',quad:base+'NBK538425/',ham:base+'NBK546688/',front:base+'NBK539725/',back:base+'NBK537340/',side:base+'NBK519526/',max:base+'NBK538193/',med:base+'NBK557509/'};
+const sources={hip:'https://purl.obolibrary.org/obo/UBERON_0001062',quad:base+'NBK538425/',ham:base+'NBK546688/',front:base+'NBK539725/',back:base+'NBK537340/',side:base+'NBK519526/',max:base+'NBK538193/',med:base+'NBK557509/'};
 // Exact structure records: no substring fallback from a muscle onto its tendon.
 const rows=[
  ['Adductor brevis','Kısa adduktor','Uyluk iç bölgesi','Kalça adduksiyonuna katılır.','Obturator sinir','hip'],

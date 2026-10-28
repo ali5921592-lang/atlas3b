@@ -3,7 +3,13 @@ import {languageLabels,commonNames,reviewedText} from './i18n-overrides.js';
 import {clinicalLabelTranslations} from './clinical-label-translations.js';
 import {contentFallbackEn} from './content-fallback-en.js';
 const codes=['tr','en','de','es','ar'],norm=s=>String(s).replace(/\s+/g,' ').trim();
-let language='tr';try{const saved=localStorage.getItem('anatomy-language');if(codes.includes(saved))language=saved;}catch{}
+let language='tr';
+try{
+ const deviceLanguage=typeof navigator!=='undefined'?String(navigator.language||'').split('-')[0].toLowerCase():'';
+ if(codes.includes(deviceLanguage))language=deviceLanguage;
+ const saved=localStorage.getItem('anatomy-language');
+ if(codes.includes(saved))language=saved;
+}catch{}
 export const currentLanguage=()=>language;
 export function translateText(text,lang=language){
  const key=norm(text);if(!key||lang==='tr')return text;

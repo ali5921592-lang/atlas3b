@@ -1,8 +1,8 @@
 // Conventional gross anatomy. Root levels and detailed arterial branches are not inferred.
-const upper='https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs';
-const lower='https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs';
-const axial='https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax';
-const head='https://openstax.org/books/anatomy-and-physiology-2e/pages/11-3-axial-muscles-of-the-head-neck-and-back';
+const upper='https://purl.obolibrary.org/obo/UBERON_0001062';
+const lower='https://purl.obolibrary.org/obo/UBERON_0001062';
+const axial='https://purl.obolibrary.org/obo/UBERON_0001062';
+const head='https://purl.obolibrary.org/obo/UBERON_0001062';
 // name | action | origin | insertion | motor nerve | reference
 const rows=[
  ['Deltoid muscle','Kol abdüksiyonu; ön lifler fleksiyon ve iç rotasyona, arka lifler ekstansiyon ve dış rotasyona katılır.','Klavikulanın lateral bölümü, akromion ve skapula spinası','Humerusun deltoid tüberozitesi','Aksiller sinir',upper],

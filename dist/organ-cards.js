@@ -1,4 +1,4 @@
-const book='https://openstax.org/books/anatomy-and-physiology-2e/pages/';
+const book='https://purl.obolibrary.org/obo/UBERON_0001062';
 const refs={mouth:'23-3-the-mouth-pharynx-and-esophagus',stomach:'23-4-the-stomach',bowel:'23-5-the-small-and-large-intestines',duct:'23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder',urine:'25-2-gross-anatomy-of-urine-transport',kidney:'25-3-gross-anatomy-of-the-kidney',air:'22-1-organs-and-structures-of-the-respiratory-system',endocrine:'17-chapter-review',immune:'21-1-anatomy-of-the-lymphatic-and-immune-systems',brain:'13-2-the-central-nervous-system',arm:'8-2-bones-of-the-upper-limb',leg:'8-4-bones-of-the-lower-limb'};
 // Explicit aliases only. A named vessel, tendon, or subregion cannot inherit a whole-organ card.
 const rows=[
@@ -50,6 +50,6 @@ const rows=[
  ['talus','skeleton','leg','Ayak bileğinin üst bölümündeki kemik.','Bacaktan ayağa yük aktarır.','Tibia, fibula, kalkaneus ve naviküler kemikle ilişkilidir.'],
  ['calcaneus','skeleton','leg','Topuğu oluşturan kemik.','Yük taşır ve kas kuvvetini aktarır.','Aşil tendonu arka yüzüne tutunur.']
 ];
-const cards=new Map();for(const [names,layer,ref,intro,fn,relations]of rows)for(const name of names.split('|'))cards.set(layer+':'+name,{intro,function:fn,relations,url:book+refs[ref],sourceLabel:'OpenStax · İlgili anatomi bölümü',group:'Yapı açıklaması'});
+const cards=new Map();for(const [names,layer,ref,intro,fn,relations]of rows)for(const name of names.split('|'))cards.set(layer+':'+name,{intro,function:fn,relations,url:book,sourceLabel:'UBERON · İlgili anatomi kaydı',group:'Yapı açıklaması'});
 export function organCard(r){const name=r.name.toLowerCase().replace(/\.[lr]\.\d+$|\.\d+$/g,'');const card=cards.get(r.layer+':'+name);return card?{...card,match:name,tr:r.name.replace(/\.[lr]\.\d+$|\.\d+$/g,'')}:null;}
 export const organCardCount=rows.length;

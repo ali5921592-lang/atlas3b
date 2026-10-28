@@ -1,5 +1,5 @@
-const book='https://openstax.org/books/anatomy-and-physiology-2e/pages/';
-const sensory=book+'14-1-sensory-perception',brain=book+'13-2-the-central-nervous-system';
+const book='https://purl.obolibrary.org/obo/UBERON_0001062';
+const sensory=book,brain=book;
 const rows=[
  ['retina','Retina','Işığa duyarlı reseptörlerle görsel sinyali başlatır.','Fotoreseptör, bipolar ve ganglion hücreleri ardışık devre oluşturur.','Ganglion hücrelerinin aksonları optik sinire katılır.',sensory],
  ['cornea','Kornea','Işığın kırılmasına ve gözün ön yüzünün korunmasına katılır.','Saydam, damarsız doku düzeni optik işlev için önemlidir.','Sklera, ön kamara ve gözyaşı filmi.',sensory],

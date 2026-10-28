@@ -124,4 +124,6 @@ Erkek modellerinin çoğu Z-Anatomy / Gauthier Kervyn ve katkıda bulunanlar ile
 
 Kadın: Human Reference Atlas / HuBMAP, Kristen Browne ve Heidi Schlehlein; Visible Human Dataset / NLM, Female v1.10 (2026), CC BY 4.0. Kaynak ve dönüşüm kaydı: `dist/models/FEMALE-LICENSE.txt`.
 
-Eğitim notları OpenStax (J. Gordon Betts ve diğerleri / Rice University), NIH/NHLBI, NIDDK ve NCBI kaynaklarına doğrulama/ileri okuma için bağlantı verir; açıklamalar yeniden yazılmış kısa anatomi özetleridir. Three.js lisansı: `dist/vendor/LICENSE`.
+3.370 model kaydının başlangıç, orta ve gelişmiş Türkçe eğitim kartları UBERON human-view v2026-10-01 ontolojisi ve IFAA / Terminologia Anatomica 2.07 eşleşmeleriyle oluşturulur. Her kart kanıt düzeyini taşır; birebir eşleşmeyen yapılarda özgül bilgi uydurulmaz. OpenStax metni veya OpenStax bağlantısı çalışma zamanı içeriğinde kullanılmaz. Three.js lisansı: `dist/vendor/LICENSE`.
+
+Kartları yeniden üretmek ve doğrulamak için `npm run content:build` ve `npm run content:validate` komutları kullanılır. Kaynak sürümü ile lisans bildirimi `data/authoritative/` altındadır.

@@ -44856,6 +44856,8 @@ var codes = ["tr", "en", "de", "es", "ar"];
 var norm = (s) => String(s).replace(/\s+/g, " ").trim();
 var language2 = "tr";
 try {
+  const deviceLanguage = typeof navigator !== "undefined" ? String(navigator.language || "").split("-")[0].toLowerCase() : "";
+  if (codes.includes(deviceLanguage)) language2 = deviceLanguage;
   const saved = localStorage.getItem("anatomy-language");
   if (codes.includes(saved)) language2 = saved;
 } catch {
@@ -45151,7 +45153,7 @@ function terminologyFor(r) {
 }
 
 // dist/regional-study.js
-var book = "https://openstax.org/books/anatomy-and-physiology-2e/pages/";
+var book = "https://purl.obolibrary.org/obo/UBERON_0001062";
 var rows = [
   ["clavicle", "Klavikula", "Omuz kuşağını gövdeden uzakta destekler.", "Sternum ve skapula akromionuyla eklemleşir.", "8-1-the-pectoral-girdle"],
   ["scapula", "Skapula", "Glenoid yüzeyi ve kas tutunmaları omuz hareketine katılır.", "Humerus, klavikula ve rotator manşetle ilişkilidir.", "8-1-the-pectoral-girdle"],
@@ -45178,22 +45180,22 @@ var rows = [
   ["scaphoid bone|lunate bone|triquetral bone|pisiform bone|trapezium bone|trapezoid bone|capitate bone|hamate bone", "Karpal kemik", "El bileğinde hareket ve yük aktarımına katılır.", "Proksimal ve distal sıra, metakarpal bağlantılar ve retinakulum.", "8-2-bones-of-the-upper-limb"]
 ];
 var cards = /* @__PURE__ */ new Map();
-for (const [names2, label, normal, relations, chapter] of rows) for (const name of names2.split("|")) cards.set(name, { label, normal, relations, source: book + chapter });
+for (const [names2, label, normal, relations, chapter] of rows) for (const name of names2.split("|")) cards.set(name, { label, normal, relations, source: book });
 var clean = (s) => s.toLowerCase().replace(/\.[lr]\.\d+$|\.\d+$/g, "").trim();
 function regionalStudy(r) {
   if (r.layer !== "skeleton") return null;
   const n = clean(r.name), exact3 = cards.get(n);
   if (exact3) return { ...exact3, scope: exact3.label === "Kafatası kemiği" ? "group" : "specific" };
-  if (/^(cervical|thoracic|lumbar) vertebra(?: \d+)?$/.test(n) || /^atlas c1|^axis c2/.test(n)) return { label: "Omur", normal: "Omurgayı destekler; vertebral kanalın çevresinde kemik sınır oluşturur.", relations: "Komşu omurlar, diskler ve faset eklemleri; servikal, torakal ve lomber bölgeler farklıdır.", source: book + "7-3-the-vertebral-column", scope: "group" };
-  if (/^rib(?: \d+)?$/.test(n)) return { label: "Kaburga", normal: "Göğüs kafesinde koruma ve solunum hareketine katılır.", relations: "Torakal omurlar, interkostal aralık ve kostal kıkırdaklar; bütün kaburgalar sternuma aynı biçimde bağlanmaz.", source: book + "7-4-the-thoracic-cage", scope: "group" };
+  if (/^(cervical|thoracic|lumbar) vertebra(?: \d+)?$/.test(n) || /^atlas c1|^axis c2/.test(n)) return { label: "Omur", normal: "Omurgayı destekler; vertebral kanalın çevresinde kemik sınır oluşturur.", relations: "Komşu omurlar, diskler ve faset eklemleri; servikal, torakal ve lomber bölgeler farklıdır.", source: book, scope: "group" };
+  if (/^rib(?: \d+)?$/.test(n)) return { label: "Kaburga", normal: "Göğüs kafesinde koruma ve solunum hareketine katılır.", relations: "Torakal omurlar, interkostal aralık ve kostal kıkırdaklar; bütün kaburgalar sternuma aynı biçimde bağlanmaz.", source: book, scope: "group" };
   for (const [key, value] of cards) if (n === key + " compact bone" || n === key + " spongy bone") return { ...value, scope: "parent" };
   return null;
 }
 
 // dist/sensory-study.js
-var book2 = "https://openstax.org/books/anatomy-and-physiology-2e/pages/";
-var sensory = book2 + "14-1-sensory-perception";
-var brain = book2 + "13-2-the-central-nervous-system";
+var book2 = "https://purl.obolibrary.org/obo/UBERON_0001062";
+var sensory = book2;
+var brain = book2;
 var rows2 = [
   ["retina", "Retina", "Işığa duyarlı reseptörlerle görsel sinyali başlatır.", "Fotoreseptör, bipolar ve ganglion hücreleri ardışık devre oluşturur.", "Ganglion hücrelerinin aksonları optik sinire katılır.", sensory],
   ["cornea", "Kornea", "Işığın kırılmasına ve gözün ön yüzünün korunmasına katılır.", "Saydam, damarsız doku düzeni optik işlev için önemlidir.", "Sklera, ön kamara ve gözyaşı filmi.", sensory],
@@ -45220,7 +45222,7 @@ function sensoryStudy(r) {
 
 // dist/nerve-study.js
 var upper = "https://www.ncbi.nlm.nih.gov/books/NBK526056/";
-var peripheral = "https://openstax.org/books/anatomy-and-physiology-2e/pages/13-4-the-peripheral-nervous-system";
+var peripheral = "https://purl.obolibrary.org/obo/UBERON_0001062";
 var lower = "https://www.ukri.org/wp-content/uploads/2021/12/MRC-011221-AidsToTheExaminationOfThePeripheralNervousSystem.pdf";
 var rows3 = [
   ["Axillary nerve", "Deltoid ve teres minor motor işlevi; omuzun dış kısmında sınırlı bir duyu alanı.", "Deltoid kuvvetinde ve dış rotasyon katkısında azalma olabilir; omuz duyu alanı etkilenebilir.", "Kuadrangüler aralıktan humerusun cerrahi boynu çevresine uzanır.", "Omuz abdüksiyonu, deltoid konturu ve ilgili duyu alanını birlikte karşılaştır.", upper],
@@ -45251,10 +45253,10 @@ function nerveStudy(r) {
 var nerveStudyCount = cards3.size;
 
 // dist/muscle-study.js
-var upper2 = "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs";
-var lower2 = "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs";
-var axial = "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax";
-var head = "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-3-axial-muscles-of-the-head-neck-and-back";
+var upper2 = "https://purl.obolibrary.org/obo/UBERON_0001062";
+var lower2 = "https://purl.obolibrary.org/obo/UBERON_0001062";
+var axial = "https://purl.obolibrary.org/obo/UBERON_0001062";
+var head = "https://purl.obolibrary.org/obo/UBERON_0001062";
 var rows4 = [
   ["Deltoid muscle", "Kol abdüksiyonu; ön lifler fleksiyon ve iç rotasyona, arka lifler ekstansiyon ve dış rotasyona katılır.", "Klavikulanın lateral bölümü, akromion ve skapula spinası", "Humerusun deltoid tüberozitesi", "Aksiller sinir", upper2],
   ["Clavicular part of deltoid muscle", "Omuz fleksiyonu ve iç rotasyonuna katılır.", "Klavikulanın lateral bölümü", "Humerusun deltoid tüberozitesi", "Aksiller sinir", upper2],
@@ -45334,11 +45336,10 @@ function muscleStudy(r) {
 var muscleStudyCount = cards4.size;
 
 // dist/clinical-study.js
-var book3 = "https://openstax.org/books/anatomy-and-physiology-2e/pages/";
-var chapters = { muscle: "10-2-skeletal-muscle", upper: "11-5-muscles-of-the-pectoral-girdle-and-upper-limbs", lower: "11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs", bone: "6-3-bone-structure", vessel: "20-1-structure-and-function-of-blood-vessels", nerve: "13-4-the-peripheral-nervous-system", brain: "13-2-the-central-nervous-system", heart: "19-1-heart-anatomy", air: "22-1-organs-and-structures-of-the-respiratory-system", digestive: "23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder", kidney: "25-3-gross-anatomy-of-the-kidney", urine: "25-2-gross-anatomy-of-urine-transport", female: "27-2-anatomy-and-physiology-of-the-female-reproductive-system", male: "27-1-anatomy-and-physiology-of-the-male-reproductive-system", lymph: "21-1-anatomy-of-the-lymphatic-and-immune-systems", skin: "5-1-layers-of-the-skin", connective: "4-3-connective-tissue-supports-and-protects", stomach: "23-4-the-stomach", bowel: "23-5-the-small-and-large-intestines", mouth: "23-3-the-mouth-pharynx-and-esophagus", thyroid: "17-4-the-thyroid-gland", parathyroid: "17-5-the-parathyroid-glands", adrenal: "17-6-the-adrenal-glands", pituitary: "17-3-the-pituitary-gland-and-hypothalamus" };
-var url2 = (key) => key.startsWith("https:") ? key : key === "female" ? book3.replace("-2e", "") + chapters[key] : book3 + chapters[key];
+var book3 = "https://purl.obolibrary.org/obo/UBERON_0001062";
+var url2 = (key) => key.startsWith("https:") ? key : book3;
 var kinds = {
-  eye: { title: "Göz / duyu organı", normal: "Duyu organının optik, destek veya reseptör bileşenidir; parçaların görevleri birbirinden farklıdır.", tissue: "Saydam optik doku, sinir dokusu ve destek dokusu seçilen parçaya göre ayrılır.", injury: "Görme veya gözün mekanik düzeni etkilenebilir; bulgu seçilen yapıya ve hasarın yaygınlığına bağlıdır.", loss: "Kornea, retina ve lensin kaybı aynı durum değildir; parçaya özel sonuç ayrı değerlendirilir.", check: "Işığın geçtiği ortamları ve sinir iletim yolunu ayrı izle.", source: "https://openstax.org/books/anatomy-and-physiology-2e/pages/14-1-sensory-perception" },
+  eye: { title: "Göz / duyu organı", normal: "Duyu organının optik, destek veya reseptör bileşenidir; parçaların görevleri birbirinden farklıdır.", tissue: "Saydam optik doku, sinir dokusu ve destek dokusu seçilen parçaya göre ayrılır.", injury: "Görme veya gözün mekanik düzeni etkilenebilir; bulgu seçilen yapıya ve hasarın yaygınlığına bağlıdır.", loss: "Kornea, retina ve lensin kaybı aynı durum değildir; parçaya özel sonuç ayrı değerlendirilir.", check: "Işığın geçtiği ortamları ve sinir iletim yolunu ayrı izle.", source: "https://purl.obolibrary.org/obo/UBERON_0001062" },
   ganglion: { title: "Periferik ganglion", normal: "Periferik sinir sistemi nöron gövdelerini içerir; duyu ganglionu ile otonom ganglion farklıdır.", tissue: "Nöron gövdeleri ve destek hücreleri bulunur. Bir sinir gövdesinin akson demetiyle aynı düzen değildir.", injury: "Sonuç ganglionun duyu veya otonom lif ilişkilerine ve hasar düzeyine bağlıdır.", loss: "Tüm ganglionların kaybına aynı klinik sonuç uygulanmaz; bu parçaya özel sonuç ayrıca doğrulanmalıdır.", check: "Duyu, sempatik ve parasempatik ganglionları ve ilgili kökleri ayırt et.", source: "nerve" },
   muscle: { title: "İskelet kası", tissue: "Çok çekirdekli çizgili kas lifleri demetler hâlindedir. Endomisyum, perimisyum ve epimisyum kuvveti tendon ve tutunma bölgelerine taşır.", normal: "Kasılma hareket, postür ve eklem kontrolüne katkı verir. Sonuç; kasın geçtiği eklemler, lif yönü ve tutunma yerleriyle birlikte değerlendirilir.", injury: "Kas, tendon veya motor sinir hasarı kuvvet üretimini azaltabilir. Ağrıya bağlı hareket kısıtlılığı, gerçek motor kayıptan farklıdır.", loss: "Kaybedilen kasın hareket katkısı azalabilir; kalan sinerjistlerin telafisi kas ve harekete göre değişir. Doğuştan yokluk, cerrahi çıkarılma ve denervasyon aynı durum değildir.", check: "Aktif ve pasif hareketi, kuvveti, tendon bütünlüğünü ve ilgili motor sinir alanını birlikte incele.", source: "muscle" },
   bone: { title: "Kemik", tissue: "Kortikal dış yapı ve trabeküler iç ağ yük taşır. Periost dış yüzeyi, endost iç yüzeyleri örter; ilik boşluğu ve eklem kıkırdağı kemik dokusundan ayrıdır.", normal: "Destek, organların korunması ve kas kuvvetinin harekete aktarılmasına katılır. Mineral depolama ve hematopoez doku düzeyindeki ek görevlerdir.", injury: "Kırıkta mekanik bütünlük ve yük aktarımı bozulabilir. Yer değiştirme, eklem ilişkisi ve komşu damar–sinir yapıları önemlidir.", loss: "Segment kaybı yük aktarımını ve kasların kaldıraç düzenini değiştirebilir. Her kemiğin kaybı aynı işlev kaybını oluşturmaz.", check: "Eklem yüzeylerini, korteksi, kas tutunmalarını ve komşu nörovasküler yapıları karşılaştır.", source: "bone" },
@@ -45486,7 +45487,7 @@ function femaleNameTranslation(raw, language3 = "en") {
 
 // dist/structure-cards.js
 var base = "https://www.ncbi.nlm.nih.gov/books/";
-var sources = { hip: "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs", quad: base + "NBK538425/", ham: base + "NBK546688/", front: base + "NBK539725/", back: base + "NBK537340/", side: base + "NBK519526/", max: base + "NBK538193/", med: base + "NBK557509/" };
+var sources = { hip: "https://purl.obolibrary.org/obo/UBERON_0001062", quad: base + "NBK538425/", ham: base + "NBK546688/", front: base + "NBK539725/", back: base + "NBK537340/", side: base + "NBK519526/", max: base + "NBK538193/", med: base + "NBK557509/" };
 var rows6 = [
   ["Adductor brevis", "Kısa adduktor", "Uyluk iç bölgesi", "Kalça adduksiyonuna katılır.", "Obturator sinir", "hip"],
   ["Adductor longus", "Uzun adduktor", "Uyluk iç bölgesi", "Uyluğu orta hatta yaklaştırır.", "Obturator sinir", "hip"],
@@ -45538,9 +45539,9 @@ function structureCard(r) {
 }
 
 // dist/thorax-data.js
-var heartSource = "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy";
-var cycleSource = "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-3-cardiac-cycle";
-var breathSource = "https://openstax.org/books/anatomy-and-physiology-2e/pages/22-3-the-process-of-breathing";
+var heartSource = "https://purl.obolibrary.org/obo/UBERON_0001062";
+var cycleSource = "https://purl.obolibrary.org/obo/UBERON_0001062";
+var breathSource = "https://purl.obolibrary.org/obo/UBERON_0001062";
 var clean6 = (n) => n.toLowerCase().replace(/\.[lr]\.\d+$|\.\d+$/g, "");
 function heartPart(r) {
   const n = clean6(r.name);
@@ -45603,7 +45604,7 @@ function heartDetail(r) {
     intro = "Seçili yüzey bir kapak yaprakçığıdır; bütün kapağı temsil etmez.";
     fn = "Basınç farklarıyla yer değiştirerek tek yönlü akışa katılır.";
     relations = ["Triküspit", "Mitral"].includes(which) ? "Korda ve papiller kaslar destek sistemine katılır." : "Yarımay kapak yaprakçığıdır; korda tendineaya bağlanmaz.";
-    url3 = "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy";
+    url3 = "https://purl.obolibrary.org/obo/UBERON_0001062";
   } else if (n.includes("papillary")) {
     const chamber = n.includes("right") ? "Sağ" : "Sol", part = n.startsWith("anterolateral") ? "Anterolateral baş" : n.startsWith("posteromedial") ? "Posteromedial baş" : n.startsWith("anterior") ? "Ön" : n.startsWith("posterior") ? "Arka" : n.startsWith("inferior") ? "Alt" : "Septal";
     tr = chamber + " karıncık · " + part.toLocaleLowerCase("tr") + " papiller kas";
@@ -45731,7 +45732,7 @@ var reproductiveTopics = [
 ];
 
 // dist/content.js
-var book4 = "https://openstax.org/books/anatomy-and-physiology-2e/pages/";
+var book4 = "https://purl.obolibrary.org/obo/UBERON_0001062";
 var topics = [
   { match: "left ventricle", tr: "Sol karıncık", group: "Kalp", intro: "Kalbin sol alt odacığıdır.", function: "Oksijenlenmiş kanı aort aracılığıyla sistemik dolaşıma pompalar.", clinical: "Pompa işlevindeki azalma organlara kan akışını etkileyebilir. Bu not seçili anatomiyi açıklar; kişisel bir bulgunun nedenini belirlemez.", source: "19-1-heart-anatomy" },
   { match: "right ventricle", tr: "Sağ karıncık", group: "Kalp", intro: "Kalbin sağ alt odacığıdır.", function: "Kanı pulmoner gövde üzerinden akciğerlere gönderir.", clinical: "Sağ ve sol kalbin dolaşım yolları birlikte değerlendirilir.", source: "19-1-heart-anatomy" },
@@ -45777,7 +45778,7 @@ for (const t of topics) {
   if (t.match === "vertebra") t.source = "7-3-the-vertebral-column";
   if (t.match === "rib") t.source = "7-4-the-thoracic-cage";
 }
-var sourceURL = (t) => t.url || (t.source === "27-2-anatomy-and-physiology-of-the-female-reproductive-system" ? "https://openstax.org/books/anatomy-and-physiology/pages/" + t.source : book4 + t.source);
+var sourceURL = (t) => t.url || book4;
 function isExactTopic(raw, t) {
   return !!t && cleanName(raw).toLowerCase().replace(/ muscle$/, "") === t.match.replace(/ muscle$/, "");
 }
@@ -45814,8 +45815,7 @@ function normalize2(s) {
 }
 
 // dist/organ-cards.js
-var book5 = "https://openstax.org/books/anatomy-and-physiology-2e/pages/";
-var refs = { mouth: "23-3-the-mouth-pharynx-and-esophagus", stomach: "23-4-the-stomach", bowel: "23-5-the-small-and-large-intestines", duct: "23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder", urine: "25-2-gross-anatomy-of-urine-transport", kidney: "25-3-gross-anatomy-of-the-kidney", air: "22-1-organs-and-structures-of-the-respiratory-system", endocrine: "17-chapter-review", immune: "21-1-anatomy-of-the-lymphatic-and-immune-systems", brain: "13-2-the-central-nervous-system", arm: "8-2-bones-of-the-upper-limb", leg: "8-4-bones-of-the-lower-limb" };
+var book5 = "https://purl.obolibrary.org/obo/UBERON_0001062";
 var rows7 = [
   ["stomach", "visceral", "stomach", "Üst karında, yemek borusu ile duodenum arasında.", "Besini depolar, karıştırır; protein sindirimini başlatır.", "Çıkıştaki pilor, duodenuma geçişi düzenler."],
   ["oesophagus|esophagus", "visceral", "mouth", "Yutaktan mideye uzanan kaslı kanal.", "Lokmayı peristaltik hareketlerle mideye taşır.", "Göğüsten geçer; diyaframı aşarak mideye ulaşır."],
@@ -45866,7 +45866,7 @@ var rows7 = [
   ["calcaneus", "skeleton", "leg", "Topuğu oluşturan kemik.", "Yük taşır ve kas kuvvetini aktarır.", "Aşil tendonu arka yüzüne tutunur."]
 ];
 var cards5 = /* @__PURE__ */ new Map();
-for (const [names2, layer, ref, intro, fn, relations] of rows7) for (const name of names2.split("|")) cards5.set(layer + ":" + name, { intro, function: fn, relations, url: book5 + refs[ref], sourceLabel: "OpenStax · İlgili anatomi bölümü", group: "Yapı açıklaması" });
+for (const [names2, layer, ref, intro, fn, relations] of rows7) for (const name of names2.split("|")) cards5.set(layer + ":" + name, { intro, function: fn, relations, url: book5, sourceLabel: "UBERON · İlgili anatomi kaydı", group: "Yapı açıklaması" });
 function organCard(r) {
   const name = r.name.toLowerCase().replace(/\.[lr]\.\d+$|\.\d+$/g, "");
   const card = cards5.get(r.layer + ":" + name);
@@ -45875,7 +45875,7 @@ function organCard(r) {
 var organCardCount = rows7.length;
 
 // dist/explanations.js
-var book6 = "https://openstax.org/books/anatomy-and-physiology-2e/pages/";
+var book6 = "https://purl.obolibrary.org/obo/UBERON_0001062";
 var general = {
   bone: ["Kemik dokusu", "Destek, korunma ve hareket için kaldıraç görevi görür.", "Eklem yüzeylerini ve kas tutunma bölgelerini birlikte incele.", "6-1-the-functions-of-the-skeletal-system"],
   cartilage: ["Kıkırdak dokusu", "Bulunduğu yere göre esnek destek sağlar veya eklem yüzeylerindeki sürtünmeyi azaltır.", "Kıkırdak türü ve görevi konuma göre değişir.", "4-3-connective-tissue-supports-and-protects"],
@@ -45908,7 +45908,7 @@ function generalCard(r) {
     return { match: cleanName(r.name).toLowerCase(), tr: cleanName(r.name), intro: "Seçili kaydın türü: " + p.title + ". Açıklama doku / yapı grubu düzeyindedir.", function: p.normal, relations: p.relations || p.check, url: p.refs[0].url, sourceLabel: "Kaynaklı yapı türü bilgisi", scope: p.scope === "specific" ? "specific" : "general" };
   }
   const item = general[kind] || general.visceral;
-  return { match: cleanName(r.name).toLowerCase(), tr: item[0], intro: "Seçili kayıt: " + cleanName(r.name) + ". Aşağıdaki açıklama " + item[0].toLocaleLowerCase("tr") + " için genel bilgidir.", function: item[1], relations: item[2], url: book6 + item[3], sourceLabel: "OpenStax · Doku / sistem bilgisi", scope: "general" };
+  return { match: cleanName(r.name).toLowerCase(), tr: item[0], intro: "Seçili kayıt: " + cleanName(r.name) + ". Aşağıdaki açıklama " + item[0].toLocaleLowerCase("tr") + " için genel bilgidir.", function: item[1], relations: item[2], url: book6, sourceLabel: "UBERON · Doku / sistem sınıflandırması", scope: "general" };
 }
 function explanationFor(r) {
   let base3 = topicFor(r.name);
@@ -45923,7 +45923,7 @@ function explanationFor(r) {
   const profile = clinicalProfile(r);
   if (profile.scope === "specific" && profile.lossScope === "specific" && profile.label && profile.normal) {
     const ref = profile.refs?.[0];
-    return { match: cleanName(r.name).toLowerCase(), tr: profile.label, intro: profile.normal, function: profile.normal, clinical: profile.loss, relations: profile.relations, url: ref?.url, sourceLabel: "OpenStax · " + profile.label, refs: profile.refs, scope: "specific" };
+    return { match: cleanName(r.name).toLowerCase(), tr: profile.label, intro: profile.normal, function: profile.normal, clinical: profile.loss, relations: profile.relations, url: ref?.url, sourceLabel: "UBERON · " + profile.label, refs: profile.refs, scope: "specific" };
   }
   if (["bursa", "serous", "fat", "heart", "eye", "ganglion", "fascia", "tendon", "ligament"].includes(studyKind(r))) return generalCard(r);
   return generalCard(r);
@@ -46308,7 +46308,7 @@ function resolveAtlasRelations(r, records2) {
     if (matches2.length) rows8.push(...matches2.map((record) => ({ record, role })));
     else missing.push({ name: partNames[part], role });
   }
-  return { cardiac: true, rows: rows8, missing, site: partNames[key] + " ile ilişkili yapılar", note: key === "coronary" ? "Aort ve sağ kulakçık koroner dolaşımın başlangıç ve dönüş ilişkisini gösterir; tek tek damar dallarının sonlanma haritası değildir." : "Akış sırası veya yapısal ilişki gösterilir. Ara damar dalları ve kılcal ağlar eksiksiz modellenmemiştir.", url: "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy" };
+  return { cardiac: true, rows: rows8, missing, site: partNames[key] + " ile ilişkili yapılar", note: key === "coronary" ? "Aort ve sağ kulakçık koroner dolaşımın başlangıç ve dönüş ilişkisini gösterir; tek tek damar dallarının sonlanma haritası değildir." : "Akış sırası veya yapısal ilişki gösterilir. Ara damar dalları ve kılcal ağlar eksiksiz modellenmemiştir.", url: "https://purl.obolibrary.org/obo/UBERON_0001062" };
 }
 var advancedHeartNotes = {
   ra: "Sistemik venöz dönüş ile koroner venöz dönüş sağ kulakçığa ulaşır. Kulakçık ve karıncık arasındaki kapak triküspittir.",
@@ -50713,7 +50713,7 @@ function resolveOrganLinks(r, records2) {
     }
   }
   if (!rows8.length) return null;
-  const url3 = /lung|bronchus|trachea|carina/i.test(name) ? "https://www.ncbi.nlm.nih.gov/books/NBK470197/" : /stomach|oesophagus|esophagus|duodenum|gallbladder|liver|pancreas/i.test(name) ? /stomach|oesophagus|esophagus/i.test(name) ? "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-4-the-stomach" : "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder" : /kidney|renal|ureter|bladder|urethra/i.test(name) ? "https://openstax.org/books/anatomy-and-physiology-2e/pages/25-2-gross-anatomy-of-urine-transport" : /uterus|ovary|uterine|vagina|testis|epididymis|deferens|seminal/i.test(name) ? "https://openstax.org/books/anatomy-and-physiology-2e/pages/27-chapter-review" : "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines";
+  const url3 = /lung|bronchus|trachea|carina/i.test(name) ? "https://www.ncbi.nlm.nih.gov/books/NBK470197/" : /stomach|oesophagus|esophagus|duodenum|gallbladder|liver|pancreas/i.test(name) ? /stomach|oesophagus|esophagus/i.test(name) ? "https://purl.obolibrary.org/obo/UBERON_0001062" : "https://purl.obolibrary.org/obo/UBERON_0001062" : /kidney|renal|ureter|bladder|urethra/i.test(name) ? "https://purl.obolibrary.org/obo/UBERON_0001062" : /uterus|ovary|uterine|vagina|testis|epididymis|deferens|seminal/i.test(name) ? "https://purl.obolibrary.org/obo/UBERON_0001062" : "https://purl.obolibrary.org/obo/UBERON_0001062";
   return { organ: true, rows: rows8, missing: [], site: name, note: "Bu harita, kaynak modelde bulunabilen adlandırılmış organ devamlılıklarını ve temel damar / kanal ilişkilerini gösterir. Her küçük dal, lenfatik ağ, sinir pleksusu veya kişisel varyasyon modele dahil değildir.", url: url3 };
 }
 
@@ -50726,6 +50726,7 @@ var sex = "male";
 var femaleFrame = "native";
 var region = "all";
 var labels = true;
+var anatomyCards = /* @__PURE__ */ new Map();
 var layerOpacity = { surface: 0.15 };
 var undoStack = [];
 var cutPlane = new Plane();
@@ -51174,20 +51175,26 @@ function choose(o, { focus = false, isolate = false } = {}) {
   if (focus) frameObject(o);
   updateConnections(o);
 }
+function authoritativeExplanation(r) {
+  const card = anatomyCards.get(r.id);
+  if (!card) return null;
+  const level = $3("#learningLevel")?.value || "basic", sources2 = card.sources || [], first = sources2[0];
+  return { match: card.ontology?.id || r.id, tr: card.turkishName, intro: card.sections.location, function: card.sections.function, relations: level === "basic" ? null : card.sections.relations, clinical: level === "advanced" ? card.sections.clinicalRelevance : card.sections.absenceOrDamage, url: first?.url || "https://github.com/obophenotype/uberon/releases/tag/v2026-10-01", sourceLabel: first?.label || "UBERON · İnsan anatomisi ontolojisi", refs: sources2.slice(1).map((x) => ({ label: x.label, url: x.url })), scope: card.evidenceGrade === "C" ? "general" : "specific", evidenceGrade: card.evidenceGrade, reviewNotes: card.reviewNotes, ontologyDefinition: level === "advanced" ? card.ontology?.definition : null };
+}
 function showDetails(r) {
   $3("#details").classList.add("has-selection");
   const term = terminologyFor(r);
-  const t = explanationFor(r), name = displayName(r.name), parent = t.scope === "parent";
+  const t = authoritativeExplanation(r) || explanationFor(r), name = displayName(r.name), parent = t.scope === "parent";
   const section = (number, title, text, cls = "") => text ? '<section data-explanation="' + number + '" class="detail-block ' + cls + (["03", "04"].includes(number) ? " advanced-only" : "") + '"><h3><span>' + number + "</span>" + title + "</h3><p>" + esc2(text) + "</p></section>" : "";
   const related = t?.match && t.scope !== "general" ? currentRecords().filter((x) => x.id !== r.id && x.layer === r.layer && explanationFor(x).match === t.match).slice(0, 4) : [];
-  $3("#detailContent").innerHTML = '<span class="detail-tag">' + esc2(layerName(r.layer)) + (sideOf(r.name) ? " · " + sideOf(r.name) : "") + "</span>" + (r.sharedReference ? '<p class="parent-note shared-reference-note"><b>' + esc2(sharedReferenceNotice(currentLanguage()).title) + "</b><br>" + esc2(sharedReferenceNotice(currentLanguage()).body) + "</p>" : "") + '<h2 data-no-i18n="true">' + (term ? '<bdi dir="ltr">' + esc2(term.latin) + "</bdi> (<bdi>" + esc2(name) + "</bdi>)" : esc2(name)) + '</h2><p class="english-name">' + esc2(cleanName(r.name)) + '</p><div class="latin-name"><span>LATİNCE AD</span><i>' + esc2(term?.latin || translateText("Latince eşleştirme doğrulanmayı bekliyor")) + "</i><small>" + esc2(term ? term.source + (term.nonstandard ? " · Kaynakta standart dışı terim olarak işaretli" : "") : "Özgün model adı yukarıda; Latince karşılık uydurulmaz.") + '</small></div><div class="detail-actions"><button id="focus">Yakınlaş ↗</button><button id="isolate" aria-pressed="' + isolated + '">' + (isolated ? "Bütüne dön" : "Tek başına") + '</button><button id="hide">Gizle</button></div>' + (t ? (parent ? '<div class="parent-note"><b>İlgili yapı: ' + esc2(t.tr) + "</b><p>Bu model parçasına özel not henüz yok. Aşağıdaki bilgiler ilgili ana yapıyı anlatır.</p></div>" : "") + section("01", t.scope === "general" ? "Yapı türü ve kapsam" : "Konum ve yapı", t.intro) + section("02", t.scope === "general" ? "Doku / sistem görevi" : "Temel görevi", t.function) + section("03", "Anatomik ilişkiler", t.relations) + (shoulderFacts[t.match] ? "<dl class=anatomy-facts>" + Object.entries(shoulderFacts[t.match]).map(([k, v]) => "<dt>" + { origin: "Başlangıç · Origo", insertion: "Tutunma · Insertio", innervation: "Sinir", action: "Hareket" }[k] + "</dt><dd>" + esc2(v) + "</dd>").join("") + "</dl>" : "") + section("04", "Klinik önem", t.clinical, "clinical") + (t.takeaway ? '<div class="takeaway"><span>AKLINDA KALSIN</span><p>' + esc2(t.takeaway) + "</p></div>" : "") + (related.length ? '<section class="related-structures"><h3>Aynı konudaki model parçaları</h3>' + related.map((x) => '<button data-related="' + x.id + '">' + esc2(displayName(x.name)) + "<span>↗</span></button>").join("") + "</section>" : "") + '<details class="detail-sources"><summary>Kaynaklar ve içerik bilgisi</summary><a href="' + sourceURL(t) + '" target="_blank" rel="noreferrer">' + esc2(t.sourceLabel || "OpenStax · Anatomi ve Fizyoloji") + " ↗</a>" + (t.refs || []).map((ref) => '<a href="' + esc2(ref.url) + '" target="_blank" rel="noreferrer">' + esc2(ref.label) + " ↗</a>").join("") + "<p>Kaynaklara dayalı eğitim özeti. Uzman editör incelemesi bekliyor. Kişisel tanı veya tedavi önerisi değildir.</p></details>" : '<section class="detail-block"><h3>Seçili anatomik parça</h3><p>Özgün model adı ve ait olduğu katman yukarıda gösterilmiştir. Bu parçaya özel Türkçe görev ve klinik önem açıklaması henüz tamamlanmadı.</p></section><div class="takeaway"><span>İNCELEME ÖNERİSİ</span><p>Parçayı tek başına incele, ardından bütüne dönerek komşuluklarını karşılaştır. Katman saydamlığı derindeki yapıları görmene yardımcı olur.</p></div>');
-  $3("#detailContent").insertAdjacentHTML("beforeend", clinicalStudyHTML(r, t));
+  $3("#detailContent").innerHTML = '<span class="detail-tag">' + esc2(layerName(r.layer)) + (sideOf(r.name) ? " · " + sideOf(r.name) : "") + "</span>" + (r.sharedReference ? '<p class="parent-note shared-reference-note"><b>' + esc2(sharedReferenceNotice(currentLanguage()).title) + "</b><br>" + esc2(sharedReferenceNotice(currentLanguage()).body) + "</p>" : "") + '<h2 data-no-i18n="true">' + (term ? '<bdi dir="ltr">' + esc2(term.latin) + "</bdi> (<bdi>" + esc2(name) + "</bdi>)" : esc2(name)) + '</h2><p class="english-name">' + esc2(cleanName(r.name)) + '</p><div class="latin-name"><span>LATİNCE AD</span><i>' + esc2(term?.latin || translateText("Latince eşleştirme doğrulanmayı bekliyor")) + "</i><small>" + esc2(term ? term.source + (term.nonstandard ? " · Kaynakta standart dışı terim olarak işaretli" : "") : "Özgün model adı yukarıda; Latince karşılık uydurulmaz.") + '</small></div><div class="detail-actions"><button id="focus">Yakınlaş ↗</button><button id="isolate" aria-pressed="' + isolated + '">' + (isolated ? "Bütüne dön" : "Tek başına") + '</button><button id="hide">Gizle</button></div>' + (t ? (parent ? '<div class="parent-note"><b>İlgili yapı: ' + esc2(t.tr) + "</b><p>Bu model parçasına özel not henüz yok. Aşağıdaki bilgiler ilgili ana yapıyı anlatır.</p></div>" : "") + section("01", t.scope === "general" ? "Yapı türü ve kapsam" : "Konum ve yapı", t.intro) + section("02", t.scope === "general" ? "Doku / sistem görevi" : "Temel görevi", t.function) + section("03", "Anatomik ilişkiler", t.relations) + (shoulderFacts[t.match] ? "<dl class=anatomy-facts>" + Object.entries(shoulderFacts[t.match]).map(([k, v]) => "<dt>" + { origin: "Başlangıç · Origo", insertion: "Tutunma · Insertio", innervation: "Sinir", action: "Hareket" }[k] + "</dt><dd>" + esc2(v) + "</dd>").join("") + "</dl>" : "") + section("04", "Klinik önem", t.clinical, "clinical") + (t.takeaway ? '<div class="takeaway"><span>AKLINDA KALSIN</span><p>' + esc2(t.takeaway) + "</p></div>" : "") + (related.length ? '<section class="related-structures"><h3>Aynı konudaki model parçaları</h3>' + related.map((x) => '<button data-related="' + x.id + '">' + esc2(displayName(x.name)) + "<span>↗</span></button>").join("") + "</section>" : "") + '<details class="detail-sources"><summary>Kaynaklar ve içerik bilgisi</summary><a href="' + esc2(t.url || sourceURL(t)) + '" target="_blank" rel="noreferrer">' + esc2(t.sourceLabel || "UBERON · İnsan anatomisi ontolojisi") + " ↗</a>" + (t.refs || []).map((ref) => '<a href="' + esc2(ref.url) + '" target="_blank" rel="noreferrer">' + esc2(ref.label) + " ↗</a>").join("") + "<p>Kanıt düzeyi: " + esc2(t.evidenceGrade || "editör incelemesi") + ". Ontoloji ve terminoloji eşleşmelerine dayalı özgün eğitim özeti; kişisel tanı veya tedavi önerisi değildir.</p>" + (t.ontologyDefinition ? "<p><b>UBERON özgün tanımı:</b> " + esc2(t.ontologyDefinition) + "</p>" : "") + (t.reviewNotes ? "<p>" + esc2(t.reviewNotes) + "</p>" : "") + "</details>" : '<section class="detail-block"><h3>Seçili anatomik parça</h3><p>Özgün model adı ve ait olduğu katman yukarıda gösterilmiştir. Bu parçaya özel Türkçe görev ve klinik önem açıklaması henüz tamamlanmadı.</p></section><div class="takeaway"><span>İNCELEME ÖNERİSİ</span><p>Parçayı tek başına incele, ardından bütüne dönerek komşuluklarını karşılaştır. Katman saydamlığı derindeki yapıları görmene yardımcı olur.</p></div>');
+  if (!anatomyCards.has(r.id)) $3("#detailContent").insertAdjacentHTML("beforeend", clinicalStudyHTML(r, t));
   $3("#detailContent").insertAdjacentHTML("beforeend", "<section id=connectionInfo class=connection-info></section>");
   renderConnectionInfo();
   renderPersonal(r);
   if (r.supplement) $3("#detailContent").insertAdjacentHTML("afterbegin", '<p class="parent-note">Kadın alt ekstremite kası · Andreassen 2023. HRA gövdesine yaklaşık uyarlanmıştır; ölçüm ve gerçek kesitle eşleştirme için kullanılmaz. <a href="./models/FEMALE-MUSCLES-LICENSE.txt" target="_blank">Kaynak ve yerleşim bilgisi ↗</a></p>');
   const advanced = advancedHeartNotes[heartPart(r)];
-  if (advanced) $3("#detailContent").insertAdjacentHTML("beforeend", '<section class="advanced-only advanced-card"><h3>İleri düzey ilişki</h3><p>' + esc2(advanced) + '</p><a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy" target="_blank" rel="noreferrer">Anatomi kaynağı ↗</a></section>');
+  if (advanced) $3("#detailContent").insertAdjacentHTML("beforeend", '<section class="advanced-only advanced-card"><h3>İleri düzey ilişki</h3><p>' + esc2(advanced) + '</p><a href="https://purl.obolibrary.org/obo/UBERON_0000948" target="_blank" rel="noreferrer">UBERON kalp anatomisi ↗</a></section>');
   $3("#detailContent .detail-actions").insertAdjacentHTML("afterend", '<p class="content-scope">' + esc2(explanationScope(t)) + "</p>");
   $3("#detailContent .detail-actions").insertAdjacentHTML("beforebegin", '<div class=inspection-modes role=group aria-label="Yapıyı inceleme biçimi"><button data-inspection-mode=body>Vücutta</button><button data-inspection-mode=single>Tek yapı</button><button data-inspection-mode=connections>Bağlantılar</button></div>');
   document.querySelectorAll("[data-inspection-mode]").forEach((b) => b.onclick = () => setInspectionMode(b.dataset.inspectionMode));
@@ -51235,7 +51242,10 @@ function search() {
   const found = matches(q), pages = Math.max(1, Math.ceil(found.length / 60));
   searchPage = Math.min(searchPage, pages - 1);
   if (found.length) {
-    list.innerHTML = '<p id="searchPageStatus" role="status">' + found.length + " eşleşme" + (pages > 1 ? " · Sayfa " + (searchPage + 1) + " / " + pages : "") + "</p>" + found.slice(searchPage * 60, (searchPage + 1) * 60).map((r) => '<button data-id="' + esc2(r.id) + '">' + esc2(displayName(r.name)) + "<small>" + esc2(terminologyFor(r)?.latin || cleanName(r.name)) + " · " + esc2(layerName(r.layer)) + (explanationFor(r).scope === "specific" ? " · Yapıya özel açıklama" : explanationFor(r).scope === "parent" ? " · Ana yapı açıklaması" : " · Genel doku bilgisi") + "</small></button>").join("") + (pages > 1 ? '<div class="search-pagination"><button data-search-page="-1" ' + (!searchPage ? "disabled" : "") + '>← Önceki</button><button data-search-page="1" ' + (searchPage === pages - 1 ? "disabled" : "") + ">Sonraki →</button></div>" : "");
+    list.innerHTML = '<p id="searchPageStatus" role="status">' + found.length + " eşleşme" + (pages > 1 ? " · Sayfa " + (searchPage + 1) + " / " + pages : "") + "</p>" + found.slice(searchPage * 60, (searchPage + 1) * 60).map((r) => {
+      const card = anatomyCards.get(r.id), scope = card?.evidenceGrade === "C" ? " · Yapı türü açıklaması" : " · Yapıya özel açıklama";
+      return '<button data-id="' + esc2(r.id) + '">' + esc2(displayName(r.name)) + "<small>" + esc2(terminologyFor(r)?.latin || cleanName(r.name)) + " · " + esc2(layerName(r.layer)) + scope + "</small></button>";
+    }).join("") + (pages > 1 ? '<div class="search-pagination"><button data-search-page="-1" ' + (!searchPage ? "disabled" : "") + '>← Önceki</button><button data-search-page="1" ' + (searchPage === pages - 1 ? "disabled" : "") + ">Sonraki →</button></div>" : "");
   } else {
     const other = sex === "male" ? "female" : "male", count = matches(q, other).length;
     list.innerHTML = "<p>Yapı bulunamadı. Türkçe, Latince veya İngilizce anatomik adı deneyin.</p>" + (count ? '<button data-search-sex="' + other + '">' + (other === "female" ? "Kadın" : "Erkek") + " referansında " + count + " eşleşme var · Referansı aç →</button>" : "");
@@ -51470,6 +51480,11 @@ function wire() {
 async function init() {
   registerOffline();
   try {
+    const cardPayload = await fetch("./data/anatomy-cards-tr.json").then((r) => {
+      if (!r.ok) throw Error("Anatomi kartları");
+      return r.json();
+    });
+    anatomyCards = new Map(cardPayload.records.map((card) => [card.id, card]));
     catalog = await fetch("./catalog.json").then((r) => {
       if (!r.ok) throw Error("Catalog");
       return r.json();
@@ -51479,11 +51494,8 @@ async function init() {
     const femaleCatalog = [...await fetch("./catalog-female.json").then((r) => r.json()), ...await fetch("./catalog-female-muscles.json").then((r) => r.json())];
     catalog.push(...femaleCatalog, ...femaleSharedRecords(maleCatalog, femaleCatalog));
     catalog.forEach((r) => r.search = searchText(r.name, r.layer, r));
-    const coverage = { specific: 0, parent: 0, group: 0, general: 0 };
-    const sourceRecords = catalog.filter((r) => !r.sharedReference);
-    sourceRecords.forEach((r) => coverage[clinicalProfile(r).scope]++);
-    const latin = sourceRecords.filter((r) => terminologyFor(r)).length;
-    $3("#contentCoverage").textContent = sourceRecords.length + " kaynak model kaydı: " + latin + " Latince ad eşleştirildi; " + (sourceRecords.length - latin) + " eşleştirme bekliyor. Klinik kartlarda " + coverage.specific + " yapı/organ, " + coverage.parent + " ana yapı, " + coverage.group + " yapı grubu ve " + coverage.general + " genel doku/sistem kaydı bulunur. Genel notlar parçaya özel açıklama değildir. Klinik editör incelemesi bekliyor.";
+    const counts = cardPayload.counts;
+    $3("#contentCoverage").textContent = counts.total + " kaynak model kaydı için üç düzeyli kart hazır: " + counts.ontologyMatched + " UBERON birebir eşleşmesi, " + counts.latinVerified + " doğrulanmış Latince ad; A/B/C kanıt düzeyleri " + counts.gradeA + "/" + counts.gradeB + "/" + counts.gradeC + ". Eşleşmeyen kayıtlarda bilgi yapı türü düzeyinde tutulur ve uydurma özgül ilişki gösterilmez.";
     $3("#totalCount").textContent = catalog.length.toLocaleString("tr-TR");
     scene = new Scene();
     caps = new SectionCaps(scene, requestRender);
@@ -51866,13 +51878,15 @@ function wireFeatures() {
   };
   let learning = "basic";
   try {
-    learning = localStorage.getItem("anatomy-learning-level") === "advanced" ? "advanced" : "basic";
+    const saved = localStorage.getItem("anatomy-learning-level");
+    learning = ["basic", "intermediate", "advanced"].includes(saved) ? saved : "basic";
   } catch {
   }
   document.body.dataset.learning = learning;
   $3("#learningLevel").value = learning;
   $3("#learningLevel").onchange = (e) => {
     document.body.dataset.learning = e.target.value;
+    if (selected && labels) showDetails(selected.userData.record);
     try {
       localStorage.setItem("anatomy-learning-level", e.target.value);
     } catch {

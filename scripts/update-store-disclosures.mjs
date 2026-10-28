@@ -10,5 +10,5 @@ const notes={
 for(const [locale,note]of Object.entries(notes))for(const [platform,key]of [['apple','description'],['google','fullDescription']]){
  const old=data.locales[locale][platform][key];if(!old.includes(note))data.locales[locale][platform][key]=old+'\n\n'+note;
 }
-data.readiness={auditDate:'2026-10-16',ready:false,blockers:['Commercial rights for OpenStax-linked notes unverified','Public privacy/support URLs return 404','Clinical and language editor reviews pending','Full female donor musculoskeletal coverage unavailable','Signed production builds and physical-device validation pending'],sourceView:'HRA female, general anatomy and female leg supplement are separate frames; never claim a complete female donor atlas.'};
+data.readiness={auditDate:'2026-10-28',ready:false,blockers:['Final attribution and ShareAlike review for remaining third-party 3B model content','Public privacy/support URLs must be verified','Clinical and language editor reviews pending','Full female donor musculoskeletal coverage unavailable','Signed production builds and physical-device validation pending'],sourceView:'OpenStax runtime content has been removed. HRA female, general anatomy and female leg supplement are separate frames; never claim a complete female donor atlas.'};
 await writeFile(path,JSON.stringify(data,null,2)+'\n');

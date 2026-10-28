@@ -1,4 +1,4 @@
-const book='https://openstax.org/books/anatomy-and-physiology-2e/pages/';
+const book='https://purl.obolibrary.org/obo/UBERON_0001062';
 // Explicit structure aliases. Tissue variants receive a parent-level note.
 const rows=[
  ['clavicle','Klavikula','Omuz kuşağını gövdeden uzakta destekler.','Sternum ve skapula akromionuyla eklemleşir.','8-1-the-pectoral-girdle'],
@@ -25,12 +25,12 @@ const rows=[
  ['hyoid bone','Hyoid','Dil ve boyun kasları için tutunma sağlar.','Mandibula ile larenks arasındadır; başka kemikle doğrudan eklemleşmez.','7-2-the-skull'],
  ['scaphoid bone|lunate bone|triquetral bone|pisiform bone|trapezium bone|trapezoid bone|capitate bone|hamate bone','Karpal kemik','El bileğinde hareket ve yük aktarımına katılır.','Proksimal ve distal sıra, metakarpal bağlantılar ve retinakulum.','8-2-bones-of-the-upper-limb']
 ];
-const cards=new Map();for(const[names,label,normal,relations,chapter]of rows)for(const name of names.split('|'))cards.set(name,{label,normal,relations,source:book+chapter});
+const cards=new Map();for(const[names,label,normal,relations,chapter]of rows)for(const name of names.split('|'))cards.set(name,{label,normal,relations,source:book});
 const clean=s=>s.toLowerCase().replace(/\.[lr]\.\d+$|\.\d+$/g,'').trim();
 export function regionalStudy(r){
  if(r.layer!=='skeleton')return null;const n=clean(r.name),exact=cards.get(n);if(exact)return{...exact,scope:exact.label==='Kafatası kemiği'?'group':'specific'};
- if(/^(cervical|thoracic|lumbar) vertebra(?: \d+)?$/.test(n)||/^atlas c1|^axis c2/.test(n))return{label:'Omur',normal:'Omurgayı destekler; vertebral kanalın çevresinde kemik sınır oluşturur.',relations:'Komşu omurlar, diskler ve faset eklemleri; servikal, torakal ve lomber bölgeler farklıdır.',source:book+'7-3-the-vertebral-column',scope:'group'};
- if(/^rib(?: \d+)?$/.test(n))return{label:'Kaburga',normal:'Göğüs kafesinde koruma ve solunum hareketine katılır.',relations:'Torakal omurlar, interkostal aralık ve kostal kıkırdaklar; bütün kaburgalar sternuma aynı biçimde bağlanmaz.',source:book+'7-4-the-thoracic-cage',scope:'group'};
+ if(/^(cervical|thoracic|lumbar) vertebra(?: \d+)?$/.test(n)||/^atlas c1|^axis c2/.test(n))return{label:'Omur',normal:'Omurgayı destekler; vertebral kanalın çevresinde kemik sınır oluşturur.',relations:'Komşu omurlar, diskler ve faset eklemleri; servikal, torakal ve lomber bölgeler farklıdır.',source:book,scope:'group'};
+ if(/^rib(?: \d+)?$/.test(n))return{label:'Kaburga',normal:'Göğüs kafesinde koruma ve solunum hareketine katılır.',relations:'Torakal omurlar, interkostal aralık ve kostal kıkırdaklar; bütün kaburgalar sternuma aynı biçimde bağlanmaz.',source:book,scope:'group'};
  for(const[key,value]of cards)if(n===key+' compact bone'||n===key+' spongy bone')return{...value,scope:'parent'};
  return null;
 }

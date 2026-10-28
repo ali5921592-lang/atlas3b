@@ -1,5 +1,5 @@
 const upper='https://www.ncbi.nlm.nih.gov/books/NBK526056/';
-const peripheral='https://openstax.org/books/anatomy-and-physiology-2e/pages/13-4-the-peripheral-nervous-system';
+const peripheral='https://purl.obolibrary.org/obo/UBERON_0001062';
 const lower='https://www.ukri.org/wp-content/uploads/2021/12/MRC-011221-AidsToTheExaminationOfThePeripheralNervousSystem.pdf';
 const rows=[
  ['Axillary nerve','Deltoid ve teres minor motor işlevi; omuzun dış kısmında sınırlı bir duyu alanı.','Deltoid kuvvetinde ve dış rotasyon katkısında azalma olabilir; omuz duyu alanı etkilenebilir.','Kuadrangüler aralıktan humerusun cerrahi boynu çevresine uzanır.','Omuz abdüksiyonu, deltoid konturu ve ilgili duyu alanını birlikte karşılaştır.',upper],
