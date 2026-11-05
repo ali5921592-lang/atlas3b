@@ -1,0 +1,23 @@
+Dear App Review Team,
+
+Thank you for allowing us to clarify. Human Atlas 3D is an independently developed, standalone product. It is not a white-label app, commercial app-generation template, or client submission. Answers to all nine questions follow.
+
+1. The app moves anatomy study beyond merely viewing a 3D structure. Users can isolate structures, separate layers, use axial, coronal, sagittal, oblique, reverse and slab sections, and inspect curated nerve, vessel, attachment-bone and organ-flow relationships. Records have Basic, Intermediate and Advanced source-linked cards, Latin terminology, scope/evidence information, damage effects and clinical relevance. A 160-slice Visible Human thorax cryosection volume can be compared with the surface atlas. Notes, favorites, saved views and quiz mistakes stay on device; no account is required and the core works offline.
+
+2. Intended users are adult medical, nursing, physiotherapy, emergency-care and allied-health students. Educators and healthcare professionals are a secondary general-reference audience. It is educational only, not patient-specific diagnosis, treatment or clinical decision support.
+
+3. Its gap is accountable spatial study: three learning levels; evidence/scope labels; side-aware neurovascular and attachment relations; adjustable 3D cuts plus real-color cryosections; separated female-source frames; and private on-device study tools. This combined workflow is original to this product.
+
+4. We performed closed product-owner acceptance testing on installed signed Android builds, phone/tablet layouts and automated regressions. No external public beta was conducted. Applied feedback: full-body pan after zoom; repaired clipped portrait sections; separate HRA donor/general/lower-limb female frames; tissue color in isolated view; side-aware relationship maps; and simpler Explore/Learn/Saved/Study navigation. Tests cover search, source isolation, sections, relationships, offline assets, local study state, trial boundaries and failure recovery.
+
+5. This is one standalone product, not a suite. We do not publish separate school, specialty, language, region or body-system variants.
+
+6. No other app under this account contains this anatomy product, so there is no existing app into which it could be consolidated as an IAP or content pack.
+
+7. It shares no product code or proprietary assets with another app under this account. Standard frameworks are Three.js, Capacitor and RevenueCat. Its interaction, source separation, sectioning, relationship logic, study tools, content pipeline and UI were built for this product.
+
+8. It shares no proprietary codebase, private SDK or commercial template with third-party apps. It uses openly licensed/public-domain sources also available to others: Z-Anatomy/BodyParts3D, HuBMAP HRA, a CC BY female lower-limb source, NLM Visible Human and UBERON. Attribution, source links and licenses are included. Our added functionality includes the mobile UI, source isolation, multilingual/Latin search, evidence-scoped cards, relationship resolution, cutting/slab tools, volume reslicing, study state, offline packaging and entitlements.
+
+9. It was not created for a client, school, hospital or third party. Ahmet Tekin is product owner and submitting developer. The concept, branding, app code, interaction design and original summaries are owned and maintained under this account. The attributed sources did not commission the app; we are not submitting for them.
+
+We respectfully request reconsideration under 4.3(a), 4.3(b) and 4.2.6. Reviewer path: select a structure > switch Basic/Intermediate/Advanced > Connections > Sections; then Learn > Visible Human volume; then Female > source selector. We can provide a short review video if useful.
