@@ -44328,7 +44328,8 @@ function packageKind(pkg) {
 async function installBilling() {
   if (!Capacitor.isNativePlatform()) return { mode: "web" };
   const platform = Capacitor.getPlatform(), apiKey = BILLING_KEYS[platform] || "";
-  let trial = trialStatus(localStorage), entitled = false, configured = false, offeringsLoaded = false, packages = [], busy = false, statusMessage = "";
+  let trial = trialStatus(localStorage), entitled = false, configured = false, loadingStore = false, packages = [], busy = false, statusMessage = "";
+  let wasLocked = false;
   const button = document.createElement("button");
   button.id = "billingStatusButton";
   button.type = "button";
@@ -44344,7 +44345,14 @@ async function installBilling() {
     const locked = !entitled && trial.state !== "trial";
     document.body.classList.toggle("billing-locked", locked);
     if (locked && !dialog.open) dialog.showModal();
-    if (!locked && dialog.open) dialog.close();
+    if (wasLocked && !locked && dialog.open) dialog.close();
+    wasLocked = locked;
+  }
+  function updateTrial() {
+    const previousState = trial.state;
+    trial = trialStatus(localStorage);
+    update();
+    if (trial.state !== previousState) render2();
   }
   function render2(message = statusMessage) {
     statusMessage = message;
@@ -44362,9 +44370,8 @@ async function installBilling() {
     const suffix = locale === "tr" ? "" : `-${locale}`;
     const termsUrl = platform === "ios" ? APPLE_EULA : `${LEGAL_PAGES}terms${suffix}.html`;
     const accessNote = entitled ? t.active : trial.state === "trial" ? t.preview : copy.expired;
-    const loading2 = configured && !offeringsLoaded;
-    const unavailable = `<p class="billing-muted" role="status">${loading2 ? t.loading : t.unavailable}</p>
-   ${configured && !loading2 ? `<button type="button" class="billing-text-action" id="billingRetry">${copy.retry}</button>` : ""}`;
+    const unavailable = `<p class="billing-muted" role="status">${loadingStore ? t.loading : t.unavailable}</p>
+   ${apiKey && !loadingStore ? `<button type="button" class="billing-text-action" id="billingRetry" ${busy ? "disabled" : ""}>${copy.retry}</button>` : ""}`;
     dialog.innerHTML = `<div class="billing-card">
    <button type="button" class="billing-close" aria-label="${copy.close}" ${!entitled && trial.state !== "trial" ? "hidden" : ""}>×</button>
    <p class="billing-kicker">${copy.brand}</p><h2 id="billingTitle">${t.title}</h2>
@@ -44379,41 +44386,52 @@ async function installBilling() {
     dialog.querySelector(".billing-close").onclick = () => dialog.close();
     dialog.querySelectorAll("[data-billing-package]").forEach((el) => el.addEventListener("click", () => purchase(packages[Number(el.dataset.billingPackage)])));
     dialog.querySelector("#billingRestore").onclick = restore;
-    dialog.querySelector("#billingRetry")?.addEventListener("click", loadOfferings);
+    dialog.querySelector("#billingRetry")?.addEventListener("click", connectStore);
   }
   function accept(info) {
-    if (hasAtlasAccess(info)) {
-      entitled = true;
-      statusMessage = "";
+    const active2 = hasAtlasAccess(info);
+    if (active2 !== entitled) {
+      entitled = active2;
       update();
-      render2();
-      return true;
+      render2(active2 ? "" : statusMessage);
     }
-    entitled = false;
-    update();
-    return false;
+    return active2;
   }
-  async function loadOfferings() {
+  async function refreshAccess() {
     if (!configured) return;
-    offeringsLoaded = false;
+    try {
+      accept((await Purchases.getCustomerInfo()).customerInfo);
+    } catch {
+    }
+  }
+  async function connectStore() {
+    if (!apiKey || loadingStore || busy) return;
+    loadingStore = true;
     render2("");
     try {
-      const result = await Purchases.getOfferings();
-      packages = result.current?.availablePackages || [];
-    } catch {
+      if (!configured) {
+        await Purchases.configure({ apiKey });
+        configured = true;
+        Purchases.addCustomerInfoUpdateListener(accept).catch((error) => console.warn("Billing listener:", error));
+      }
+      const [, result] = await Promise.allSettled([refreshAccess(), Purchases.getOfferings()]);
+      packages = result.status === "fulfilled" ? result.value.current?.availablePackages || [] : [];
+    } catch (error) {
+      console.warn("Billing initialization:", error);
       packages = [];
     } finally {
-      offeringsLoaded = true;
+      loadingStore = false;
       render2();
     }
   }
   async function purchase(pkg) {
     if (!configured || !pkg || busy) return;
     busy = true;
-    render2();
+    render2("");
     try {
       const result = await Purchases.purchasePackage({ aPackage: pkg });
-      if (!accept(result.customerInfo)) render2(dictionary().error);
+      if (accept(result.customerInfo)) dialog.close();
+      else render2(dictionary().error);
     } catch (error) {
       if (!error?.userCancelled) render2(dictionary().error);
     } finally {
@@ -44424,10 +44442,11 @@ async function installBilling() {
   async function restore() {
     if (!configured || busy) return;
     busy = true;
-    render2();
+    render2("");
     try {
       const result = await Purchases.restorePurchases();
-      if (!accept(result.customerInfo)) render2(dictionary().restored);
+      if (accept(result.customerInfo)) dialog.close();
+      else render2(dictionary().restored);
     } catch {
       render2(dictionary().error);
     } finally {
@@ -44446,40 +44465,17 @@ async function installBilling() {
     update();
     render2();
   });
-  document.addEventListener("visibilitychange", async () => {
+  document.addEventListener("visibilitychange", () => {
     if (document.hidden) return;
-    trial = trialStatus(localStorage);
-    if (configured) {
-      try {
-        accept((await Purchases.getCustomerInfo()).customerInfo);
-      } catch {
-      }
-    }
-    update();
-    render2();
+    updateTrial();
+    void refreshAccess();
   });
-  setInterval(() => {
-    trial = trialStatus(localStorage);
-    update();
-    render2();
-  }, 6e4);
+  setInterval(updateTrial, 6e4);
   update();
   render2();
   if (!apiKey) return { mode: "unconfigured", platform };
-  try {
-    await Purchases.configure({ apiKey });
-    configured = true;
-    await Purchases.addCustomerInfoUpdateListener((info2) => accept(info2));
-    const [info] = await Promise.allSettled([Purchases.getCustomerInfo(), loadOfferings()]);
-    if (info.status === "fulfilled") accept(info.value.customerInfo);
-    update();
-    render2();
-    return { mode: "ready", platform };
-  } catch (error) {
-    console.warn("Billing initialization failed:", error);
-    render2(dictionary().unavailable);
-    return { mode: "error", platform };
-  }
+  await connectStore();
+  return { mode: configured ? "ready" : "error", platform };
 }
 
 // dist/native.js

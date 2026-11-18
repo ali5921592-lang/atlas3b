@@ -29,7 +29,8 @@ function packageKind(pkg){const id=String(pkg.identifier||'').toLowerCase(),type
 export async function installBilling(){
  if(!Capacitor.isNativePlatform())return{mode:'web'};
  const platform=Capacitor.getPlatform(),apiKey=BILLING_KEYS[platform]||'';
- let trial=trialStatus(localStorage),entitled=false,configured=false,offeringsLoaded=false,packages=[],busy=false,statusMessage='';
+ let trial=trialStatus(localStorage),entitled=false,configured=false,loadingStore=false,packages=[],busy=false,statusMessage='';
+ let wasLocked=false;
  const button=document.createElement('button');button.id='billingStatusButton';button.type='button';
  const dialog=document.createElement('dialog');dialog.id='billingDialog';dialog.setAttribute('aria-labelledby','billingTitle');dialog.setAttribute('aria-modal','true');
  document.body.append(button,dialog);
@@ -38,7 +39,14 @@ export async function installBilling(){
   button.hidden=trial.state==='unavailable'&&!entitled;
   const locked=!entitled&&trial.state!=='trial';document.body.classList.toggle('billing-locked',locked);
   if(locked&&!dialog.open)dialog.showModal();
-  if(!locked&&dialog.open)dialog.close();
+  if(wasLocked&&!locked&&dialog.open)dialog.close();
+  wasLocked=locked;
+ }
+ function updateTrial(){
+  const previousState=trial.state;
+  trial=trialStatus(localStorage);
+  update();
+  if(trial.state!==previousState)render();
  }
  function render(message=statusMessage){
   statusMessage=message;
@@ -56,9 +64,8 @@ export async function installBilling(){
   const suffix=locale==='tr'?'':`-${locale}`;
   const termsUrl=platform==='ios'?APPLE_EULA:`${LEGAL_PAGES}terms${suffix}.html`;
   const accessNote=entitled?t.active:trial.state==='trial'?t.preview:copy.expired;
-  const loading=configured&&!offeringsLoaded;
-  const unavailable=`<p class="billing-muted" role="status">${loading?t.loading:t.unavailable}</p>
-   ${configured&&!loading?`<button type="button" class="billing-text-action" id="billingRetry">${copy.retry}</button>`:''}`;
+  const unavailable=`<p class="billing-muted" role="status">${loadingStore?t.loading:t.unavailable}</p>
+   ${apiKey&&!loadingStore?`<button type="button" class="billing-text-action" id="billingRetry" ${busy?'disabled':''}>${copy.retry}</button>`:''}`;
   dialog.innerHTML=`<div class="billing-card">
    <button type="button" class="billing-close" aria-label="${copy.close}" ${!entitled&&trial.state!=='trial'?'hidden':''}>×</button>
    <p class="billing-kicker">${copy.brand}</p><h2 id="billingTitle">${t.title}</h2>
@@ -73,31 +80,50 @@ export async function installBilling(){
   dialog.querySelector('.billing-close').onclick=()=>dialog.close();
   dialog.querySelectorAll('[data-billing-package]').forEach(el=>el.addEventListener('click',()=>purchase(packages[Number(el.dataset.billingPackage)])));
   dialog.querySelector('#billingRestore').onclick=restore;
-  dialog.querySelector('#billingRetry')?.addEventListener('click',loadOfferings);
+  dialog.querySelector('#billingRetry')?.addEventListener('click',connectStore);
  }
- function accept(info){if(hasAtlasAccess(info)){entitled=true;statusMessage='';update();render();return true;}entitled=false;update();return false;}
- async function loadOfferings(){
+ function accept(info){
+  const active=hasAtlasAccess(info);
+  if(active!==entitled){
+   entitled=active;
+   update();
+   render(active?'':statusMessage);
+  }
+  return active;
+ }
+ async function refreshAccess(){
   if(!configured)return;
-  offeringsLoaded=false;
-  render('');
-  try{const result=await Purchases.getOfferings();packages=result.current?.availablePackages||[];}
-  catch{packages=[];}
-  finally{offeringsLoaded=true;render();}
+  try{accept((await Purchases.getCustomerInfo()).customerInfo);}catch{}
  }
- async function purchase(pkg){if(!configured||!pkg||busy)return;busy=true;render();try{const result=await Purchases.purchasePackage({aPackage:pkg});if(!accept(result.customerInfo))render(dictionary().error);}catch(error){if(!error?.userCancelled)render(dictionary().error);}finally{busy=false;render();}}
- async function restore(){if(!configured||busy)return;busy=true;render();try{const result=await Purchases.restorePurchases();if(!accept(result.customerInfo))render(dictionary().restored);}catch{render(dictionary().error);}finally{busy=false;render();}}
+ async function connectStore(){
+  if(!apiKey||loadingStore||busy)return;
+  loadingStore=true;
+  render('');
+  try{
+   if(!configured){
+    await Purchases.configure({apiKey});
+    configured=true;
+    Purchases.addCustomerInfoUpdateListener(accept).catch(error=>console.warn('Billing listener:',error));
+   }
+   const [,result]=await Promise.allSettled([refreshAccess(),Purchases.getOfferings()]);
+   packages=result.status==='fulfilled'?(result.value.current?.availablePackages||[]):[];
+  }catch(error){
+   console.warn('Billing initialization:',error);
+   packages=[];
+  }finally{
+   loadingStore=false;
+   render();
+  }
+ }
+ async function purchase(pkg){if(!configured||!pkg||busy)return;busy=true;render('');try{const result=await Purchases.purchasePackage({aPackage:pkg});if(accept(result.customerInfo))dialog.close();else render(dictionary().error);}catch(error){if(!error?.userCancelled)render(dictionary().error);}finally{busy=false;render();}}
+ async function restore(){if(!configured||busy)return;busy=true;render('');try{const result=await Purchases.restorePurchases();if(accept(result.customerInfo))dialog.close();else render(dictionary().restored);}catch{render(dictionary().error);}finally{busy=false;render();}}
  button.onclick=()=>{render();if(!dialog.open)dialog.showModal();};
  dialog.addEventListener('cancel',event=>{if(!entitled&&trial.state!=='trial')event.preventDefault();});
  document.addEventListener('atlas-language-change',()=>{update();render();});
- document.addEventListener('visibilitychange',async()=>{if(document.hidden)return;trial=trialStatus(localStorage);if(configured){try{accept((await Purchases.getCustomerInfo()).customerInfo);}catch{}}update();render();});
- setInterval(()=>{trial=trialStatus(localStorage);update();render();},60000);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)return;updateTrial();void refreshAccess();});
+ setInterval(updateTrial,60000);
  update();render();
  if(!apiKey)return{mode:'unconfigured',platform};
- try{
-  await Purchases.configure({apiKey});configured=true;
-  await Purchases.addCustomerInfoUpdateListener(info=>accept(info));
-  const [info]=await Promise.allSettled([Purchases.getCustomerInfo(),loadOfferings()]);
-  if(info.status==='fulfilled')accept(info.value.customerInfo);
-  update();render();return{mode:'ready',platform};
- }catch(error){console.warn('Billing initialization failed:',error);render(dictionary().unavailable);return{mode:'error',platform};}
+ await connectStore();
+ return{mode:configured?'ready':'error',platform};
 }
