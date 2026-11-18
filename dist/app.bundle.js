@@ -44289,14 +44289,27 @@ function trialStatus(storage, now = Date.now()) {
 
 // dist/billing.js
 var LANGS = {
-  tr: { trial: "Ücretsiz kullanım", days: (n) => `${n} gün kaldı`, hours: (n) => `${n} saat kaldı`, manage: "Erişimi yönet", title: "Atlası keşfetmeye devam et", intro: "7 günlük ücretsiz kullanımın sona erdi. Devam etmek için bir plan seç. Satın alma işlemi yalnızca seçtiğinde başlar.", monthly: "Aylık", yearly: "Yıllık", lifetime: "Ömür boyu", oneTime: "Tek ödeme", renew: "Abonelik mağaza hesabından otomatik yenilenir; istediğin zaman mağaza ayarlarından iptal edebilirsin.", buy: "Satın al", restore: "Satın alımları geri yükle", privacy: "Gizlilik", terms: "Kullanım koşulları", unavailable: "Mağaza ürünleri henüz hazır değil. Lütfen daha sonra tekrar dene.", loading: "Mağaza fiyatları yükleniyor…", error: "Satın alma tamamlanamadı. Bağlantını kontrol edip tekrar dene.", restored: "Etkin bir satın alma bulunamadı.", active: "Tam erişim etkin", preview: "7 gün ödeme bilgisi olmadan tam erişim. Süre sonunda otomatik ücret alınmaz.", notNative: "Satın alma iOS ve Android uygulamasında kullanılabilir." },
-  en: { trial: "Free access", days: (n) => `${n} days left`, hours: (n) => `${n} hours left`, manage: "Manage access", title: "Keep exploring the atlas", intro: "Your 7-day free access has ended. Choose a plan to continue. A purchase starts only when you select it.", monthly: "Monthly", yearly: "Yearly", lifetime: "Lifetime", oneTime: "One-time payment", renew: "Subscriptions renew through your store account. Cancel anytime in store settings.", buy: "Purchase", restore: "Restore purchases", privacy: "Privacy", terms: "Terms of use", unavailable: "Store products are not ready yet. Please try again later.", loading: "Loading store prices…", error: "Purchase could not be completed. Check your connection and try again.", restored: "No active purchase was found.", active: "Full access active", preview: "7 days of full access without payment details. No automatic charge at the end.", notNative: "Purchases are available in the iOS and Android apps." },
-  de: { trial: "Kostenlose Nutzung", days: (n) => `${n} Tage übrig`, hours: (n) => `${n} Stunden übrig`, manage: "Zugang verwalten", title: "Atlas weiter erkunden", intro: "Deine 7-tägige kostenlose Nutzung ist beendet. Wähle einen Tarif, um fortzufahren. Erst mit deiner Auswahl beginnt ein Kauf.", monthly: "Monatlich", yearly: "Jährlich", lifetime: "Lebenslang", oneTime: "Einmalzahlung", renew: "Abonnements verlängern sich über dein Store-Konto. Du kannst jederzeit in den Store-Einstellungen kündigen.", buy: "Kaufen", restore: "Käufe wiederherstellen", privacy: "Datenschutz", terms: "Nutzungsbedingungen", unavailable: "Store-Produkte sind noch nicht verfügbar. Bitte versuche es später erneut.", loading: "Store-Preise werden geladen…", error: "Der Kauf konnte nicht abgeschlossen werden. Prüfe deine Verbindung.", restored: "Kein aktiver Kauf gefunden.", active: "Voller Zugang aktiv", preview: "7 Tage voller Zugang ohne Zahlungsdaten. Danach erfolgt keine automatische Abbuchung.", notNative: "Käufe sind in den iOS- und Android-Apps verfügbar." },
-  es: { trial: "Acceso gratuito", days: (n) => `${n} días restantes`, hours: (n) => `${n} horas restantes`, manage: "Gestionar acceso", title: "Sigue explorando el atlas", intro: "Han terminado tus 7 días de acceso gratuito. Elige un plan para continuar. La compra comienza solo cuando la eliges.", monthly: "Mensual", yearly: "Anual", lifetime: "De por vida", oneTime: "Pago único", renew: "Las suscripciones se renuevan mediante tu cuenta de la tienda. Puedes cancelarlas en los ajustes de la tienda.", buy: "Comprar", restore: "Restaurar compras", privacy: "Privacidad", terms: "Condiciones de uso", unavailable: "Los productos de la tienda aún no están disponibles. Inténtalo más tarde.", loading: "Cargando precios de la tienda…", error: "No se pudo completar la compra. Comprueba la conexión.", restored: "No se encontró ninguna compra activa.", active: "Acceso completo activo", preview: "7 días de acceso completo sin datos de pago. No se cobrará automáticamente al finalizar.", notNative: "Las compras están disponibles en las apps de iOS y Android." },
-  ar: { trial: "استخدام مجاني", days: (n) => `${n} أيام متبقية`, hours: (n) => `${n} ساعات متبقية`, manage: "إدارة الوصول", title: "واصل استكشاف الأطلس", intro: "انتهت فترة الاستخدام المجاني لمدة 7 أيام. اختر خطة للمتابعة. لا تبدأ عملية الشراء إلا عندما تختارها.", monthly: "شهريًا", yearly: "سنويًا", lifetime: "مدى الحياة", oneTime: "دفعة واحدة", renew: "تتجدد الاشتراكات عبر حساب المتجر. يمكنك إلغاؤها من إعدادات المتجر في أي وقت.", buy: "شراء", restore: "استعادة المشتريات", privacy: "الخصوصية", terms: "شروط الاستخدام", unavailable: "منتجات المتجر غير متاحة بعد. يُرجى المحاولة لاحقًا.", loading: "جارٍ تحميل أسعار المتجر…", error: "تعذر إتمام الشراء. تحقق من اتصالك وحاول مجددًا.", restored: "لم يتم العثور على عملية شراء نشطة.", active: "الوصول الكامل مفعل", preview: "7 أيام من الوصول الكامل دون بيانات دفع. لن يتم الخصم تلقائيًا عند انتهائها.", notNative: "تتوفر المشتريات في تطبيقي iOS وAndroid." }
+  tr: { trial: "Ücretsiz kullanım", days: (n) => `${n} gün kaldı`, hours: (n) => `${n} saat kaldı`, manage: "Erişimi yönet", title: "Atlası keşfetmeye devam et", monthly: "Aylık", yearly: "Yıllık", lifetime: "Ömür boyu", oneTime: "Tek ödeme", renew: "Abonelik mağaza hesabından otomatik yenilenir; istediğin zaman mağaza ayarlarından iptal edebilirsin.", buy: "Satın al", restore: "Satın alımları geri yükle", privacy: "Gizlilik", terms: "Kullanım koşulları", unavailable: "Mağaza ürünleri henüz hazır değil. Lütfen daha sonra tekrar dene.", loading: "Mağaza fiyatları yükleniyor…", error: "Satın alma tamamlanamadı. Bağlantını kontrol edip tekrar dene.", restored: "Etkin bir satın alma bulunamadı.", active: "Tam erişim etkin", preview: "7 gün ödeme bilgisi olmadan tam erişim. Süre sonunda otomatik ücret alınmaz.", notNative: "Satın alma iOS ve Android uygulamasında kullanılabilir." },
+  en: { trial: "Free access", days: (n) => `${n} days left`, hours: (n) => `${n} hours left`, manage: "Manage access", title: "Keep exploring the atlas", monthly: "Monthly", yearly: "Yearly", lifetime: "Lifetime", oneTime: "One-time payment", renew: "Subscriptions renew through your store account. Cancel anytime in store settings.", buy: "Purchase", restore: "Restore purchases", privacy: "Privacy", terms: "Terms of use", unavailable: "Store products are not ready yet. Please try again later.", loading: "Loading store prices…", error: "Purchase could not be completed. Check your connection and try again.", restored: "No active purchase was found.", active: "Full access active", preview: "7 days of full access without payment details. No automatic charge at the end.", notNative: "Purchases are available in the iOS and Android apps." },
+  de: { trial: "Kostenlose Nutzung", days: (n) => `${n} Tage übrig`, hours: (n) => `${n} Stunden übrig`, manage: "Zugang verwalten", title: "Atlas weiter erkunden", monthly: "Monatlich", yearly: "Jährlich", lifetime: "Lebenslang", oneTime: "Einmalzahlung", renew: "Abonnements verlängern sich über dein Store-Konto. Du kannst jederzeit in den Store-Einstellungen kündigen.", buy: "Kaufen", restore: "Käufe wiederherstellen", privacy: "Datenschutz", terms: "Nutzungsbedingungen", unavailable: "Store-Produkte sind noch nicht verfügbar. Bitte versuche es später erneut.", loading: "Store-Preise werden geladen…", error: "Der Kauf konnte nicht abgeschlossen werden. Prüfe deine Verbindung.", restored: "Kein aktiver Kauf gefunden.", active: "Voller Zugang aktiv", preview: "7 Tage voller Zugang ohne Zahlungsdaten. Danach erfolgt keine automatische Abbuchung.", notNative: "Käufe sind in den iOS- und Android-Apps verfügbar." },
+  es: { trial: "Acceso gratuito", days: (n) => `${n} días restantes`, hours: (n) => `${n} horas restantes`, manage: "Gestionar acceso", title: "Sigue explorando el atlas", monthly: "Mensual", yearly: "Anual", lifetime: "De por vida", oneTime: "Pago único", renew: "Las suscripciones se renuevan mediante tu cuenta de la tienda. Puedes cancelarlas en los ajustes de la tienda.", buy: "Comprar", restore: "Restaurar compras", privacy: "Privacidad", terms: "Condiciones de uso", unavailable: "Los productos de la tienda aún no están disponibles. Inténtalo más tarde.", loading: "Cargando precios de la tienda…", error: "No se pudo completar la compra. Comprueba la conexión.", restored: "No se encontró ninguna compra activa.", active: "Acceso completo activo", preview: "7 días de acceso completo sin datos de pago. No se cobrará automáticamente al finalizar.", notNative: "Las compras están disponibles en las apps de iOS y Android." },
+  ar: { trial: "استخدام مجاني", days: (n) => `${n} أيام متبقية`, hours: (n) => `${n} ساعات متبقية`, manage: "إدارة الوصول", title: "واصل استكشاف الأطلس", monthly: "شهريًا", yearly: "سنويًا", lifetime: "مدى الحياة", oneTime: "دفعة واحدة", renew: "تتجدد الاشتراكات عبر حساب المتجر. يمكنك إلغاؤها من إعدادات المتجر في أي وقت.", buy: "شراء", restore: "استعادة المشتريات", privacy: "الخصوصية", terms: "شروط الاستخدام", unavailable: "منتجات المتجر غير متاحة بعد. يُرجى المحاولة لاحقًا.", loading: "جارٍ تحميل أسعار المتجر…", error: "تعذر إتمام الشراء. تحقق من اتصالك وحاول مجددًا.", restored: "لم يتم العثور على عملية شراء نشطة.", active: "الوصول الكامل مفعل", preview: "7 أيام من الوصول الكامل دون بيانات دفع. لن يتم الخصم تلقائيًا عند انتهائها.", notNative: "تتوفر المشتريات في تطبيقي iOS وAndroid." }
 };
 function hasAtlasAccess(customerInfo) {
   return customerInfo?.entitlements?.active?.[BILLING_ENTITLEMENT]?.isActive === true;
+}
+var APPLE_EULA = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/";
+var LEGAL_PAGES = "https://ali5921592-lang.github.io/atlas3b/";
+var PLAN_COPY = {
+  tr: { benefits: "Atlas Pro; 3B anatomi modellerini, kesitleri, yapı kartlarını ve çalışma araçlarını açar.", expired: "Ücretsiz erişim süren doldu. Atlası kullanmaya devam etmek için bir plan seç.", retry: "Fiyatları yeniden yükle", close: "Kapat", brand: "İnsan Atlası 3B" },
+  en: { benefits: "Atlas Pro unlocks 3D anatomy models, cross sections, structure cards, and study tools.", expired: "Your free access has ended. Choose a plan to keep using the atlas.", retry: "Reload prices", close: "Close", brand: "Human Atlas 3D" },
+  de: { benefits: "Atlas Pro schaltet 3D-Anatomiemodelle, Schnittansichten, Strukturkarten und Lernwerkzeuge frei.", expired: "Dein kostenloser Zugang ist abgelaufen. Wähle einen Tarif, um den Atlas weiter zu nutzen.", retry: "Preise neu laden", close: "Schließen", brand: "Atlas des Menschen 3D" },
+  es: { benefits: "Atlas Pro da acceso a modelos anatómicos 3D, vistas de corte, fichas y herramientas de estudio.", expired: "Tu acceso gratuito ha terminado. Elige un plan para seguir usando el atlas.", retry: "Volver a cargar precios", close: "Cerrar", brand: "Atlas Humano 3D" },
+  ar: { benefits: "يتيح أطلس برو استخدام نماذج التشريح ثلاثية الأبعاد والمقاطع وبطاقات البنى وأدوات الدراسة.", expired: "انتهى وصولك المجاني. اختر خطة لمتابعة استخدام الأطلس.", retry: "إعادة تحميل الأسعار", close: "إغلاق", brand: "أطلس الإنسان 3D" }
+};
+var htmlEscapes = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+function escapeHtml(text) {
+  return String(text).replace(/[&<>"']/g, (character) => htmlEscapes[character]);
 }
 function language() {
   const value = document.documentElement.lang?.toLowerCase().split("-")[0];
@@ -44335,20 +44348,38 @@ async function installBilling() {
   }
   function render2(message = statusMessage) {
     statusMessage = message;
-    const t = dictionary();
-    dialog.dir = language() === "ar" ? "rtl" : "ltr";
+    const locale = language(), t = LANGS[locale], copy = PLAN_COPY[locale];
+    dialog.dir = locale === "ar" ? "rtl" : "ltr";
     const names2 = { monthly: t.monthly, yearly: t.yearly, lifetime: t.lifetime };
     const options = packages.map((pkg, index) => {
-      const kind = packageKind(pkg);
-      if (!kind) return "";
-      const price = pkg.product?.priceString || "";
-      return `<button type="button" class="billing-plan" data-billing-package="${index}" ${busy ? "disabled" : ""}><span><b>${names2[kind]}</b>${kind === "lifetime" ? `<small>${t.oneTime}</small>` : ""}</span><strong>${price}</strong></button>`;
+      const kind = packageKind(pkg), price = pkg.product?.priceString?.trim();
+      if (!kind || !price) return "";
+      return `<button type="button" class="billing-plan" data-billing-package="${index}" ${busy ? "disabled" : ""}>
+    <span><b>Atlas Pro · ${names2[kind]}</b>${kind === "lifetime" ? `<small>${t.oneTime}</small>` : ""}</span>
+    <strong><bdi>${escapeHtml(price)}</bdi></strong>
+   </button>`;
     }).join("");
-    const suffix = language() === "tr" ? "" : `-${language()}`;
-    dialog.innerHTML = `<div class="billing-card"><button type="button" class="billing-close" aria-label="Close" ${!entitled && trial.state !== "trial" ? "hidden" : ""}>×</button><div class="billing-icon">✦</div><p class="billing-kicker">ANATOMİ ATLASI</p><h2 id="billingTitle">${t.title}</h2><p>${t.intro}</p><p class="billing-trial-note">${t.preview}</p><div class="billing-options">${options || `<p class="billing-muted">${configured && !offeringsLoaded ? t.loading : t.unavailable}</p>`}</div><p class="billing-renewal">${t.renew}</p><p id="billingMessage" role="status">${message}</p><button type="button" id="billingRestore" ${configured && !busy ? "" : "disabled"}>${t.restore}</button><div class="billing-links"><a href="./privacy-policy${suffix}.html" target="_blank" rel="noopener">${t.privacy}</a><a href="./terms${suffix}.html" target="_blank" rel="noopener">${t.terms}</a></div></div>`;
+    const suffix = locale === "tr" ? "" : `-${locale}`;
+    const termsUrl = platform === "ios" ? APPLE_EULA : `${LEGAL_PAGES}terms${suffix}.html`;
+    const accessNote = entitled ? t.active : trial.state === "trial" ? t.preview : copy.expired;
+    const loading2 = configured && !offeringsLoaded;
+    const unavailable = `<p class="billing-muted" role="status">${loading2 ? t.loading : t.unavailable}</p>
+   ${configured && !loading2 ? `<button type="button" class="billing-text-action" id="billingRetry">${copy.retry}</button>` : ""}`;
+    dialog.innerHTML = `<div class="billing-card">
+   <button type="button" class="billing-close" aria-label="${copy.close}" ${!entitled && trial.state !== "trial" ? "hidden" : ""}>×</button>
+   <p class="billing-kicker">${copy.brand}</p><h2 id="billingTitle">${t.title}</h2>
+   <p>${copy.benefits}</p><p class="billing-trial-note">${accessNote}</p>
+   <div class="billing-options">${options || unavailable}</div>
+   ${options ? `<p class="billing-renewal">${t.renew}</p>` : ""}
+   <p id="billingMessage" role="status">${escapeHtml(message)}</p>
+   <button type="button" class="billing-text-action" id="billingRestore" ${configured && !busy ? "" : "disabled"}>${t.restore}</button>
+   <div class="billing-links"><a href="${LEGAL_PAGES}privacy-policy${suffix}.html" target="_blank" rel="noopener">${t.privacy}</a>
+   <a href="${termsUrl}" target="_blank" rel="noopener">${t.terms}</a></div>
+  </div>`;
     dialog.querySelector(".billing-close").onclick = () => dialog.close();
     dialog.querySelectorAll("[data-billing-package]").forEach((el) => el.addEventListener("click", () => purchase(packages[Number(el.dataset.billingPackage)])));
     dialog.querySelector("#billingRestore").onclick = restore;
+    dialog.querySelector("#billingRetry")?.addEventListener("click", loadOfferings);
   }
   function accept(info) {
     if (hasAtlasAccess(info)) {
@@ -44364,14 +44395,17 @@ async function installBilling() {
   }
   async function loadOfferings() {
     if (!configured) return;
+    offeringsLoaded = false;
+    render2("");
     try {
       const result = await Purchases.getOfferings();
       packages = result.current?.availablePackages || [];
     } catch {
       packages = [];
+    } finally {
+      offeringsLoaded = true;
+      render2();
     }
-    offeringsLoaded = true;
-    render2();
   }
   async function purchase(pkg) {
     if (!configured || !pkg || busy) return;

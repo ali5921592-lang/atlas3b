@@ -71,6 +71,24 @@ jobs:
           name: app-store-ipad-13-actual-screen
           if-no-files-found: error
           path: store-captures/ipad-13-turkish.png
+      - name: Capture actual iPhone app screen
+        run: |
+          device=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next((x["udid"] for v in d["devices"].values() for x in v if x["name"] == "iPhone 17 Pro Max"), ""))')
+          test -n "$device"
+          xcrun simctl shutdown all
+          xcrun simctl boot "$device"
+          xcrun simctl bootstatus "$device" -b
+          xcrun simctl status_bar "$device" override --time '9:41' --batteryState charged --batteryLevel 100 --wifiMode active --wifiBars 3
+          xcrun simctl install "$device" ios/App/DerivedData/Build/Products/Debug-iphonesimulator/App.app
+          xcrun simctl launch "$device" com.anatomiatlasi.app
+          sleep 25
+          xcrun simctl io "$device" screenshot store-captures/iphone-actual.png
+          sips -g pixelWidth -g pixelHeight store-captures/iphone-actual.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-store-iphone-actual-screen
+          if-no-files-found: error
+          path: store-captures/iphone-actual.png
       - uses: actions/upload-artifact@v4
         with:
           name: ios-simulator-app-not-ipa

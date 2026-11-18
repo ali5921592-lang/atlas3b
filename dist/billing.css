@@ -6,7 +6,6 @@
 .billing-card h2{font-size:clamp(26px,5vw,34px);line-height:1.15;letter-spacing:-.025em;margin:5px 28px 15px 0;color:#0d2848}
 .billing-card p{margin:10px 0;color:#4e637a}
 .billing-card .billing-kicker{font-size:11px;font-weight:800;letter-spacing:.14em;color:#477ea0}
-.billing-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,#2878ad,#65cad6);color:white;font-size:27px;box-shadow:0 9px 24px #2596bc55}
 .billing-close{position:absolute;top:18px;right:20px;border:0;background:#eaf1f7;color:#28435e;width:35px;height:35px;border-radius:50%;font-size:23px;line-height:1;cursor:pointer}
 .billing-trial-note{padding:11px 13px;background:#e7f5f7;border-radius:12px;color:#1f6671!important;font-size:13px}
 .billing-options{display:grid;gap:10px;margin:19px 0 16px}
@@ -14,7 +13,7 @@
 .billing-plan:hover{transform:translateY(-2px);border-color:#55a9c4;box-shadow:0 7px 20px #2a719425}
 .billing-plan b{display:block;font-size:16px}.billing-plan small{display:block;color:#698096;font-size:12px}.billing-plan strong{font-size:17px;color:#144a6d;white-space:nowrap}
 .billing-plan:disabled{opacity:.55;cursor:wait}.billing-renewal{font-size:12px!important}.billing-muted{padding:16px;background:#eef3f8;border-radius:12px;font-size:13px}
-#billingMessage{min-height:1.4em;font-size:13px;color:#a43c3c}.billing-card #billingRestore{display:block;margin:4px auto;border:0;background:transparent;color:#246d94;font-weight:700;padding:8px;cursor:pointer}.billing-card #billingRestore:disabled{opacity:.5}
+#billingMessage{min-height:1.4em;font-size:13px;color:#a43c3c}.billing-text-action{display:block;margin:4px auto;border:0;background:transparent;color:#246d94;font-weight:700;padding:8px;cursor:pointer}.billing-text-action:disabled{opacity:.5}
 .billing-links{display:flex;justify-content:center;gap:22px;font-size:12px}.billing-links a{color:#57758c}
 @media(max-width:600px){#billingStatusButton{bottom:calc(61px + env(safe-area-inset-bottom));font-size:11px;padding:9px 12px}.billing-card{padding:22px}.billing-card h2{margin-right:25px}}
 @media(prefers-reduced-motion:reduce){.billing-plan{transition:none}}

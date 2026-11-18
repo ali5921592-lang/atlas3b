@@ -19,6 +19,8 @@ for(const locale of locales){
   }
   assert.ok(entry.apple.description.trim()&&entry.google.fullDescription.trim(),`${locale} descriptions present`);
   assert.ok(entry.apple.description.includes(standardEula),`${locale} App Store description links to Apple Standard EULA`);
+  const privacyUrl=data.publicUrls.localizedPrivacyPolicy[locale==='ar'?'ar-SA':locale];
+  assert.ok(privacyUrl&&entry.apple.description.includes(privacyUrl),`${locale} App Store description links to its privacy policy`);
 }
 assert.ok(data.reviewNotes['en-US']&&data.reviewNotes['tr-TR'],'review notes in primary and Turkish');
 assert.equal(data.consoleDeclarations.googleHealthApps,'Medical Reference and Education');
