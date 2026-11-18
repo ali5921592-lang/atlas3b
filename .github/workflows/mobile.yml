@@ -44,6 +44,16 @@ jobs:
   ios-simulator:
     runs-on: macos-26
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - device: iPad Pro 13-inch
+            screenshot: ipad-13-actual.png
+            artifact: app-store-ipad-13-actual-screen
+          - device: iPhone 17 Pro Max
+            screenshot: iphone-actual.png
+            artifact: app-store-iphone-actual-screen
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -53,43 +63,35 @@ jobs:
       - run: npm ci
       - run: npm run native:sync
       - run: xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath ios/App/DerivedData CODE_SIGNING_ALLOWED=NO build
-      - name: Capture actual 13-inch iPad app screen
+      - name: Capture actual app screen
+        timeout-minutes: 15
+        env:
+          DEVICE_NAME: ${{ matrix.device }}
+          SCREENSHOT_NAME: ${{ matrix.screenshot }}
         run: |
-          device=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next((x["udid"] for v in d["devices"].values() for x in v if "iPad Pro 13-inch" in x["name"]), ""))')
-          test -n "$device"
+          device=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; name=sys.argv[1]; data=json.load(sys.stdin); print(next((d["udid"] for devices in data["devices"].values() for d in devices if name in d["name"]), ""))' "$DEVICE_NAME")
+          if [ -z "$device" ]; then
+            echo "Unavailable simulator: $DEVICE_NAME" >&2
+            exit 1
+          fi
+          echo "Booting $DEVICE_NAME"
           xcrun simctl boot "$device"
           xcrun simctl bootstatus "$device" -b
+          echo "Installing the atlas"
           xcrun simctl status_bar "$device" override --time '9:41' --batteryState charged --batteryLevel 100 --wifiMode active --wifiBars 3
           xcrun simctl install "$device" ios/App/DerivedData/Build/Products/Debug-iphonesimulator/App.app
           xcrun simctl launch "$device" com.anatomiatlasi.app
           sleep 25
           mkdir -p store-captures
-          xcrun simctl io "$device" screenshot store-captures/ipad-13-turkish.png
-          sips -g pixelWidth -g pixelHeight store-captures/ipad-13-turkish.png
+          xcrun simctl io "$device" screenshot "store-captures/$SCREENSHOT_NAME"
+          sips -g pixelWidth -g pixelHeight "store-captures/$SCREENSHOT_NAME"
       - uses: actions/upload-artifact@v4
         with:
-          name: app-store-ipad-13-actual-screen
+          name: ${{ matrix.artifact }}
           if-no-files-found: error
-          path: store-captures/ipad-13-turkish.png
-      - name: Capture actual iPhone app screen
-        run: |
-          device=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next((x["udid"] for v in d["devices"].values() for x in v if x["name"] == "iPhone 17 Pro Max"), ""))')
-          test -n "$device"
-          xcrun simctl shutdown all
-          xcrun simctl boot "$device"
-          xcrun simctl bootstatus "$device" -b
-          xcrun simctl status_bar "$device" override --time '9:41' --batteryState charged --batteryLevel 100 --wifiMode active --wifiBars 3
-          xcrun simctl install "$device" ios/App/DerivedData/Build/Products/Debug-iphonesimulator/App.app
-          xcrun simctl launch "$device" com.anatomiatlasi.app
-          sleep 25
-          xcrun simctl io "$device" screenshot store-captures/iphone-actual.png
-          sips -g pixelWidth -g pixelHeight store-captures/iphone-actual.png
+          path: store-captures/${{ matrix.screenshot }}
       - uses: actions/upload-artifact@v4
-        with:
-          name: app-store-iphone-actual-screen
-          if-no-files-found: error
-          path: store-captures/iphone-actual.png
-      - uses: actions/upload-artifact@v4
+        if: matrix.artifact == 'app-store-ipad-13-actual-screen'
         with:
           name: ios-simulator-app-not-ipa
           if-no-files-found: error
