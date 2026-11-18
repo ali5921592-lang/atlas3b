@@ -64,7 +64,7 @@ jobs:
       - run: npm run native:sync
       - run: xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath ios/App/DerivedData CODE_SIGNING_ALLOWED=NO build
       - name: Capture actual app screen
-        timeout-minutes: 15
+        timeout-minutes: 20
         env:
           DEVICE_NAME: ${{ matrix.device }}
           SCREENSHOT_NAME: ${{ matrix.screenshot }}
@@ -80,11 +80,23 @@ jobs:
           echo "Installing the atlas"
           xcrun simctl status_bar "$device" override --time '9:41' --batteryState charged --batteryLevel 100 --wifiMode active --wifiBars 3
           xcrun simctl install "$device" ios/App/DerivedData/Build/Products/Debug-iphonesimulator/App.app
+          checker="$RUNNER_TEMP/check-simulator-screen"
+          xcrun swiftc scripts/check-simulator-screen.swift -o "$checker"
           xcrun simctl launch "$device" com.anatomiatlasi.app
-          sleep 25
           mkdir -p store-captures
-          xcrun simctl io "$device" screenshot "store-captures/$SCREENSHOT_NAME"
-          sips -g pixelWidth -g pixelHeight "store-captures/$SCREENSHOT_NAME"
+          preview="$RUNNER_TEMP/atlas-simulator-preview.png"
+          for attempt in {1..18}; do
+            sleep 10
+            if xcrun simctl io "$device" screenshot "$preview" && "$checker" "$preview"; then
+              cp "$preview" "store-captures/$SCREENSHOT_NAME"
+              sips -g pixelWidth -g pixelHeight "store-captures/$SCREENSHOT_NAME"
+              exit 0
+            fi
+            echo "Atlas geometry is not visible yet (attempt $attempt/18)"
+          done
+          echo "The simulator did not render the atlas after 3 minutes" >&2
+          xcrun simctl spawn "$device" log show --last 3m --predicate 'process == "App" AND eventMessage CONTAINS[c] "error"' | tail -n 25
+          exit 1
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
