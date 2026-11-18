@@ -3,6 +3,7 @@ import {readFile} from 'node:fs/promises';
 const file=new URL('../store/metadata.json',import.meta.url);
 const data=JSON.parse(await readFile(file,'utf8'));
 const locales=['tr-TR','en-US','de-DE','es-ES','ar'];
+const standardEula='https://www.apple.com/legal/internet-services/itunes/dev/stdeula/';
 assert.deepEqual(Object.keys(data.locales).sort(),[...locales].sort(),'five complete store locales');
 const length=s=>Array.from(s).length;
 for(const locale of locales){
@@ -17,6 +18,7 @@ for(const locale of locales){
     assert.ok(length(value)>0&&length(value)<=max,`${locale} ${name} length ${length(value)} <= ${max}`);
   }
   assert.ok(entry.apple.description.trim()&&entry.google.fullDescription.trim(),`${locale} descriptions present`);
+  assert.ok(entry.apple.description.includes(standardEula),`${locale} App Store description links to Apple Standard EULA`);
 }
 assert.ok(data.reviewNotes['en-US']&&data.reviewNotes['tr-TR'],'review notes in primary and Turkish');
 assert.equal(data.consoleDeclarations.googleHealthApps,'Medical Reference and Education');
