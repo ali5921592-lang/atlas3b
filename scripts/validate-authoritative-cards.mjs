@@ -11,6 +11,8 @@ for(const card of payload.records){
   for(const key of ['location','function','absenceOrDamage','clinicalRelevance'])if(!card.sections?.[key])errors.push(`${card.id}: missing ${key}`);
   if(!['A','B','C'].includes(card.evidenceGrade))errors.push(`${card.id}: invalid evidence grade`);
   if(card.ontology&&!/^UBERON:\d+$/.test(card.ontology.id))errors.push(`${card.id}: invalid ontology id`);
+  if(card.ontology&&Object.hasOwn(card.ontology,'definition'))errors.push(`${card.id}: upstream definition included in app card`);
+  if(/UBERON özgün tanımı/i.test(card.tiers.advanced))errors.push(`${card.id}: upstream definition included in study text`);
   if(card.sources.some(source=>/openstax/i.test(source.url+source.label)))errors.push(`${card.id}: OpenStax source remains`);
 }
 for(const record of expected)if(!ids.has(record.id))errors.push(`missing id ${record.id}`);

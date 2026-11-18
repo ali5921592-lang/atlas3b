@@ -154,7 +154,7 @@ function buildCard(row,sex){
   const clinical=joinSentences(damage,profile.check&&profile.scope==='specific'?profile.check:null,'Klinik değerlendirme; taraf, varyasyon, lezyon düzeyi ve eşlik eden damar-sinir-doku etkilenimi birlikte incelenerek yapılır');
   const basic=joinSentences(location,fn,damage);
   const intermediate=joinSentences(location,fn,relations,damage,profile.tissue&&profile.scope==='specific'?profile.tissue:null);
-  const advanced=joinSentences(`${name}${term?.latin?` (${term.latin})`:''}${u?`, ${u.id} ile eşleştirilen ${u.name} kaydıdır`:''}`,location,fn,relations,clinical,u?.definition?`UBERON özgün tanımı (İngilizce): ${u.definition}`:null);
+  const advanced=joinSentences(`${name}${term?.latin?` (${term.latin})`:''}${u?`, ${u.id} ile eşleştirilen ${u.name} kaydıdır`:''}`,location,fn,relations,clinical);
   const sources=[];
   if(u)sources.push({label:`UBERON ${u.id} · ${u.name}`,url:`https://purl.obolibrary.org/obo/${u.id.replace(':','_')}`,kind:'anatomy-ontology'});
   if(term?.latin)sources.push({label:`IFAA / TA2 2.07 · ${term.latin}`,url:term.url||ta2,kind:'terminology'});
@@ -163,7 +163,7 @@ function buildCard(row,sex){
   if(match?.ambiguous)notes.push('Aynı ada sahip birden fazla ontoloji kaydı bulundu; klinik editör eşleşmeyi kontrol etmelidir.');
   if(!term?.latin)notes.push('Latince ad TA2 ile doğrulanmadı; uydurulmadı.');
   notes.push('Hasar/yokluk bölümü olası etkileri açıklar; kişide beklenen kesin sonuç olarak yorumlanmamalıdır.');
-  return {id:row.id,sex,layer:row.layer,sourceName,turkishName:name,latinName:term?.latin||null,ontology:u?{id:u.id,label:u.name,definition:u.definition||null,parents,partOf:parts,matchScore:match.score,ambiguous:match.ambiguous}:null,tiers:{basic,intermediate,advanced},sections:{location,function:fn,relations:relations||null,absenceOrDamage:damage,clinicalRelevance:clinical},sources,reviewNotes:notes.join(' '),evidenceGrade:u&&!match.ambiguous&&term?.latin?'A':u&&!match.ambiguous?'B':'C'};
+  return {id:row.id,sex,layer:row.layer,sourceName,turkishName:name,latinName:term?.latin||null,ontology:u?{id:u.id,label:u.name,parents,partOf:parts,matchScore:match.score,ambiguous:match.ambiguous}:null,tiers:{basic,intermediate,advanced},sections:{location,function:fn,relations:relations||null,absenceOrDamage:damage,clinicalRelevance:clinical},sources,reviewNotes:notes.join(' '),evidenceGrade:u&&!match.ambiguous&&term?.latin?'A':u&&!match.ambiguous?'B':'C'};
 }
 
 const records=[];
